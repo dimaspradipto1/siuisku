@@ -62,8 +62,17 @@ class AuthTest extends TestCase
             'password' => 'password123',
         ]);
 
-        $response->assertRedirect(route('dashboard'));
+        $response->assertRedirect(route('modul'));
         $this->assertAuthenticatedAs($user);
+
+        $modulResponse = $this->get(route('modul'));
+        $modulResponse->assertOk();
+        $modulResponse->assertSee('Daftar Modul');
+        $modulResponse->assertSee('SIM Kepegawaian');
+        $modulResponse->assertSee('Daftar Role');
+        $modulResponse->assertSee('Admin');
+        $modulResponse->assertSee(route('dashboard'));
+
         $this->get(route('dashboard'))->assertOk();
     }
 
@@ -82,7 +91,7 @@ class AuthTest extends TestCase
             'password' => 'password123',
         ]);
 
-        $response->assertRedirect(route('dashboard'));
+        $response->assertRedirect(route('modul'));
         $this->assertAuthenticatedAs($user);
     }
 

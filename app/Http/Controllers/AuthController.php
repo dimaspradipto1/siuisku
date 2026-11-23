@@ -13,7 +13,7 @@ class AuthController extends Controller
     public function login()
     {
         if (Auth::check()) {
-            return redirect()->route('dashboard');
+            return redirect()->route('modul');
         }
 
         return view('layouts.auth.login');
@@ -24,7 +24,7 @@ class AuthController extends Controller
         if (Auth::attempt($request->credentials())) {
             $request->session()->regenerate();
 
-            return redirect()->intended(route('dashboard'));
+            return redirect()->intended(route('modul'));
         }
 
         return back()
@@ -35,7 +35,7 @@ class AuthController extends Controller
     public function register()
     {
         if (Auth::check()) {
-            return redirect()->route('dashboard');
+            return redirect()->route('modul');
         }
 
         return view('layouts.auth.register');

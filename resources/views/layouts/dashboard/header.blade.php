@@ -202,21 +202,25 @@
           <button class="dropdown-toggle user-trigger" data-bs-toggle="dropdown" aria-expanded="false">
             <img src="assets/img/profile-img.webp" alt="User" class="user-avatar">
             <div class="user-brief">
-              <span class="user-name">John Doe</span>
-              <span class="user-role">Product Admin</span>
+              <span class="user-name">{{ Auth::user()->name ?? 'User' }}</span>
+              <span class="user-role">{{ ucwords(Auth::user()->roles ?? '') }}</span>
             </div>
             <i class="bi bi-chevron-down user-chevron"></i>
           </button>
 
           <div class="dropdown-menu dropdown-menu-end user-menu">
             <div class="user-menu-header">
-              <img src="assets/img/profile-img.webp" alt="User" class="user-menu-avatar">
+              <img src="{{ asset('assets/img/profile-img.webp') }}" alt="User" class="user-menu-avatar">
               <div class="user-menu-info">
-                <div class="user-menu-name">John Doe</div>
-                <div class="user-menu-email">john.doe@example.com</div>
+                <div class="user-menu-name">{{ Auth::user()->name ?? 'User' }}</div>
+                <div class="user-menu-email">{{ Auth::user()->email ?? '' }}</div>
               </div>
             </div>
             <div class="user-menu-body">
+              <a class="user-menu-item" href="{{ route('modul') }}">
+                <span class="user-menu-icon"><i class="bi bi-grid"></i></span>
+                <span>Daftar Modul</span>
+              </a>
               <a class="user-menu-item" href="profile.html">
                 <span class="user-menu-icon"><i class="bi bi-person"></i></span>
                 <span>My Profile</span>
