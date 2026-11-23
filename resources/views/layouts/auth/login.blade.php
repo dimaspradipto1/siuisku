@@ -56,13 +56,40 @@
         <div class="fauth-card">
           <div class="fauth-card-head">
             <h1 class="fauth-title">Welcome back</h1>
-            <p class="fauth-subtitle">Sign in to continue to your FlexAdmin workspace.</p>
+            <p class="fauth-subtitle">Sign in to continue to your SIUISKU workspace.</p>
           </div>
 
-          <form class="fauth-form" novalidate>
+          @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+              {{ session('success') }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          @endif
+
+          @if (session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              {{ session('error') }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          @endif
+
+          <form class="fauth-form" action="{{ route('loginproses') }}" method="POST">
+            @csrf
             <div class="fauth-field">
-              <label for="email" class="form-label">Email address</label>
-              <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required>
+              <label for="login" class="form-label">Username atau Email</label>
+              <input
+                type="text"
+                class="form-control @error('login') is-invalid @enderror"
+                id="login"
+                name="login"
+                value="{{ old('login') }}"
+                placeholder="Masukkan username atau email"
+                required
+                autofocus
+              >
+              @error('login')
+                <div class="invalid-feedback">{{ $message }}</div>
+              @enderror
             </div>
 
             <div class="fauth-field">
@@ -71,19 +98,21 @@
                 <a href="auth-forgot-password.html" class="fauth-link">Forgot password?</a>
               </div>
               <div class="input-group">
-                <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+                <input
+                  type="password"
+                  class="form-control @error('password') is-invalid @enderror"
+                  id="password"
+                  name="password"
+                  placeholder="Enter your password"
+                  required
+                >
                 <button class="btn btn-outline-secondary" type="button" data-toggle-password>
                   <i class="bi bi-eye"></i>
                 </button>
+                @error('password')
+                  <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
               </div>
-            </div>
-
-            <div class="fauth-row-between mb-3">
-              <div class="form-check mb-0">
-                <input class="form-check-input" type="checkbox" id="remember" name="remember">
-                <label class="form-check-label" for="remember">Remember me</label>
-              </div>
-              <a href="auth-lock-screen.html" class="fauth-link">Use lock screen</a>
             </div>
 
             <button type="submit" class="btn btn-primary w-100">Sign In</button>
@@ -96,7 +125,7 @@
             </div>
           </form>
 
-          <p class="fauth-foot-text">Don't have an account? <a href="auth-register.html" class="fauth-link">Create one</a></p>
+          <p class="fauth-foot-text">Don't have an account? <a href="{{ route('register') }}" class="fauth-link">Create one</a></p>
         </div>
 
         <footer class="footer-centered">

@@ -235,7 +235,7 @@
               </a>
             </div>
             <div class="user-menu-footer">
-              <a class="user-menu-logout" href="auth-login.html">
+              <a class="user-menu-logout" href="{{ route('logout') }}">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Sign Out</span>
               </a>

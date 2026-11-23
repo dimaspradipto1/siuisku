@@ -79,21 +79,19 @@
         <span class="mobile-menu-label">Settings</span>
       </a>
 
-      <a href="auth-login.html" class="mobile-menu-item mobile-menu-item-danger">
+      <a href="{{ route('logout') }}" class="mobile-menu-item mobile-menu-item-danger">
         <i class="bi bi-box-arrow-right"></i>
         <span class="mobile-menu-label">Sign Out</span>
       </a>
     </div>
   </div>
 
-  @include('layputs.dashboard.sidebar')
+  @include('layouts.dashboard.sidebar')
 
   <!-- Sidebar Overlay (Mobile) -->
   <div class="sidebar-overlay"></div>
 
   @yield('content')
-
-
 
   <!-- Back to Top -->
   <a href="#" class="back-to-top">
