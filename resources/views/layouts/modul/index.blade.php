@@ -296,22 +296,6 @@
       transform: translateX(3px);
     }
 
-    .user-chip {
-      margin-top: 20px;
-      padding: 12px 14px;
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.72);
-      border: 1px dashed #cbd5e1;
-      font-size: 12.5px;
-      color: #475569;
-    }
-
-    .user-chip strong {
-      color: #1e293b;
-      display: block;
-      font-size: 13px;
-    }
-
     .module-unavailable {
       background: #ffffff;
       border: 1px dashed #cbd5e1;
@@ -432,11 +416,6 @@
           <div id="roleUnavailable" class="module-unavailable d-none">
             <i class="bi bi-lock"></i>
             Modul ini belum tersedia. Silakan pilih modul <strong>SIM Kepegawaian (SIMPEG)</strong> untuk masuk ke sistem.
-          </div>
-
-          <div class="user-chip">
-            <strong>{{ $user->name }}</strong>
-            <span>{{ $user->username }} &bull; {{ $user->email }}</span>
           </div>
         </aside>
       </div>

@@ -249,18 +249,18 @@
         <!-- Pages Section -->
         <li class="nav-heading"><span>REFERENSI</span></li>
 
-        <li class="nav-item">
+        {{-- <li class="nav-item">
           <a class="nav-link " href="contact.html">
             <span class="nav-icon"><i class="ph-light ph-paper-plane-tilt"></i></span>
             <span class="nav-text">Contact</span>
           </a>
-        </li>
+        </li> --}}
 
         <!-- Invoices -->
         <li class="nav-item has-submenu ">
           <a class="nav-link" href="#" aria-expanded="false">
             <span class="nav-icon"><i class="ph-light ph-receipt"></i></span>
-            <span class="nav-text">Invoices</span>
+            <span class="nav-text">Kepegawaian</span>
             <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
           </a>
           <ul class="nav-submenu ">
