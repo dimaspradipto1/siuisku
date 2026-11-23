@@ -2,8 +2,8 @@
   <header class="header">
     <div class="header-left">
       <a href="index.html" class="header-logo">
-        <img src="assets/img/logo.webp" alt="FlexAdmin">
-        <span>FlexAdmin</span>
+        <img src="{{ asset('assets/img/logouis.png') }}" alt="SIUISKU">
+        <span>SIUISKU</span>
       </a>
     </div>
 

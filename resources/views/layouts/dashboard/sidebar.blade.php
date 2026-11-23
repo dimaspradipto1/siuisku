@@ -247,7 +247,7 @@
         </li>
 
         <!-- Pages Section -->
-        <li class="nav-heading"><span>Utility Pages</span></li>
+        <li class="nav-heading"><span>REFERENSI</span></li>
 
         <li class="nav-item">
           <a class="nav-link " href="contact.html">

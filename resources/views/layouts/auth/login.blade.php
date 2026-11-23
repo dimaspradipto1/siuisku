@@ -155,6 +155,24 @@
   <!-- App Sidebar Toggle (for app pages with sidebars) -->
   <script src="{{ asset('assets/js/apps-sidebar-toggle.js') }}"></script>
 
+  <script>
+    document.querySelectorAll('[data-toggle-password]').forEach(function (button) {
+      button.addEventListener('click', function () {
+        const input = this.closest('.input-group')?.querySelector('input');
+        const icon = this.querySelector('i');
+        if (!input) return;
+
+        const isPassword = input.type === 'password';
+        input.type = isPassword ? 'text' : 'password';
+
+        if (icon) {
+          icon.classList.toggle('bi-eye', !isPassword);
+          icon.classList.toggle('bi-eye-slash', isPassword);
+        }
+      });
+    });
+  </script>
+
 </body>
 
 </html>
