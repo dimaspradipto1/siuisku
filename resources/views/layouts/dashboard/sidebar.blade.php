@@ -304,14 +304,14 @@
               <li class="nav-heading"><span>REFERENSI</span></li>
 
               <!-- Kepegawaian -->
-              <li class="nav-item has-submenu {{ request()->routeIs('jenis-jabatan-struktural.*') ? 'open' : '' }}">
-                  <a class="nav-link" href="#" aria-expanded="{{ request()->routeIs('jenis-jabatan-struktural.*') ? 'true' : 'false' }}">
+              <li class="nav-item has-submenu {{ request()->routeIs('jenis-jabatan-struktural.*', 'unit-kerja.*') ? 'open' : '' }}">
+                  <a class="nav-link" href="#" aria-expanded="{{ request()->routeIs('jenis-jabatan-struktural.*', 'unit-kerja.*') ? 'true' : 'false' }}">
                       <span class="nav-icon"><i class="ph-light ph-receipt"></i></span>
                       <span class="nav-text">Kepegawaian</span>
                       <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
                   </a>
-                  <ul class="nav-submenu {{ request()->routeIs('jenis-jabatan-struktural.*') ? 'show' : '' }}">
-                      <li><a class="nav-link " href="invoice-list.html"><span class="nav-dot"></span>Unit Kerja</a>
+                  <ul class="nav-submenu {{ request()->routeIs('jenis-jabatan-struktural.*', 'unit-kerja.*') ? 'show' : '' }}">
+                      <li><a class="nav-link {{ request()->routeIs('unit-kerja.*') ? 'active' : '' }}" href="{{ route('unit-kerja.index') }}"><span class="nav-dot"></span>Unit Kerja</a>
                       </li>
                       <li><a class="nav-link " href="invoice.html"><span class="nav-dot"></span>Status Keaktifan</a>
                       </li>
@@ -443,6 +443,13 @@
                   <a class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}" href="{{ route('users.index') }}">
                       <span class="nav-icon"><i class="ph-light ph-users-three"></i></span>
                       <span class="nav-text">Users</span>
+                  </a>
+              </li>
+
+              <li class="nav-item">
+                  <a class="nav-link {{ request()->routeIs('hak-akses.*') ? 'active' : '' }}" href="{{ route('hak-akses.index') }}">
+                      <span class="nav-icon"><i class="bi bi-shield-lock"></i></span>
+                      <span class="nav-text">Hak Akses</span>
                   </a>
               </li>
 

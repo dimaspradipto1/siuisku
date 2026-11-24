@@ -4,9 +4,11 @@ use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BackupController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HakAksesController;
 use App\Http\Controllers\JenisJabatanStrukturalController;
 use App\Http\Controllers\ModulController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UnitKerjaController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +27,7 @@ Route::controller(AuthController::class)->group(function(){
 
 Route::middleware(['auth', 'checkrole'])->group(function(){
     Route::get('modul', [ModulController::class, 'index'])->name('modul');
+    Route::get('modul/masuk/{userRole}', [ModulController::class, 'masuk'])->name('modul.masuk');
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::prefix('pengaturan/modul')->name('pengaturan.modul.')->controller(ModulController::class)->group(function () {
@@ -45,6 +48,10 @@ Route::middleware(['auth', 'checkrole'])->group(function(){
 
     Route::resource('users', UserController::class);
     Route::resource('jenis-jabatan-struktural', JenisJabatanStrukturalController::class)->except(['show']);
+    Route::resource('unit-kerja', UnitKerjaController::class)->except(['show']);
+    Route::resource('hak-akses', HakAksesController::class)->except(['show']);
+    Route::post('hak-akses/plotting', [HakAksesController::class, 'storePlotting'])->name('hak-akses.plotting.store');
+    Route::delete('hak-akses/plotting/{userRole}', [HakAksesController::class, 'destroyPlotting'])->name('hak-akses.plotting.destroy');
 
     Route::prefix('profile')->name('profile.')->controller(ProfileController::class)->group(function () {
         Route::get('/', 'index')->name('index');

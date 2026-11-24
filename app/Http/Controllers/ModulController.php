@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ModulRequest;
 use App\Models\ActivityLog;
 use App\Models\Modul;
+use App\Models\UserRole;
 use Illuminate\Support\Facades\Auth;
 
 class ModulController extends Controller
@@ -18,6 +19,11 @@ class ModulController extends Controller
             ->filter()
             ->values();
 
+        $assignedUserRoles = UserRole::with(['modul', 'role', 'unitKerja', 'jenisJabatanStruktural'])
+            ->where('user_id', $user->id)
+            ->get()
+            ->groupBy('modul_id');
+
         $modules = Modul::query()
             ->orderBy('urutan')
             ->orderBy('id')
@@ -25,7 +31,30 @@ class ModulController extends Controller
 
         $defaultModule = $modules->firstWhere('is_active', true) ?? $modules->first();
 
-        return view('layouts.modul.index', compact('user', 'userRoles', 'modules', 'defaultModule'));
+        return view('layouts.modul.index', compact(
+            'user',
+            'userRoles',
+            'assignedUserRoles',
+            'modules',
+            'defaultModule',
+        ));
+    }
+
+    public function masuk(UserRole $userRole)
+    {
+        abort_unless($userRole->user_id === Auth::id(), 403);
+
+        $userRole->load(['modul', 'role', 'unitKerja', 'jenisJabatanStruktural']);
+
+        session([
+            'active_user_role_id' => $userRole->id,
+            'active_role_id' => $userRole->role_id,
+            'active_role_name' => $userRole->displayTitle(),
+            'active_unit_kerja_id' => $userRole->unit_kerja_id,
+            'active_unit_name' => $userRole->displayUnit(),
+        ]);
+
+        return redirect()->to($userRole->modul?->resolvedUrl() ?? route('dashboard'));
     }
 
     public function pengaturan()

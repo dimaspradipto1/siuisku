@@ -199,7 +199,7 @@
             <img src="{{ Auth::user()?->avatar_url }}" alt="User" class="user-avatar">
             <div class="user-brief">
               <span class="user-name">{{ Auth::user()->name ?? 'User' }}</span>
-              <span class="user-role">{{ ucwords(Auth::user()->roles ?? '') }}</span>
+              <span class="user-role">{{ session('active_role_name') ?? ucwords(Auth::user()->roles ?? '') }}</span>
             </div>
             <i class="bi bi-chevron-down user-chevron"></i>
           </button>

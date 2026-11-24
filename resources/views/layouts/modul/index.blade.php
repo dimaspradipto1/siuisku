@@ -407,27 +407,40 @@
               : 'Belum ada modul';
             $initialAvailable = $defaultModule ? $defaultModule->is_active : false;
             $initialUrl = $defaultModule ? $defaultModule->resolvedUrl() : route('dashboard');
+            $defaultAssigned = $defaultModule ? ($assignedUserRoles[$defaultModule->id] ?? collect()) : collect();
           @endphp
           <p class="role-module-subtitle" id="selectedModuleTitle">{{ $initialTitle }}</p>
 
           <div id="roleListActive" class="role-list {{ $initialAvailable ? '' : 'd-none' }}">
-            @forelse ($userRoles as $role)
-              <a href="{{ $initialUrl }}" class="role-card" data-role-link>
-                <div>
-                  <p class="role-title">{{ ucwords($role) }}</p>
-                  <p class="role-unit">Universitas Ibnu Sina</p>
-                </div>
-                <i class="bi bi-chevron-right role-arrow"></i>
-              </a>
-            @empty
-              <a href="{{ $initialUrl }}" class="role-card" data-role-link>
-                <div>
-                  <p class="role-title">Staff</p>
-                  <p class="role-unit">Universitas Ibnu Sina</p>
-                </div>
-                <i class="bi bi-chevron-right role-arrow"></i>
-              </a>
-            @endforelse
+            @if ($defaultAssigned->isNotEmpty())
+              @foreach ($defaultAssigned as $userRole)
+                <a href="{{ route('modul.masuk', $userRole) }}" class="role-card" data-role-link>
+                  <div>
+                    <p class="role-title">{{ $userRole->displayTitle() }}</p>
+                    <p class="role-unit">{{ $userRole->displayUnit() }}</p>
+                  </div>
+                  <i class="bi bi-chevron-right role-arrow"></i>
+                </a>
+              @endforeach
+            @else
+              @forelse ($userRoles as $role)
+                <a href="{{ $initialUrl }}" class="role-card" data-role-link>
+                  <div>
+                    <p class="role-title">{{ ucwords($role) }}</p>
+                    <p class="role-unit">Universitas Ibnu Sina</p>
+                  </div>
+                  <i class="bi bi-chevron-right role-arrow"></i>
+                </a>
+              @empty
+                <a href="{{ $initialUrl }}" class="role-card" data-role-link>
+                  <div>
+                    <p class="role-title">Staff</p>
+                    <p class="role-unit">Universitas Ibnu Sina</p>
+                  </div>
+                  <i class="bi bi-chevron-right role-arrow"></i>
+                </a>
+              @endforelse
+            @endif
           </div>
 
           <div id="roleUnavailable" class="module-unavailable {{ $initialAvailable ? 'd-none' : '' }}">

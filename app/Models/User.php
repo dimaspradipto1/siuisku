@@ -7,6 +7,7 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
@@ -79,5 +80,34 @@ class User extends Authenticatable
             .'</text></svg>';
 
         return 'data:image/svg+xml;base64,'.base64_encode($svg);
+    }
+
+    public function userRoles(): HasMany
+    {
+        return $this->hasMany(UserRole::class);
+    }
+
+    public function hasPermission(string $permissionCode): bool
+    {
+        $activeRoleId = session('active_role_id');
+
+        if ($activeRoleId) {
+            $role = Role::with('permissions')->find($activeRoleId);
+            if ($role) {
+                if ($role->kode === 'super_admin') {
+                    return true;
+                }
+
+                return $role->permissions->contains('kode', $permissionCode);
+            }
+        }
+
+        if (in_array(strtolower((string) $this->roles), ['super admin', 'superadmin'], true)) {
+            return true;
+        }
+
+        return $this->userRoles()
+            ->whereHas('role.permissions', fn ($q) => $q->where('kode', $permissionCode))
+            ->exists();
     }
 }

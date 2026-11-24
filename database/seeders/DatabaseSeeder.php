@@ -21,6 +21,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             ModulSeeder::class,
             JenisJabatanStrukturalSeeder::class,
+            UnitKerjaSeeder::class,
+            HakAksesSeeder::class,
         ]);
     }
 }
