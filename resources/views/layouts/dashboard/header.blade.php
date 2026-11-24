@@ -221,7 +221,7 @@
                 <span class="user-menu-icon"><i class="bi bi-grid"></i></span>
                 <span>Daftar Modul</span>
               </a>
-              <a class="user-menu-item" href="profile.html">
+              <a class="user-menu-item {{ request()->routeIs('profile.*') ? 'active' : '' }}" href="{{ route('profile.index') }}">
                 <span class="user-menu-icon"><i class="bi bi-person"></i></span>
                 <span>My Profile</span>
               </a>

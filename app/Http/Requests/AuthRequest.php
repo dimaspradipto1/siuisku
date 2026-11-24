@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreUserRequest extends FormRequest
+class AuthRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,13 +21,18 @@ class StoreUserRequest extends FormRequest
      */
     public function rules(): array
     {
+        if ($this->routeIs('registerproses')) {
+            return [
+                'name' => ['required', 'string', 'max:255'],
+                'username' => ['required', 'string', 'max:255', 'alpha_dash', 'unique:users,username'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+                'password' => ['required', 'string', 'min:6', 'confirmed'],
+            ];
+        }
+
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'username' => ['required', 'string', 'max:255', 'alpha_dash', 'unique:users,username'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
-            'roles' => ['required', 'string', 'max:100'],
-            'photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
-            'password' => ['required', 'string', 'min:6', 'confirmed'],
+            'login' => ['required', 'string'],
+            'password' => ['required', 'string'],
         ];
     }
 
@@ -39,6 +44,7 @@ class StoreUserRequest extends FormRequest
     public function messages(): array
     {
         return [
+            'login.required' => 'Username atau email wajib diisi.',
             'name.required' => 'Nama lengkap wajib diisi.',
             'username.required' => 'Username wajib diisi.',
             'username.alpha_dash' => 'Username hanya boleh berisi huruf, angka, strip (-), dan garis bawah (_).',
@@ -46,13 +52,25 @@ class StoreUserRequest extends FormRequest
             'email.required' => 'Email wajib diisi.',
             'email.email' => 'Format email tidak valid.',
             'email.unique' => 'Email sudah terdaftar.',
-            'roles.required' => 'Role wajib dipilih.',
-            'photo.image' => 'File foto harus berupa gambar.',
-            'photo.mimes' => 'Format foto harus JPG, JPEG, PNG, atau WEBP.',
-            'photo.max' => 'Ukuran foto maksimal 2MB.',
             'password.required' => 'Password wajib diisi.',
             'password.min' => 'Password minimal 6 karakter.',
             'password.confirmed' => 'Konfirmasi password tidak cocok.',
+        ];
+    }
+
+    /**
+     * Get the authentication credentials using email or username.
+     *
+     * @return array<string, string>
+     */
+    public function credentials(): array
+    {
+        $login = $this->string('login')->toString();
+        $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+        return [
+            $field => $login,
+            'password' => $this->string('password')->toString(),
         ];
     }
 }

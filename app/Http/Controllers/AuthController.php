@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LoginRequest;
-use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\AuthRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +18,7 @@ class AuthController extends Controller
         return view('layouts.auth.login');
     }
 
-    public function loginproses(LoginRequest $request)
+    public function loginproses(AuthRequest $request)
     {
         if (Auth::attempt($request->credentials())) {
             $request->session()->regenerate();
@@ -41,7 +40,7 @@ class AuthController extends Controller
         return view('layouts.auth.register');
     }
 
-    public function registerproses(RegisterRequest $request)
+    public function registerproses(AuthRequest $request)
     {
         $validated = $request->validated();
 

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ModulController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -32,4 +33,11 @@ Route::middleware(['auth', 'checkrole'])->group(function(){
     });
 
     Route::resource('users', UserController::class);
+
+    Route::prefix('profile')->name('profile.')->controller(ProfileController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::put('/', 'update')->name('update');
+        Route::put('password', 'updatePassword')->name('password');
+        Route::delete('photo', 'deletePhoto')->name('photo.destroy');
+    });
 });

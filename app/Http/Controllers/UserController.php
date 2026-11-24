@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreUserRequest;
-use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -42,7 +41,7 @@ class UserController extends Controller
         $roleOptions = $this->roleOptions();
         $availableRoles = $allUsers->pluck('roles')->filter()->unique()->values();
 
-        return view('layouts.users.index', compact(
+        return view('layouts.pages.users.index', compact(
             'users',
             'totalUsers',
             'superAdminCount',
@@ -58,10 +57,10 @@ class UserController extends Controller
     {
         $roleOptions = $this->roleOptions();
 
-        return view('layouts.users.create', compact('roleOptions'));
+        return view('layouts.pages.users.create', compact('roleOptions'));
     }
 
-    public function store(StoreUserRequest $request)
+    public function store(UserRequest $request)
     {
         $validated = $request->validated();
 
@@ -86,7 +85,7 @@ class UserController extends Controller
 
     public function show(User $user)
     {
-        return view('layouts.users.show', compact('user'));
+        return view('layouts.pages.users.show', compact('user'));
     }
 
     public function edit(User $user)
@@ -97,10 +96,10 @@ class UserController extends Controller
             $roleOptions[$user->roles] = $user->roles;
         }
 
-        return view('layouts.users.edit', compact('user', 'roleOptions'));
+        return view('layouts.pages.users.edit', compact('user', 'roleOptions'));
     }
 
-    public function update(UpdateUserRequest $request, User $user)
+    public function update(UserRequest $request, User $user)
     {
         $validated = $request->validated();
 

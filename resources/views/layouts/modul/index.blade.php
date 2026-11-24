@@ -350,7 +350,7 @@
         </div>
 
         <div class="portal-actions">
-          <a href="{{ route('dashboard') }}" class="portal-btn">
+          <a href="{{ route('profile.index') }}" class="portal-btn">
             <i class="bi bi-person-fill"></i>
             <span>Halaman Profil</span>
           </a>

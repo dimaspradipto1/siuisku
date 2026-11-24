@@ -69,7 +69,7 @@
         <span class="mobile-menu-label">Chat</span>
       </a>
 
-      <a href="profile.html" class="mobile-menu-item">
+      <a href="{{ route('profile.index') }}" class="mobile-menu-item">
         <i class="bi bi-person"></i>
         <span class="mobile-menu-label">Profile</span>
       </a>

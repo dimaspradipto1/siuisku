@@ -452,7 +452,7 @@
       <!-- Sidebar Footer -->
       <div class="sidebar-footer">
           <div class="sidebar-footer-user">
-              <a href="{{ Auth::check() ? route('users.show', Auth::user()) : '#' }}" class="sidebar-footer-profile">
+              <a href="{{ route('profile.index') }}" class="sidebar-footer-profile">
                   <img src="{{ Auth::user()?->avatar_url }}" alt="User" class="sidebar-footer-avatar">
                   <div class="sidebar-footer-info">
                       <div class="sidebar-footer-name">{{ Auth::user()->name ?? 'User' }}</div>

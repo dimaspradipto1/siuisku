@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UpdateUserRequest extends FormRequest
+class ProfileRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +22,14 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules(): array
     {
-        $user = $this->route('user');
+        if ($this->routeIs('profile.password')) {
+            return [
+                'current_password' => ['required', 'current_password'],
+                'password' => ['required', 'string', 'min:6', 'confirmed'],
+            ];
+        }
+
+        $userId = $this->user()?->id;
 
         return [
             'name' => ['required', 'string', 'max:255'],
@@ -31,18 +38,16 @@ class UpdateUserRequest extends FormRequest
                 'string',
                 'max:255',
                 'alpha_dash',
-                Rule::unique('users', 'username')->ignore($user?->id),
+                Rule::unique('users', 'username')->ignore($userId),
             ],
             'email' => [
                 'required',
                 'string',
                 'email',
                 'max:255',
-                Rule::unique('users', 'email')->ignore($user?->id),
+                Rule::unique('users', 'email')->ignore($userId),
             ],
-            'roles' => ['required', 'string', 'max:100'],
             'photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
-            'password' => ['nullable', 'string', 'min:6', 'confirmed'],
         ];
     }
 
@@ -61,12 +66,14 @@ class UpdateUserRequest extends FormRequest
             'email.required' => 'Email wajib diisi.',
             'email.email' => 'Format email tidak valid.',
             'email.unique' => 'Email sudah terdaftar.',
-            'roles.required' => 'Role wajib dipilih.',
             'photo.image' => 'File foto harus berupa gambar.',
             'photo.mimes' => 'Format foto harus JPG, JPEG, PNG, atau WEBP.',
             'photo.max' => 'Ukuran foto maksimal 2MB.',
-            'password.min' => 'Password minimal 6 karakter.',
-            'password.confirmed' => 'Konfirmasi password tidak cocok.',
+            'current_password.required' => 'Password saat ini wajib diisi.',
+            'current_password.current_password' => 'Password saat ini tidak sesuai.',
+            'password.required' => 'Password baru wajib diisi.',
+            'password.min' => 'Password baru minimal 6 karakter.',
+            'password.confirmed' => 'Konfirmasi password baru tidak cocok.',
         ];
     }
 }

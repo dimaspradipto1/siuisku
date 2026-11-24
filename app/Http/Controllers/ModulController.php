@@ -49,7 +49,7 @@ class ModulController extends Controller
             'bi-grid-fill' => 'Umum (Grid)',
         ];
 
-        return view('layouts.pengaturan.modul.index', compact('modules', 'iconPresets'));
+        return view('layouts.pages.pengaturan.modul.index', compact('modules', 'iconPresets'));
     }
 
     public function store(ModulRequest $request)
