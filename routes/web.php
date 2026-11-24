@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BackupController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ModulController;
 use App\Http\Controllers\ProfileController;
@@ -31,6 +32,14 @@ Route::middleware(['auth', 'checkrole'])->group(function(){
         Route::put('{modul}', 'update')->name('update');
         Route::patch('{modul}/toggle', 'toggleStatus')->name('toggle');
         Route::delete('{modul}', 'destroy')->name('destroy');
+    });
+
+    Route::prefix('pengaturan/backup')->name('pengaturan.backup.')->controller(BackupController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('database/export', 'exportDatabase')->name('database.export');
+        Route::post('database/import', 'importDatabase')->name('database.import');
+        Route::get('storage/export', 'exportStorage')->name('storage.export');
+        Route::post('storage/import', 'importStorage')->name('storage.import');
     });
 
     Route::resource('users', UserController::class);

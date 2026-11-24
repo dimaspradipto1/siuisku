@@ -445,6 +445,13 @@
                       <span class="nav-text">Users</span>
                   </a>
               </li>
+
+              <li class="nav-item">
+                  <a class="nav-link {{ request()->routeIs('pengaturan.backup.*') ? 'active' : '' }}" href="{{ route('pengaturan.backup.index') }}">
+                      <span class="nav-icon"><i class="bi bi-database-down"></i></span>
+                      <span class="nav-text">Backup Database &amp; Storage</span>
+                  </a>
+              </li>
               
           </ul>
       </nav>
