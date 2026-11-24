@@ -50,7 +50,7 @@
                 <div class="uv-identity-head">
                   <div class="uv-identity-user">
                     <div class="uv-identity-avatar-wrap">
-                      <img src="{{ asset('assets/img/profile-img.webp') }}" alt="{{ $user->name }}" class="uv-identity-avatar">
+                      <img src="{{ $user->avatar_url }}" alt="{{ $user->name }}" class="uv-identity-avatar">
                       <span class="uv-identity-status"></span>
                     </div>
                     <div>

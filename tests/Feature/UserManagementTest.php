@@ -90,4 +90,18 @@ class UserManagementTest extends TestCase
         $deleteResponse->assertRedirect(route('users.index'));
         $this->assertDatabaseMissing('users', ['id' => $created->id]);
     }
+
+    public function test_user_without_photo_uses_initials_svg_avatar(): void
+    {
+        $user = User::create([
+            'name' => 'Dr. Andi Auliya Ramadhany',
+            'username' => 'auliya',
+            'email' => 'auliya@uis.ac.id',
+            'roles' => 'staff',
+            'password' => 'password123',
+        ]);
+
+        $this->assertSame('AA', $user->initials);
+        $this->assertStringStartsWith('data:image/svg+xml;base64,', $user->avatar_url);
+    }
 }

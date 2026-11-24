@@ -445,35 +445,25 @@
                       <span class="nav-text">Users</span>
                   </a>
               </li>
-
-              <li class="nav-item">
-                  <a class="nav-link {{ request()->routeIs('pengaturan.modul.*') ? 'active' : '' }}" href="{{ route('pengaturan.modul.index') }}">
-                      <span class="nav-icon"><i class="bi bi-grid-1x2"></i></span>
-                      <span class="nav-text">Pengguna</span>
-                  </a>
-              </li>
               
-
           </ul>
       </nav>
-
-      
 
       <!-- Sidebar Footer -->
       <div class="sidebar-footer">
           <div class="sidebar-footer-user">
-              <a href="profile.html" class="sidebar-footer-profile">
-                  <img src="assets/img/profile-img.webp" alt="User" class="sidebar-footer-avatar">
+              <a href="{{ Auth::check() ? route('users.show', Auth::user()) : '#' }}" class="sidebar-footer-profile">
+                  <img src="{{ Auth::user()?->avatar_url }}" alt="User" class="sidebar-footer-avatar">
                   <div class="sidebar-footer-info">
-                      <div class="sidebar-footer-name">John Doe</div>
-                      <div class="sidebar-footer-role">Product Admin</div>
+                      <div class="sidebar-footer-name">{{ Auth::user()->name ?? 'User' }}</div>
+                      <div class="sidebar-footer-role">{{ ucwords(Auth::user()->roles ?? '') }}</div>
                   </div>
               </a>
               <div class="sidebar-footer-actions">
-                  <a href="settings.html" class="sidebar-footer-action" title="Settings">
+                  <a href="{{ route('pengaturan.modul.index') }}" class="sidebar-footer-action" title="Settings">
                       <i class="bi bi-gear"></i>
                   </a>
-                  <a href="auth-login.html" class="sidebar-footer-action sidebar-footer-logout" title="Logout">
+                  <a href="{{ route('logout') }}" class="sidebar-footer-action sidebar-footer-logout" title="Logout">
                       <i class="bi bi-box-arrow-right"></i>
                   </a>
               </div>

@@ -200,7 +200,7 @@
 
         <div class="header-action-wrap dropdown user-dropdown">
           <button class="dropdown-toggle user-trigger" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="assets/img/profile-img.webp" alt="User" class="user-avatar">
+            <img src="{{ Auth::user()?->avatar_url }}" alt="User" class="user-avatar">
             <div class="user-brief">
               <span class="user-name">{{ Auth::user()->name ?? 'User' }}</span>
               <span class="user-role">{{ ucwords(Auth::user()->roles ?? '') }}</span>
@@ -210,7 +210,7 @@
 
           <div class="dropdown-menu dropdown-menu-end user-menu">
             <div class="user-menu-header">
-              <img src="{{ asset('assets/img/profile-img.webp') }}" alt="User" class="user-menu-avatar">
+              <img src="{{ Auth::user()?->avatar_url }}" alt="User" class="user-menu-avatar">
               <div class="user-menu-info">
                 <div class="user-menu-name">{{ Auth::user()->name ?? 'User' }}</div>
                 <div class="user-menu-email">{{ Auth::user()->email ?? '' }}</div>

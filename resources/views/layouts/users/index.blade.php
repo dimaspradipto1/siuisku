@@ -135,7 +135,7 @@
                     <td>
                       <div class="users-user">
                         <div class="users-avatar-wrap">
-                          <img src="{{ asset('assets/img/profile-img.webp') }}" alt="{{ $user->name }}" class="users-avatar">
+                          <img src="{{ $user->avatar_url }}" alt="{{ $user->name }}" class="users-avatar">
                           <span class="users-avatar-status online"></span>
                         </div>
                         <div class="users-user-info">

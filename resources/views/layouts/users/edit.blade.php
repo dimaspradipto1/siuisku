@@ -47,7 +47,7 @@
           </div>
         </div>
 
-        <form id="userEditForm" action="{{ route('users.update', $user) }}" method="POST">
+        <form id="userEditForm" action="{{ route('users.update', $user) }}" method="POST" enctype="multipart/form-data">
           @csrf
           @method('PUT')
 
@@ -60,9 +60,17 @@
                 </div>
                 <div class="card-body text-center">
                   <div class="ue-avatar-upload mx-auto">
-                    <img src="{{ asset('assets/img/profile-img.webp') }}" alt="{{ $user->name }}" class="ue-avatar-preview">
+                    <img src="{{ $user->avatar_url }}" alt="{{ $user->name }}" class="ue-avatar-preview" id="editAvatarPreview">
+                    <div class="ue-avatar-overlay">
+                      <i class="bi bi-camera"></i>
+                      <span>Change Photo</span>
+                    </div>
+                    <input type="file" name="photo" id="editPhotoInput" class="ue-avatar-input" accept="image/png,image/jpeg,image/webp">
                   </div>
-                  <p class="ue-avatar-hint mt-2 mb-0">{{ $user->email }}</p>
+                  @error('photo')
+                    <div class="text-danger small mt-2">{{ $message }}</div>
+                  @enderror
+                  <p class="ue-avatar-hint mt-2 mb-0">JPG, PNG atau WEBP. Maksimal 2MB.</p>
                 </div>
               </div>
 
@@ -237,3 +245,21 @@
     </div>
   </main>
 @endsection
+
+@push('script')
+  <script>
+    const editPhotoInput = document.getElementById('editPhotoInput');
+    const editAvatarPreview = document.getElementById('editAvatarPreview');
+    if (editPhotoInput && editAvatarPreview) {
+      editPhotoInput.addEventListener('change', function (event) {
+        const file = event.target.files?.[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          editAvatarPreview.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+  </script>
+@endpush

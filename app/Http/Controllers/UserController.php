@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -64,11 +65,17 @@ class UserController extends Controller
     {
         $validated = $request->validated();
 
+        $photoPath = null;
+        if ($request->hasFile('photo')) {
+            $photoPath = $request->file('photo')->store('avatars', 'public');
+        }
+
         User::create([
             'name' => $validated['name'],
             'username' => $validated['username'],
             'email' => $validated['email'],
             'roles' => $validated['roles'],
+            'photo' => $photoPath,
             'password' => $validated['password'],
         ]);
 
@@ -104,6 +111,13 @@ class UserController extends Controller
             'roles' => $validated['roles'],
         ];
 
+        if ($request->hasFile('photo')) {
+            if (filled($user->photo) && Storage::disk('public')->exists($user->photo)) {
+                Storage::disk('public')->delete($user->photo);
+            }
+            $data['photo'] = $request->file('photo')->store('avatars', 'public');
+        }
+
         if (filled($validated['password'] ?? null)) {
             $data['password'] = $validated['password'];
         }
@@ -121,6 +135,10 @@ class UserController extends Controller
             return redirect()
                 ->route('users.index')
                 ->with('error', 'Anda tidak dapat menghapus akun yang sedang digunakan.');
+        }
+
+        if (filled($user->photo) && Storage::disk('public')->exists($user->photo)) {
+            Storage::disk('public')->delete($user->photo);
         }
 
         $name = $user->name;

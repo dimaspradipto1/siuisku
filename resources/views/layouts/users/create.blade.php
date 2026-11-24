@@ -24,20 +24,31 @@
           </div>
         </div>
 
-        <form id="userCreateForm" action="{{ route('users.store') }}" method="POST">
+        <form id="userCreateForm" action="{{ route('users.store') }}" method="POST" enctype="multipart/form-data">
           @csrf
           <div class="row g-4">
             <!-- Left Column -->
             <div class="col-xl-4">
               <div class="card mb-4">
                 <div class="card-header">
-                  <h5 class="card-title">Profil Default</h5>
+                  <h5 class="card-title">Profile Image</h5>
                 </div>
                 <div class="card-body text-center">
+                  @php
+                    $defaultNewAvatar = 'data:image/svg+xml;base64,' . base64_encode('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><rect width="128" height="128" rx="64" fill="#dbeafe"/><text x="50%" y="53%" dominant-baseline="middle" text-anchor="middle" font-family="Manrope, Arial, sans-serif" font-size="44" font-weight="700" fill="#1d4ed8">NEW</text></svg>');
+                  @endphp
                   <div class="ue-avatar-upload mx-auto">
-                    <img src="{{ asset('assets/img/profile-img.webp') }}" alt="User Avatar" class="ue-avatar-preview">
+                    <img src="{{ $defaultNewAvatar }}" alt="User Avatar" class="ue-avatar-preview" id="createAvatarPreview">
+                    <div class="ue-avatar-overlay">
+                      <i class="bi bi-camera"></i>
+                      <span>Upload Photo</span>
+                    </div>
+                    <input type="file" name="photo" id="createPhotoInput" class="ue-avatar-input" accept="image/png,image/jpeg,image/webp">
                   </div>
-                  <p class="ue-avatar-hint mt-2 mb-0">User baru dapat login menggunakan <strong>username</strong> atau <strong>email</strong>.</p>
+                  @error('photo')
+                    <div class="text-danger small mt-2">{{ $message }}</div>
+                  @enderror
+                  <p class="ue-avatar-hint mt-2 mb-0">Opsional. Jika kosong akan otomatis menggunakan avatar inisial nama.</p>
                 </div>
               </div>
 
@@ -170,3 +181,21 @@
     </div>
   </main>
 @endsection
+
+@push('script')
+  <script>
+    const createPhotoInput = document.getElementById('createPhotoInput');
+    const createAvatarPreview = document.getElementById('createAvatarPreview');
+    if (createPhotoInput && createAvatarPreview) {
+      createPhotoInput.addEventListener('change', function (event) {
+        const file = event.target.files?.[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          createAvatarPreview.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+  </script>
+@endpush
