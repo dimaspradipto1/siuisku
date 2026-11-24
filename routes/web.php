@@ -21,4 +21,12 @@ Route::controller(AuthController::class)->group(function(){
 Route::middleware(['auth', 'checkrole'])->group(function(){
     Route::get('modul', [ModulController::class, 'index'])->name('modul');
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    Route::prefix('pengaturan/modul')->name('pengaturan.modul.')->controller(ModulController::class)->group(function () {
+        Route::get('/', 'pengaturan')->name('index');
+        Route::post('/', 'store')->name('store');
+        Route::put('{modul}', 'update')->name('update');
+        Route::patch('{modul}/toggle', 'toggleStatus')->name('toggle');
+        Route::delete('{modul}', 'destroy')->name('destroy');
+    });
 });

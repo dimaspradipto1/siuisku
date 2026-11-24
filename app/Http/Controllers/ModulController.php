@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ModulRequest;
+use App\Models\Modul;
 use Illuminate\Support\Facades\Auth;
 
 class ModulController extends Controller
@@ -15,69 +17,85 @@ class ModulController extends Controller
             ->filter()
             ->values();
 
-        $modules = [
-            [
-                'key' => 'simpeg',
-                'name' => 'SIM Kepegawaian',
-                'short' => 'SIMPEG',
-                'icon' => 'bi-people-fill',
-                'color' => '#ea580c',
-                'bg' => '#fff7ed',
-                'available' => true,
-                'route' => route('dashboard'),
-            ],
-            [
-                'key' => 'siakad',
-                'name' => 'SIM Akademik',
-                'short' => 'SIAKAD',
-                'icon' => 'bi-mortarboard-fill',
-                'color' => '#0284c7',
-                'bg' => '#f0f9ff',
-                'available' => false,
-                'route' => null,
-            ],
-            [
-                'key' => 'akreditasi',
-                'name' => 'SIM Akreditasi',
-                'short' => 'Akreditasi',
-                'icon' => 'bi-patch-check-fill',
-                'color' => '#dc2626',
-                'bg' => '#fef2f2',
-                'available' => false,
-                'route' => null,
-            ],
-            [
-                'key' => 'elearning',
-                'name' => 'E-Learning',
-                'short' => 'LMS',
-                'icon' => 'bi-book-half',
-                'color' => '#16a34a',
-                'bg' => '#f0fdf4',
-                'available' => false,
-                'route' => null,
-            ],
-            [
-                'key' => 'pelaporan',
-                'name' => 'SIM Dashboard & Pelaporan',
-                'short' => 'Pelaporan',
-                'icon' => 'bi-bar-chart-line-fill',
-                'color' => '#0d9488',
-                'bg' => '#f0fdfa',
-                'available' => false,
-                'route' => null,
-            ],
-            [
-                'key' => 'helpdesk',
-                'name' => 'SIM Support & Helpdesk',
-                'short' => 'Helpdesk',
-                'icon' => 'bi-headset',
-                'color' => '#7c3aed',
-                'bg' => '#f5f3ff',
-                'available' => false,
-                'route' => null,
-            ],
+        $modules = Modul::query()
+            ->orderBy('urutan')
+            ->orderBy('id')
+            ->get();
+
+        $defaultModule = $modules->firstWhere('is_active', true) ?? $modules->first();
+
+        return view('layouts.modul.index', compact('user', 'userRoles', 'modules', 'defaultModule'));
+    }
+
+    public function pengaturan()
+    {
+        $modules = Modul::query()
+            ->orderBy('urutan')
+            ->orderBy('id')
+            ->get();
+
+        $iconPresets = [
+            'bi-people-fill' => 'Kepegawaian (People)',
+            'bi-mortarboard-fill' => 'Akademik (Mortarboard)',
+            'bi-patch-check-fill' => 'Akreditasi (Patch Check)',
+            'bi-book-half' => 'E-Learning (Book)',
+            'bi-bar-chart-line-fill' => 'Pelaporan (Bar Chart)',
+            'bi-headset' => 'Helpdesk (Headset)',
+            'bi-cash-coin' => 'Keuangan (Cash)',
+            'bi-building' => 'Sarana Prasarana (Building)',
+            'bi-folder-fill' => 'Arsip / Dokumen (Folder)',
+            'bi-shield-lock-fill' => 'Keamanan (Shield)',
+            'bi-laptop' => 'CBT / Ujian (Laptop)',
+            'bi-grid-fill' => 'Umum (Grid)',
         ];
 
-        return view('layouts.modul.index', compact('user', 'userRoles', 'modules'));
+        return view('layouts.pengaturan.modul.index', compact('modules', 'iconPresets'));
+    }
+
+    public function store(ModulRequest $request)
+    {
+        $validated = $request->validated();
+        $validated['is_active'] = $request->boolean('is_active');
+
+        Modul::create($validated);
+
+        return redirect()
+            ->route('pengaturan.modul.index')
+            ->with('success', 'Modul berhasil ditambahkan.');
+    }
+
+    public function update(ModulRequest $request, Modul $modul)
+    {
+        $validated = $request->validated();
+        $validated['is_active'] = $request->boolean('is_active');
+
+        $modul->update($validated);
+
+        return redirect()
+            ->route('pengaturan.modul.index')
+            ->with('success', 'Modul berhasil diperbarui.');
+    }
+
+    public function toggleStatus(Modul $modul)
+    {
+        $modul->update([
+            'is_active' => ! $modul->is_active,
+        ]);
+
+        $statusLabel = $modul->is_active ? 'diaktifkan' : 'dinonaktifkan';
+
+        return redirect()
+            ->route('pengaturan.modul.index')
+            ->with('success', "Modul {$modul->nama} berhasil {$statusLabel}.");
+    }
+
+    public function destroy(Modul $modul)
+    {
+        $nama = $modul->nama;
+        $modul->delete();
+
+        return redirect()
+            ->route('pengaturan.modul.index')
+            ->with('success', "Modul {$nama} berhasil dihapus.");
     }
 }

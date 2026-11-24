@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use Database\Seeders\ModulSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -49,6 +50,8 @@ class AuthTest extends TestCase
 
     public function test_user_can_login_with_username(): void
     {
+        $this->seed(ModulSeeder::class);
+
         $user = User::create([
             'name' => 'Admin User',
             'username' => 'adminuser',

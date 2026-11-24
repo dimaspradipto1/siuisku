@@ -368,34 +368,51 @@
           <h2 class="section-title">Daftar Modul</h2>
 
           <div class="module-grid">
-            @foreach ($modules as $module)
+            @forelse ($modules as $module)
+              @php
+                $isSelected = $defaultModule && $defaultModule->id === $module->id;
+                $displayTitle = $module->singkatan ? "{$module->nama} ({$module->singkatan})" : $module->nama;
+              @endphp
               <button
                 type="button"
-                class="module-item {{ $module['key'] === 'simpeg' ? 'active' : '' }} {{ !$module['available'] ? 'disabled-module' : '' }}"
-                data-module-key="{{ $module['key'] }}"
-                data-module-name="{{ $module['name'] }}"
-                data-module-available="{{ $module['available'] ? '1' : '0' }}"
+                class="module-item {{ $isSelected ? 'active' : '' }} {{ !$module->is_active ? 'disabled-module' : '' }}"
+                data-module-key="{{ $module->kode }}"
+                data-module-title="{{ $displayTitle }}"
+                data-module-available="{{ $module->is_active ? '1' : '0' }}"
+                data-module-url="{{ $module->resolvedUrl() }}"
               >
-                @if ($module['available'])
+                @if ($module->is_active)
                   <span class="module-badge">Aktif</span>
                 @endif
-                <span class="module-icon" style="background: {{ $module['bg'] }}; color: {{ $module['color'] }};">
-                  <i class="bi {{ $module['icon'] }}"></i>
+                <span class="module-icon" style="background: {{ $module->warna_bg }}; color: {{ $module->warna }};">
+                  <i class="bi {{ $module->icon }}"></i>
                 </span>
-                <span class="module-name">{{ $module['name'] }}</span>
+                <span class="module-name">{{ $module->nama }}</span>
               </button>
-            @endforeach
+            @empty
+              <div class="module-unavailable" style="grid-column: 1 / -1;">
+                <i class="bi bi-grid"></i>
+                Belum ada modul yang terdaftar.
+              </div>
+            @endforelse
           </div>
         </section>
 
         <!-- Right: Daftar Role -->
         <aside class="portal-roles">
           <h2 class="section-title">Daftar Role</h2>
-          <p class="role-module-subtitle" id="selectedModuleTitle">SIM Kepegawaian (SIMPEG)</p>
+          @php
+            $initialTitle = $defaultModule
+              ? ($defaultModule->singkatan ? "{$defaultModule->nama} ({$defaultModule->singkatan})" : $defaultModule->nama)
+              : 'Belum ada modul';
+            $initialAvailable = $defaultModule ? $defaultModule->is_active : false;
+            $initialUrl = $defaultModule ? $defaultModule->resolvedUrl() : route('dashboard');
+          @endphp
+          <p class="role-module-subtitle" id="selectedModuleTitle">{{ $initialTitle }}</p>
 
-          <div id="roleListSimpeg" class="role-list">
+          <div id="roleListActive" class="role-list {{ $initialAvailable ? '' : 'd-none' }}">
             @forelse ($userRoles as $role)
-              <a href="{{ route('dashboard') }}" class="role-card">
+              <a href="{{ $initialUrl }}" class="role-card" data-role-link>
                 <div>
                   <p class="role-title">{{ ucwords($role) }}</p>
                   <p class="role-unit">Universitas Ibnu Sina</p>
@@ -403,7 +420,7 @@
                 <i class="bi bi-chevron-right role-arrow"></i>
               </a>
             @empty
-              <a href="{{ route('dashboard') }}" class="role-card">
+              <a href="{{ $initialUrl }}" class="role-card" data-role-link>
                 <div>
                   <p class="role-title">Staff</p>
                   <p class="role-unit">Universitas Ibnu Sina</p>
@@ -413,9 +430,9 @@
             @endforelse
           </div>
 
-          <div id="roleUnavailable" class="module-unavailable d-none">
+          <div id="roleUnavailable" class="module-unavailable {{ $initialAvailable ? 'd-none' : '' }}">
             <i class="bi bi-lock"></i>
-            Modul ini belum tersedia. Silakan pilih modul <strong>SIM Kepegawaian (SIMPEG)</strong> untuk masuk ke sistem.
+            Modul ini belum aktif. Silakan pilih modul yang berstatus <strong>Aktif</strong> untuk masuk ke sistem.
           </div>
         </aside>
       </div>
@@ -425,8 +442,9 @@
   <script>
     const moduleButtons = document.querySelectorAll('.module-item');
     const selectedModuleTitle = document.getElementById('selectedModuleTitle');
-    const roleListSimpeg = document.getElementById('roleListSimpeg');
+    const roleListActive = document.getElementById('roleListActive');
     const roleUnavailable = document.getElementById('roleUnavailable');
+    const roleLinks = document.querySelectorAll('[data-role-link]');
 
     moduleButtons.forEach(function (button) {
       button.addEventListener('click', function () {
@@ -435,12 +453,19 @@
         });
         this.classList.add('active');
 
-        const moduleName = this.dataset.moduleName;
+        const moduleTitle = this.dataset.moduleTitle;
         const isAvailable = this.dataset.moduleAvailable === '1';
+        const moduleUrl = this.dataset.moduleUrl;
 
-        selectedModuleTitle.textContent = isAvailable ? moduleName + ' (SIMPEG)' : moduleName;
-        roleListSimpeg.classList.toggle('d-none', !isAvailable);
+        selectedModuleTitle.textContent = moduleTitle;
+        roleListActive.classList.toggle('d-none', !isAvailable);
         roleUnavailable.classList.toggle('d-none', isAvailable);
+
+        if (isAvailable && moduleUrl) {
+          roleLinks.forEach(function (link) {
+            link.setAttribute('href', moduleUrl);
+          });
+        }
       });
     });
   </script>
