@@ -33,8 +33,13 @@ class UserManagementTest extends TestCase
         $this->get(route('users.index'))
             ->assertOk()
             ->assertSee('People Directory')
-            ->assertSee($admin->name)
-            ->assertSee('usersTable');
+            ->assertSee('users-table');
+
+        $this->withHeaders(['X-Requested-With' => 'XMLHttpRequest'])
+            ->getJson(route('users.index', ['draw' => 1]))
+            ->assertOk()
+            ->assertJsonPath('recordsTotal', 1)
+            ->assertJsonFragment(['id' => $admin->id]);
 
         $this->get(route('users.create'))
             ->assertOk()

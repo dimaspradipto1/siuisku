@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\UsersDataTable;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -20,17 +21,9 @@ class UserController extends Controller
         ];
     }
 
-    public function index(Request $request)
+    public function index(UsersDataTable $dataTable, Request $request)
     {
         $selectedRole = $request->query('role');
-
-        $usersQuery = User::query()->latest();
-
-        if (filled($selectedRole)) {
-            $usersQuery->where('roles', $selectedRole);
-        }
-
-        $users = $usersQuery->get();
 
         $allUsers = User::all();
         $totalUsers = $allUsers->count();
@@ -41,8 +34,7 @@ class UserController extends Controller
         $roleOptions = $this->roleOptions();
         $availableRoles = $allUsers->pluck('roles')->filter()->unique()->values();
 
-        return view('layouts.pages.users.index', compact(
-            'users',
+        return $dataTable->render('layouts.pages.users.index', compact(
             'totalUsers',
             'superAdminCount',
             'adminCount',
