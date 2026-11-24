@@ -304,13 +304,13 @@
               <li class="nav-heading"><span>REFERENSI</span></li>
 
               <!-- Kepegawaian -->
-              <li class="nav-item has-submenu ">
-                  <a class="nav-link" href="#" aria-expanded="false">
+              <li class="nav-item has-submenu {{ request()->routeIs('jenis-jabatan-struktural.*') ? 'open' : '' }}">
+                  <a class="nav-link" href="#" aria-expanded="{{ request()->routeIs('jenis-jabatan-struktural.*') ? 'true' : 'false' }}">
                       <span class="nav-icon"><i class="ph-light ph-receipt"></i></span>
                       <span class="nav-text">Kepegawaian</span>
                       <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
                   </a>
-                  <ul class="nav-submenu ">
+                  <ul class="nav-submenu {{ request()->routeIs('jenis-jabatan-struktural.*') ? 'show' : '' }}">
                       <li><a class="nav-link " href="invoice-list.html"><span class="nav-dot"></span>Unit Kerja</a>
                       </li>
                       <li><a class="nav-link " href="invoice.html"><span class="nav-dot"></span>Status Keaktifan</a>
@@ -325,7 +325,7 @@
                       <li><a class="nav-link " href="invoice.html"><span class="nav-dot"></span>Jabatan
                               Fungsional</a></li>
                       <li><a class="nav-link " href="invoice.html"><span class="nav-dot"></span>Esolon</a></li>
-                      <li><a class="nav-link " href="invoice.html"><span class="nav-dot"></span>Jenis Jabatan
+                      <li><a class="nav-link {{ request()->routeIs('jenis-jabatan-struktural.*') ? 'active' : '' }}" href="{{ route('jenis-jabatan-struktural.index') }}"><span class="nav-dot"></span>Jenis Jabatan
                               Struktural</a></li>
                       <li><a class="nav-link " href="invoice.html"><span class="nav-dot"></span>Jenis Struktural</a>
                       </li>

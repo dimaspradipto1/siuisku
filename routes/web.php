@@ -4,6 +4,7 @@ use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BackupController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\JenisJabatanStrukturalController;
 use App\Http\Controllers\ModulController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
@@ -43,6 +44,7 @@ Route::middleware(['auth', 'checkrole'])->group(function(){
     });
 
     Route::resource('users', UserController::class);
+    Route::resource('jenis-jabatan-struktural', JenisJabatanStrukturalController::class)->except(['show']);
 
     Route::prefix('profile')->name('profile.')->controller(ProfileController::class)->group(function () {
         Route::get('/', 'index')->name('index');
