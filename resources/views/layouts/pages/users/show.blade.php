@@ -80,8 +80,14 @@
                     <strong>{{ $user->email }}</strong>
                   </div>
                   <div class="uv-detail-item">
-                    <span>Role Akses</span>
-                    <strong>{{ ucwords($user->roles) }}</strong>
+                    <span>Role &amp; Unit OTK</span>
+                    <strong>
+                      @if ($user->userRoles->isNotEmpty())
+                        {{ $user->userRoles->map(fn ($ur) => $ur->displayTitle().' ('.$ur->displayUnit().')')->implode(', ') }}
+                      @else
+                        {{ ucwords($user->roles) }}
+                      @endif
+                    </strong>
                   </div>
                   <div class="uv-detail-item">
                     <span>Terdaftar Sejak</span>

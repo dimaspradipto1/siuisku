@@ -300,6 +300,7 @@
               </li>
 
 
+              @if (Auth::user()?->hasPermission('referensi.view'))
               <!-- Pages Section -->
               <li class="nav-heading"><span>REFERENSI</span></li>
 
@@ -428,37 +429,55 @@
                               Akademik</a></li>
                   </ul>
               </li>
+              @endif
 
+              @php
+                  $canModul = Auth::user()?->hasPermission('modul.view');
+                  $canUsers = Auth::user()?->hasPermission('users.view');
+                  $canHakAkses = Auth::user()?->hasPermission('hak_akses.view');
+                  $canBackup = Auth::user()?->hasPermission('backup.view');
+              @endphp
+
+              @if ($canModul || $canUsers || $canHakAkses || $canBackup)
               <!-- Pages Section -->
               <li class="nav-heading"><span>Pengaturan</span></li>
 
+              @if ($canModul)
               <li class="nav-item">
                   <a class="nav-link {{ request()->routeIs('pengaturan.modul.*') ? 'active' : '' }}" href="{{ route('pengaturan.modul.index') }}">
                       <span class="nav-icon"><i class="bi bi-grid-1x2"></i></span>
                       <span class="nav-text">Pengaturan Modul</span>
                   </a>
               </li>
+              @endif
 
+              @if ($canUsers)
               <li class="nav-item">
                   <a class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}" href="{{ route('users.index') }}">
                       <span class="nav-icon"><i class="ph-light ph-users-three"></i></span>
                       <span class="nav-text">Users</span>
                   </a>
               </li>
+              @endif
 
+              @if ($canHakAkses)
               <li class="nav-item">
                   <a class="nav-link {{ request()->routeIs('hak-akses.*') ? 'active' : '' }}" href="{{ route('hak-akses.index') }}">
                       <span class="nav-icon"><i class="bi bi-shield-lock"></i></span>
                       <span class="nav-text">Hak Akses</span>
                   </a>
               </li>
+              @endif
 
+              @if ($canBackup)
               <li class="nav-item">
                   <a class="nav-link {{ request()->routeIs('pengaturan.backup.*') ? 'active' : '' }}" href="{{ route('pengaturan.backup.index') }}">
                       <span class="nav-icon"><i class="bi bi-database-down"></i></span>
                       <span class="nav-text">Backup Database &amp; Storage</span>
                   </a>
               </li>
+              @endif
+              @endif
               
           </ul>
       </nav>

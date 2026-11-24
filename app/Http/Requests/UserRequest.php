@@ -41,7 +41,7 @@ class UserRequest extends FormRequest
                 'max:255',
                 Rule::unique('users', 'email')->ignore($user?->id),
             ],
-            'roles' => ['required', 'string', 'max:100'],
+            'roles' => ['nullable', 'string', 'max:100'],
             'photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
             'password' => [
                 $isUpdate ? 'nullable' : 'required',
@@ -49,6 +49,11 @@ class UserRequest extends FormRequest
                 'min:6',
                 'confirmed',
             ],
+            'role_assignments' => ['nullable', 'array'],
+            'role_assignments.*.modul_id' => ['required_with:role_assignments', 'exists:moduls,id'],
+            'role_assignments.*.role_id' => ['required_with:role_assignments', 'exists:roles,id'],
+            'role_assignments.*.unit_kerja_id' => ['nullable', 'exists:unit_kerjas,id'],
+            'role_assignments.*.jenis_jabatan_struktural_id' => ['nullable', 'exists:jenis_jabatan_strukturals,id'],
         ];
     }
 
@@ -67,13 +72,14 @@ class UserRequest extends FormRequest
             'email.required' => 'Email wajib diisi.',
             'email.email' => 'Format email tidak valid.',
             'email.unique' => 'Email sudah terdaftar.',
-            'roles.required' => 'Role wajib dipilih.',
             'photo.image' => 'File foto harus berupa gambar.',
             'photo.mimes' => 'Format foto harus JPG, JPEG, PNG, atau WEBP.',
             'photo.max' => 'Ukuran foto maksimal 2MB.',
             'password.required' => 'Password wajib diisi.',
             'password.min' => 'Password minimal 6 karakter.',
             'password.confirmed' => 'Konfirmasi password tidak cocok.',
+            'role_assignments.*.modul_id.required_with' => 'Modul wajib dipilih.',
+            'role_assignments.*.role_id.required_with' => 'Role hak akses wajib dipilih.',
         ];
     }
 }

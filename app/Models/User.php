@@ -102,12 +102,20 @@ class User extends Authenticatable
             }
         }
 
-        if (in_array(strtolower((string) $this->roles), ['super admin', 'superadmin'], true)) {
-            return true;
+        $assignedRoles = $this->userRoles()->with('role.permissions')->get();
+        if ($assignedRoles->isNotEmpty()) {
+            foreach ($assignedRoles as $userRole) {
+                if ($userRole->role?->kode === 'super_admin') {
+                    return true;
+                }
+                if ($userRole->role?->permissions->contains('kode', $permissionCode)) {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
-        return $this->userRoles()
-            ->whereHas('role.permissions', fn ($q) => $q->where('kode', $permissionCode))
-            ->exists();
+        return in_array(strtolower((string) $this->roles), ['super admin', 'superadmin', 'admin'], true);
     }
 }

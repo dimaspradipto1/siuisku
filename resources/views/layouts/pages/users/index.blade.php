@@ -78,37 +78,34 @@
                         <div class="users-toolbar-left">
                             <div class="users-filter-tabs">
                                 <a href="{{ route('users.index') }}"
-                                    class="users-filter-tab {{ blank($selectedRole) ? 'active' : '' }}">
+                                    class="users-filter-tab {{ blank($selectedRoleId) && blank($selectedRole) ? 'active' : '' }}">
                                     All <span class="users-filter-count">{{ $totalUsers }}</span>
                                 </a>
-                                <a href="{{ route('users.index', ['role' => 'super admin']) }}"
-                                    class="users-filter-tab {{ $selectedRole === 'super admin' ? 'active' : '' }}">
-                                    Super Admin <span class="users-filter-count">{{ $superAdminCount }}</span>
-                                </a>
-                                <a href="{{ route('users.index', ['role' => 'admin']) }}"
-                                    class="users-filter-tab {{ $selectedRole === 'admin' ? 'active' : '' }}">
-                                    Admin <span class="users-filter-count">{{ $adminCount }}</span>
-                                </a>
-                                <a href="{{ route('users.index', ['role' => 'staff']) }}"
-                                    class="users-filter-tab {{ $selectedRole === 'staff' ? 'active' : '' }}">
-                                    Staff <span class="users-filter-count">{{ $staffCount }}</span>
-                                </a>
+                                @foreach ($roles->take(3) as $roleItem)
+                                    <a href="{{ route('users.index', ['role_id' => $roleItem->id]) }}"
+                                        class="users-filter-tab {{ (string) $selectedRoleId === (string) $roleItem->id ? 'active' : '' }}">
+                                        {{ $roleItem->nama }}
+                                    </a>
+                                @endforeach
                             </div>
                         </div>
 
                         <div class="users-toolbar-right">
                             <div class="dropdown">
+                                @php
+                                    $activeRoleFilter = $roles->firstWhere('id', (int) $selectedRoleId);
+                                @endphp
                                 <button class="users-toolbar-btn dropdown-toggle" data-bs-toggle="dropdown">
                                     <i class="bi bi-sliders"></i>
-                                    {{ $selectedRole ? ucwords($selectedRole) : 'Filter Role' }}
+                                    {{ $activeRoleFilter ? $activeRoleFilter->nama : 'Filter Role' }}
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><a class="dropdown-item" href="{{ route('users.index') }}">All Roles</a></li>
-                                    @foreach ($availableRoles as $role)
+                                    <li><a class="dropdown-item" href="{{ route('users.index') }}">Semua Role</a></li>
+                                    @foreach ($roles as $roleItem)
                                         <li>
-                                            <a class="dropdown-item {{ $selectedRole === $role ? 'active' : '' }}"
-                                                href="{{ route('users.index', ['role' => $role]) }}">
-                                                {{ ucwords($role) }}
+                                            <a class="dropdown-item {{ (string) $selectedRoleId === (string) $roleItem->id ? 'active' : '' }}"
+                                                href="{{ route('users.index', ['role_id' => $roleItem->id]) }}">
+                                                {{ $roleItem->nama }}
                                             </a>
                                         </li>
                                     @endforeach
@@ -145,13 +142,39 @@
                                                 value="{{ old('username') }}" placeholder="Masukkan username" required>
                                         </div>
                                         <div class="col-sm-6">
-                                            <label class="form-label">Role</label>
-                                            <select name="roles" class="form-select" required>
+                                            <label class="form-label">Modul</label>
+                                            <select name="role_assignments[0][modul_id]" class="form-select" required>
+                                                @foreach ($modules as $mod)
+                                                    <option value="{{ $mod->id }}" {{ $mod->kode === 'simpeg' ? 'selected' : '' }}>
+                                                        {{ $mod->nama }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label class="form-label">Role Hak Akses (OTK)</label>
+                                            <select name="role_assignments[0][role_id]" class="form-select" required>
                                                 <option value="">Pilih role...</option>
-                                                @foreach ($roleOptions as $value => $label)
-                                                    <option value="{{ $value }}"
-                                                        {{ old('roles') === $value ? 'selected' : '' }}>
-                                                        {{ $label }}</option>
+                                                @foreach ($roles as $r)
+                                                    <option value="{{ $r->id }}">{{ $r->nama }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label class="form-label">Unit Kerja (OTK)</label>
+                                            <select name="role_assignments[0][unit_kerja_id]" class="form-select">
+                                                <option value="">Universitas Ibnu Sina</option>
+                                                @foreach ($unitKerjas as $unit)
+                                                    <option value="{{ $unit->id }}">[{{ $unit->kode }}] {{ $unit->nama }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-12">
+                                            <label class="form-label">Jabatan Struktural (OTK)</label>
+                                            <select name="role_assignments[0][jenis_jabatan_struktural_id]" class="form-select">
+                                                <option value="">-- Opsional --</option>
+                                                @foreach ($jabatans as $jab)
+                                                    <option value="{{ $jab->id }}">[{{ $jab->kode }}] {{ $jab->nama }}</option>
                                                 @endforeach
                                             </select>
                                         </div>

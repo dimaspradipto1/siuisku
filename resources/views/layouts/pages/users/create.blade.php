@@ -54,21 +54,58 @@
 
               <div class="card">
                 <div class="card-header">
-                  <h5 class="card-title">Hak Akses Role</h5>
+                  <h5 class="card-title">Hak Akses &amp; OTK</h5>
                 </div>
                 <div class="card-body">
-                  <div class="mb-0">
-                    <label for="roles" class="form-label required">Role</label>
-                    <select id="roles" name="roles" class="form-select @error('roles') is-invalid @enderror" required>
-                      <option value="">Pilih role...</option>
-                      @foreach ($roleOptions as $value => $label)
-                        <option value="{{ $value }}" {{ old('roles') === $value ? 'selected' : '' }}>{{ $label }}</option>
+                  <div class="mb-3">
+                    <label class="form-label required">Modul</label>
+                    <select name="role_assignments[0][modul_id]" class="form-select" required>
+                      @foreach ($modules as $mod)
+                        <option value="{{ $mod->id }}" {{ $mod->kode === 'simpeg' ? 'selected' : '' }}>
+                          {{ $mod->nama }}
+                        </option>
                       @endforeach
                     </select>
-                    @error('roles')
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label required">Role Hak Akses</label>
+                    <select name="role_assignments[0][role_id]" class="form-select @error('role_assignments.0.role_id') is-invalid @enderror" required>
+                      <option value="">Pilih role...</option>
+                      @foreach ($roles as $r)
+                        <option value="{{ $r->id }}" {{ (string) old('role_assignments.0.role_id') === (string) $r->id ? 'selected' : '' }}>
+                          {{ $r->nama }} ({{ $r->scopeLabel() }})
+                        </option>
+                      @endforeach
+                    </select>
+                    @error('role_assignments.0.role_id')
                       <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
-                    <div class="form-text">Role akan ditampilkan pada halaman portal modul setelah login.</div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label">Unit Kerja (OTK)</label>
+                    <select name="role_assignments[0][unit_kerja_id]" class="form-select">
+                      <option value="">Universitas Ibnu Sina (Default)</option>
+                      @foreach ($unitKerjas as $unit)
+                        <option value="{{ $unit->id }}" {{ (string) old('role_assignments.0.unit_kerja_id') === (string) $unit->id ? 'selected' : '' }}>
+                          [{{ $unit->kode }}] {{ $unit->nama }}
+                        </option>
+                      @endforeach
+                    </select>
+                  </div>
+
+                  <div class="mb-0">
+                    <label class="form-label">Jabatan Struktural (OTK)</label>
+                    <select name="role_assignments[0][jenis_jabatan_struktural_id]" class="form-select">
+                      <option value="">-- Opsional --</option>
+                      @foreach ($jabatans as $jab)
+                        <option value="{{ $jab->id }}" {{ (string) old('role_assignments.0.jenis_jabatan_struktural_id') === (string) $jab->id ? 'selected' : '' }}>
+                          [{{ $jab->kode }}] {{ $jab->nama }}
+                        </option>
+                      @endforeach
+                    </select>
+                    <div class="form-text">Role &amp; unit kerja OTK ini otomatis tampil di portal modul saat login.</div>
                   </div>
                 </div>
               </div>

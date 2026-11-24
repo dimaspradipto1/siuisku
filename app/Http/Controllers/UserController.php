@@ -5,52 +5,61 @@ namespace App\Http\Controllers;
 use App\DataTables\UsersDataTable;
 use App\Http\Requests\UserRequest;
 use App\Models\ActivityLog;
+use App\Models\JenisJabatanStruktural;
+use App\Models\Modul;
+use App\Models\Role;
+use App\Models\UnitKerja;
 use App\Models\User;
+use App\Models\UserRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
-    private function roleOptions(): array
+    private function otkOptions(): array
     {
         return [
-            'super admin' => 'Super Admin',
-            'admin' => 'Admin',
-            'staff' => 'Staff',
-            'Ka.Lembaga Pengembangan Teknologi Informasi' => 'Ka.Lembaga Pengembangan Teknologi Informasi',
+            'modules' => Modul::orderBy('urutan')->orderBy('id')->get(),
+            'roles' => Role::orderBy('nama')->get(),
+            'unitKerjas' => UnitKerja::orderBy('nama')->get(),
+            'jabatans' => JenisJabatanStruktural::orderBy('kode')->get(),
         ];
     }
 
     public function index(UsersDataTable $dataTable, Request $request)
     {
+        $selectedRoleId = $request->query('role_id');
         $selectedRole = $request->query('role');
 
-        $allUsers = User::all();
+        $allUsers = User::with('userRoles.role')->get();
         $totalUsers = $allUsers->count();
-        $superAdminCount = $allUsers->filter(fn (User $u) => in_array(strtolower($u->roles), ['super admin', 'superadmin'], true))->count();
-        $adminCount = $allUsers->filter(fn (User $u) => strtolower($u->roles) === 'admin')->count();
-        $staffCount = $allUsers->filter(fn (User $u) => strtolower($u->roles) === 'staff')->count();
 
-        $roleOptions = $this->roleOptions();
-        $availableRoles = $allUsers->pluck('roles')->filter()->unique()->values();
+        $superAdminCount = $allUsers->filter(fn (User $u) => $u->userRoles->contains(fn (UserRole $ur) => $ur->role?->kode === 'super_admin')
+            || in_array(strtolower((string) $u->roles), ['super admin', 'superadmin'], true))->count();
 
-        return $dataTable->render('layouts.pages.users.index', compact(
-            'totalUsers',
-            'superAdminCount',
-            'adminCount',
-            'staffCount',
-            'selectedRole',
-            'roleOptions',
-            'availableRoles',
+        $adminCount = $allUsers->filter(fn (User $u) => $u->userRoles->contains(fn (UserRole $ur) => $ur->role?->kode === 'admin_kepegawaian')
+            || strtolower((string) $u->roles) === 'admin')->count();
+
+        $staffCount = $allUsers->filter(fn (User $u) => $u->userRoles->contains(fn (UserRole $ur) => $ur->role?->kode === 'staff')
+            || strtolower((string) $u->roles) === 'staff')->count();
+
+        return $dataTable->render('layouts.pages.users.index', array_merge(
+            compact(
+                'totalUsers',
+                'superAdminCount',
+                'adminCount',
+                'staffCount',
+                'selectedRoleId',
+                'selectedRole',
+            ),
+            $this->otkOptions(),
         ));
     }
 
     public function create()
     {
-        $roleOptions = $this->roleOptions();
-
-        return view('layouts.pages.users.create', compact('roleOptions'));
+        return view('layouts.pages.users.create', $this->otkOptions());
     }
 
     public function store(UserRequest $request)
@@ -62,14 +71,19 @@ class UserController extends Controller
             $photoPath = $request->file('photo')->store('avatars', 'public');
         }
 
+        $assignments = $validated['role_assignments'] ?? [];
+        $primaryRoleLabel = $this->resolvePrimaryRoleLabel($assignments, $validated['roles'] ?? 'staff');
+
         $created = User::create([
             'name' => $validated['name'],
             'username' => $validated['username'],
             'email' => $validated['email'],
-            'roles' => $validated['roles'],
+            'roles' => $primaryRoleLabel,
             'photo' => $photoPath,
             'password' => $validated['password'],
         ]);
+
+        $this->syncUserRoles($created, $assignments);
 
         ActivityLog::record(
             Auth::user(),
@@ -86,29 +100,33 @@ class UserController extends Controller
 
     public function show(User $user)
     {
+        $user->load(['userRoles.modul', 'userRoles.role', 'userRoles.unitKerja', 'userRoles.jenisJabatanStruktural']);
+
         return view('layouts.pages.users.show', compact('user'));
     }
 
     public function edit(User $user)
     {
-        $roleOptions = $this->roleOptions();
+        $user->load(['userRoles.modul', 'userRoles.role', 'userRoles.unitKerja', 'userRoles.jenisJabatanStruktural']);
 
-        if (! array_key_exists($user->roles, $roleOptions) && filled($user->roles)) {
-            $roleOptions[$user->roles] = $user->roles;
-        }
-
-        return view('layouts.pages.users.edit', compact('user', 'roleOptions'));
+        return view('layouts.pages.users.edit', array_merge(
+            compact('user'),
+            $this->otkOptions(),
+        ));
     }
 
     public function update(UserRequest $request, User $user)
     {
         $validated = $request->validated();
+        $assignments = $validated['role_assignments'] ?? null;
 
         $data = [
             'name' => $validated['name'],
             'username' => $validated['username'],
             'email' => $validated['email'],
-            'roles' => $validated['roles'],
+            'roles' => $assignments !== null
+                ? $this->resolvePrimaryRoleLabel($assignments, $validated['roles'] ?? $user->roles)
+                : ($validated['roles'] ?? $user->roles),
         ];
 
         if ($request->hasFile('photo')) {
@@ -123,6 +141,10 @@ class UserController extends Controller
         }
 
         $user->update($data);
+
+        if ($assignments !== null) {
+            $this->syncUserRoles($user, $assignments);
+        }
 
         ActivityLog::record(
             Auth::user(),
@@ -163,5 +185,54 @@ class UserController extends Controller
         return redirect()
             ->route('users.index')
             ->with('success', "User {$name} berhasil dihapus.");
+    }
+
+    /**
+     * @param  array<int, array<string, mixed>>  $assignments
+     */
+    private function syncUserRoles(User $user, array $assignments): void
+    {
+        $user->userRoles()->delete();
+
+        foreach ($assignments as $item) {
+            if (empty($item['modul_id']) || empty($item['role_id'])) {
+                continue;
+            }
+
+            UserRole::create([
+                'user_id' => $user->id,
+                'modul_id' => $item['modul_id'],
+                'role_id' => $item['role_id'],
+                'unit_kerja_id' => $item['unit_kerja_id'] ?: null,
+                'jenis_jabatan_struktural_id' => $item['jenis_jabatan_struktural_id'] ?: null,
+            ]);
+        }
+    }
+
+    /**
+     * @param  array<int, array<string, mixed>>  $assignments
+     */
+    private function resolvePrimaryRoleLabel(array $assignments, string $fallback): string
+    {
+        $first = $assignments[0] ?? null;
+        if (! $first) {
+            return $fallback;
+        }
+
+        if (! empty($first['jenis_jabatan_struktural_id'])) {
+            $jabatan = JenisJabatanStruktural::find($first['jenis_jabatan_struktural_id']);
+            if ($jabatan) {
+                return $jabatan->nama;
+            }
+        }
+
+        if (! empty($first['role_id'])) {
+            $role = Role::find($first['role_id']);
+            if ($role) {
+                return $role->nama;
+            }
+        }
+
+        return $fallback;
     }
 }

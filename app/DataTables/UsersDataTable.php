@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\User;
+use App\Models\UserRole;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\EloquentDataTable;
@@ -31,6 +32,25 @@ class UsersDataTable extends DataTable
             })
             ->editColumn('username', fn (User $user) => '<code>'.e($user->username).'</code>')
             ->editColumn('roles', function (User $user) {
+                if ($user->userRoles->isNotEmpty()) {
+                    $badges = $user->userRoles->map(function (UserRole $ur): string {
+                        $roleKode = strtolower((string) $ur->role?->kode);
+                        $badgeClass = match ($roleKode) {
+                            'super_admin' => 'bg-danger-subtle text-danger',
+                            'admin_kepegawaian' => 'bg-primary-subtle text-primary',
+                            'pimpinan_universitas', 'pimpinan_fakultas', 'kepala_lembaga', 'pimpinan_prodi' => 'bg-info-subtle text-info',
+                            default => 'bg-secondary-subtle text-secondary',
+                        };
+
+                        $unitCode = $ur->unitKerja?->kode;
+                        $label = $ur->displayTitle().($unitCode ? " ({$unitCode})" : '');
+
+                        return '<span class="badge '.$badgeClass.' px-2 py-1">'.e($label).'</span>';
+                    })->implode(' ');
+
+                    return '<div class="d-inline-flex flex-wrap justify-content-center gap-1">'.$badges.'</div>';
+                }
+
                 $roleLower = strtolower((string) $user->roles);
                 $badgeClass = match (true) {
                     str_contains($roleLower, 'super') => 'bg-danger-subtle text-danger',
@@ -75,9 +95,15 @@ class UsersDataTable extends DataTable
      */
     public function query(User $model): QueryBuilder
     {
-        $query = $model->newQuery();
+        $query = $model->newQuery()->with([
+            'userRoles.role',
+            'userRoles.unitKerja',
+            'userRoles.jenisJabatanStruktural',
+        ]);
 
-        if (filled($role = $this->request()->get('role'))) {
+        if (filled($roleId = $this->request()->get('role_id'))) {
+            $query->whereHas('userRoles', fn (QueryBuilder $q) => $q->where('role_id', $roleId));
+        } elseif (filled($role = $this->request()->get('role'))) {
             $query->where('roles', $role);
         }
 
@@ -90,6 +116,7 @@ class UsersDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         $ajaxUrl = route('users.index', array_filter([
+            'role_id' => $this->request()->get('role_id'),
             'role' => $this->request()->get('role'),
         ]), false);
 
@@ -127,7 +154,7 @@ class UsersDataTable extends DataTable
             Column::make('name')
                 ->title('Nama Pengguna')
                 ->addClass('text-start text-nowrap')
-                ->width('32%'),
+                ->width('30%'),
             Column::make('username')
                 ->title('Username')
                 ->addClass('text-start text-nowrap')
@@ -137,9 +164,9 @@ class UsersDataTable extends DataTable
                 ->addClass('text-start text-nowrap')
                 ->width('16%'),
             Column::make('roles')
-                ->title('Role Akses')
+                ->title('Role & Unit OTK')
                 ->addClass('text-center text-nowrap')
-                ->width('18%'),
+                ->width('20%'),
             Column::make('created_at')
                 ->title('Terdaftar')
                 ->addClass('text-center text-nowrap')

@@ -30,7 +30,7 @@ Route::middleware(['auth', 'checkrole'])->group(function(){
     Route::get('modul/masuk/{userRole}', [ModulController::class, 'masuk'])->name('modul.masuk');
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::prefix('pengaturan/modul')->name('pengaturan.modul.')->controller(ModulController::class)->group(function () {
+    Route::middleware('permission:modul.view')->prefix('pengaturan/modul')->name('pengaturan.modul.')->controller(ModulController::class)->group(function () {
         Route::get('/', 'pengaturan')->name('index');
         Route::post('/', 'store')->name('store');
         Route::put('{modul}', 'update')->name('update');
@@ -38,7 +38,7 @@ Route::middleware(['auth', 'checkrole'])->group(function(){
         Route::delete('{modul}', 'destroy')->name('destroy');
     });
 
-    Route::prefix('pengaturan/backup')->name('pengaturan.backup.')->controller(BackupController::class)->group(function () {
+    Route::middleware('permission:backup.view')->prefix('pengaturan/backup')->name('pengaturan.backup.')->controller(BackupController::class)->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('database/export', 'exportDatabase')->name('database.export');
         Route::post('database/import', 'importDatabase')->name('database.import');
@@ -46,12 +46,20 @@ Route::middleware(['auth', 'checkrole'])->group(function(){
         Route::post('storage/import', 'importStorage')->name('storage.import');
     });
 
-    Route::resource('users', UserController::class);
-    Route::resource('jenis-jabatan-struktural', JenisJabatanStrukturalController::class)->except(['show']);
-    Route::resource('unit-kerja', UnitKerjaController::class)->except(['show']);
-    Route::resource('hak-akses', HakAksesController::class)->except(['show']);
-    Route::post('hak-akses/plotting', [HakAksesController::class, 'storePlotting'])->name('hak-akses.plotting.store');
-    Route::delete('hak-akses/plotting/{userRole}', [HakAksesController::class, 'destroyPlotting'])->name('hak-akses.plotting.destroy');
+    Route::middleware('permission:users.view')->group(function () {
+        Route::resource('users', UserController::class);
+    });
+
+    Route::middleware('permission:referensi.view')->group(function () {
+        Route::resource('jenis-jabatan-struktural', JenisJabatanStrukturalController::class)->except(['show']);
+        Route::resource('unit-kerja', UnitKerjaController::class)->except(['show']);
+    });
+
+    Route::middleware('permission:hak_akses.view')->group(function () {
+        Route::resource('hak-akses', HakAksesController::class)->except(['show']);
+        Route::post('hak-akses/plotting', [HakAksesController::class, 'storePlotting'])->name('hak-akses.plotting.store');
+        Route::delete('hak-akses/plotting/{userRole}', [HakAksesController::class, 'destroyPlotting'])->name('hak-akses.plotting.destroy');
+    });
 
     Route::prefix('profile')->name('profile.')->controller(ProfileController::class)->group(function () {
         Route::get('/', 'index')->name('index');

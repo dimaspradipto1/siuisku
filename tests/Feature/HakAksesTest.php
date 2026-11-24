@@ -122,10 +122,61 @@ class HakAksesTest extends TestCase
         $this->assertSame($role->id, session('active_role_id'));
         $this->assertSame($unitFt->id, session('active_unit_kerja_id'));
 
+        // Active role operator_ft does not have hak_akses.view -> 403 Forbidden
+        $this->delete(route('hak-akses.plotting.destroy', $plot))->assertForbidden();
+
+        // Switch back to Super Admin session -> allowed
+        $superAdminRole = Role::where('kode', 'super_admin')->firstOrFail();
+        $this->withSession(['active_role_id' => $superAdminRole->id]);
+
         $this->delete(route('hak-akses.plotting.destroy', $plot))
             ->assertRedirect(route('hak-akses.index', ['tab' => 'plotting']));
 
         $this->delete(route('hak-akses.destroy', $role))
             ->assertRedirect(route('hak-akses.index'));
+    }
+
+    public function test_staff_is_forbidden_from_admin_routes_and_user_otk_sync_works(): void
+    {
+        $this->seedOtkData();
+
+        $staffRole = Role::where('kode', 'staff')->firstOrFail();
+        $modul = Modul::where('kode', 'simpeg')->firstOrFail();
+        $unitFt = UnitKerja::where('kode', 'FT')->firstOrFail();
+        $jabatan = JenisJabatanStruktural::where('kode', 'TUFT')->firstOrFail();
+
+        // Create user with OTK role assignment
+        $this->post(route('users.store'), [
+            'name' => 'Staff Uji',
+            'username' => 'staffuji',
+            'email' => 'staffuji@uis.ac.id',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
+            'role_assignments' => [
+                [
+                    'modul_id' => $modul->id,
+                    'role_id' => $staffRole->id,
+                    'unit_kerja_id' => $unitFt->id,
+                    'jenis_jabatan_struktural_id' => $jabatan->id,
+                ],
+            ],
+        ])->assertRedirect(route('users.index'));
+
+        $staff = User::where('username', 'staffuji')->firstOrFail();
+        $this->assertCount(1, $staff->userRoles);
+
+        // Switch to staff user -> forbidden on admin routes
+        $this->actingAs($staff);
+
+        $this->get(route('users.index'))->assertForbidden();
+        $this->get(route('hak-akses.index'))->assertForbidden();
+        $this->get(route('pengaturan.modul.index'))->assertForbidden();
+        $this->get(route('pengaturan.backup.index'))->assertForbidden();
+        $this->get(route('unit-kerja.index'))->assertForbidden();
+
+        // Dashboard, Profile, Activity Log remain accessible
+        $this->get(route('dashboard'))->assertOk();
+        $this->get(route('profile.index'))->assertOk();
+        $this->get(route('activity.index'))->assertOk();
     }
 }

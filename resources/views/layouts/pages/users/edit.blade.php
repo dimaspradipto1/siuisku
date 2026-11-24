@@ -146,27 +146,91 @@
               </div>
 
               <div class="card mb-4">
-                <div class="card-header">
-                  <h5 class="card-title">Role & Permissions</h5>
+                <div class="card-header d-flex align-items-center justify-content-between">
+                  <h5 class="card-title mb-0">Role &amp; Permissions (OTK)</h5>
+                  <button type="button" class="btn btn-outline-primary btn-sm" id="addRoleAssignmentBtn">
+                    <i class="bi bi-plus-lg me-1"></i> Tambah Role OTK
+                  </button>
                 </div>
                 <div class="card-body">
-                  <div class="row g-3">
-                    <div class="col-md-6">
-                      <label for="roles" class="form-label required">Role</label>
-                      <select id="roles" name="roles" class="form-select @error('roles') is-invalid @enderror" required>
-                        <option value="">Pilih role...</option>
-                        @foreach ($roleOptions as $value => $label)
-                          <option value="{{ $value }}" {{ old('roles', $user->roles) === $value ? 'selected' : '' }}>
-                            {{ $label }}
-                          </option>
-                        @endforeach
-                      </select>
-                      @error('roles')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                      @enderror
-                      <div class="form-text">Role akses ini tampil pada portal modul setelah login.</div>
-                    </div>
+                  @php
+                    $existingAssignments = old('role_assignments');
+                    if ($existingAssignments === null) {
+                      $existingAssignments = $user->userRoles->map(fn ($ur) => [
+                        'modul_id' => $ur->modul_id,
+                        'role_id' => $ur->role_id,
+                        'unit_kerja_id' => $ur->unit_kerja_id,
+                        'jenis_jabatan_struktural_id' => $ur->jenis_jabatan_struktural_id,
+                      ])->all();
+                    }
+                    if (empty($existingAssignments)) {
+                      $defaultSimpegId = $modules->firstWhere('kode', 'simpeg')?->id ?? $modules->first()?->id;
+                      $existingAssignments = [[
+                        'modul_id' => $defaultSimpegId,
+                        'role_id' => '',
+                        'unit_kerja_id' => '',
+                        'jenis_jabatan_struktural_id' => '',
+                      ]];
+                    }
+                  @endphp
+
+                  <div id="roleAssignmentsContainer" class="d-flex flex-column gap-3">
+                    @foreach ($existingAssignments as $idx => $assignment)
+                      <div class="border rounded-3 p-3 bg-light-subtle role-assignment-row">
+                        <div class="row g-2 align-items-end">
+                          <div class="col-md-6">
+                            <label class="form-label small mb-1">Modul <span class="text-danger">*</span></label>
+                            <select name="role_assignments[{{ $idx }}][modul_id]" class="form-select form-select-sm" required>
+                              @foreach ($modules as $mod)
+                                <option value="{{ $mod->id }}" {{ (string) ($assignment['modul_id'] ?? '') === (string) $mod->id ? 'selected' : '' }}>
+                                  {{ $mod->nama }}
+                                </option>
+                              @endforeach
+                            </select>
+                          </div>
+                          <div class="col-md-6">
+                            <label class="form-label small mb-1">Role Hak Akses <span class="text-danger">*</span></label>
+                            <select name="role_assignments[{{ $idx }}][role_id]" class="form-select form-select-sm" required>
+                              <option value="">Pilih role...</option>
+                              @foreach ($roles as $r)
+                                <option value="{{ $r->id }}" {{ (string) ($assignment['role_id'] ?? '') === (string) $r->id ? 'selected' : '' }}>
+                                  {{ $r->nama }}
+                                </option>
+                              @endforeach
+                            </select>
+                          </div>
+                          <div class="col-md-5">
+                            <label class="form-label small mb-1">Unit Kerja (OTK)</label>
+                            <select name="role_assignments[{{ $idx }}][unit_kerja_id]" class="form-select form-select-sm">
+                              <option value="">Universitas Ibnu Sina</option>
+                              @foreach ($unitKerjas as $unit)
+                                <option value="{{ $unit->id }}" {{ (string) ($assignment['unit_kerja_id'] ?? '') === (string) $unit->id ? 'selected' : '' }}>
+                                  [{{ $unit->kode }}] {{ $unit->nama }}
+                                </option>
+                              @endforeach
+                            </select>
+                          </div>
+                          <div class="col-md-6">
+                            <label class="form-label small mb-1">Jabatan Struktural (OTK)</label>
+                            <select name="role_assignments[{{ $idx }}][jenis_jabatan_struktural_id]" class="form-select form-select-sm">
+                              <option value="">-- Opsional --</option>
+                              @foreach ($jabatans as $jab)
+                                <option value="{{ $jab->id }}" {{ (string) ($assignment['jenis_jabatan_struktural_id'] ?? '') === (string) $jab->id ? 'selected' : '' }}>
+                                  [{{ $jab->kode }}] {{ $jab->nama }}
+                                </option>
+                              @endforeach
+                            </select>
+                          </div>
+                          <div class="col-md-1 text-end">
+                            <button type="button" class="btn btn-outline-danger btn-sm remove-role-row" title="Hapus Baris">
+                              <i class="bi bi-trash"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    @endforeach
                   </div>
+                  <div class="form-text mt-2">Pengguna dapat memiliki lebih dari satu role/jabatan OTK yang tampil di portal modul saat login.</div>
                 </div>
               </div>
 
@@ -260,6 +324,47 @@
         };
         reader.readAsDataURL(file);
       });
+    }
+
+    const roleContainer = document.getElementById('roleAssignmentsContainer');
+    const addRoleBtn = document.getElementById('addRoleAssignmentBtn');
+
+    function reindexRoleRows() {
+      if (!roleContainer) return;
+      const rows = roleContainer.querySelectorAll('.role-assignment-row');
+      rows.forEach(function (row, index) {
+        row.querySelectorAll('select').forEach(function (select) {
+          select.name = select.name.replace(/role_assignments\[\d+\]/, `role_assignments[${index}]`);
+        });
+        const removeBtn = row.querySelector('.remove-role-row');
+        if (removeBtn) {
+          removeBtn.disabled = rows.length <= 1;
+        }
+      });
+    }
+
+    if (addRoleBtn && roleContainer) {
+      addRoleBtn.addEventListener('click', function () {
+        const firstRow = roleContainer.querySelector('.role-assignment-row');
+        if (!firstRow) return;
+        const clone = firstRow.cloneNode(true);
+        clone.querySelectorAll('select').forEach(function (select, idx) {
+          if (idx > 0) select.value = '';
+        });
+        roleContainer.appendChild(clone);
+        reindexRoleRows();
+      });
+
+      roleContainer.addEventListener('click', function (event) {
+        const btn = event.target.closest('.remove-role-row');
+        if (!btn) return;
+        const rows = roleContainer.querySelectorAll('.role-assignment-row');
+        if (rows.length <= 1) return;
+        btn.closest('.role-assignment-row')?.remove();
+        reindexRoleRows();
+      });
+
+      reindexRoleRows();
     }
   </script>
 @endpush
