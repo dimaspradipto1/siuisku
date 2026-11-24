@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ModulController;
@@ -39,5 +40,10 @@ Route::middleware(['auth', 'checkrole'])->group(function(){
         Route::put('/', 'update')->name('update');
         Route::put('password', 'updatePassword')->name('password');
         Route::delete('photo', 'deletePhoto')->name('photo.destroy');
+    });
+
+    Route::prefix('activity')->name('activity.')->controller(ActivityLogController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('export', 'export')->name('export');
     });
 });

@@ -225,13 +225,9 @@
                 <span class="user-menu-icon"><i class="bi bi-sliders"></i></span>
                 <span>Preferences</span>
               </a>
-              <a class="user-menu-item" href="activity.html">
+              <a class="user-menu-item {{ request()->routeIs('activity.*') ? 'active' : '' }}" href="{{ route('activity.index') }}">
                 <span class="user-menu-icon"><i class="bi bi-activity"></i></span>
                 <span>Activity Log</span>
-              </a>
-              <a class="user-menu-item" href="invoice-list.html">
-                <span class="user-menu-icon"><i class="bi bi-credit-card"></i></span>
-                <span>Billing</span>
               </a>
             </div>
             <div class="user-menu-footer">

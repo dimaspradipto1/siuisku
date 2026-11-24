@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DataTables\UsersDataTable;
 use App\Http\Requests\UserRequest;
+use App\Models\ActivityLog;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -61,7 +62,7 @@ class UserController extends Controller
             $photoPath = $request->file('photo')->store('avatars', 'public');
         }
 
-        User::create([
+        $created = User::create([
             'name' => $validated['name'],
             'username' => $validated['username'],
             'email' => $validated['email'],
@@ -69,6 +70,14 @@ class UserController extends Controller
             'photo' => $photoPath,
             'password' => $validated['password'],
         ]);
+
+        ActivityLog::record(
+            Auth::user(),
+            'system',
+            'Menambahkan user baru',
+            "Menambahkan akun {$created->name} ({$created->username}).",
+            'success',
+        );
 
         return redirect()
             ->route('users.index')
@@ -115,6 +124,14 @@ class UserController extends Controller
 
         $user->update($data);
 
+        ActivityLog::record(
+            Auth::user(),
+            'system',
+            'Memperbarui data user',
+            "Memperbarui akun {$user->name} ({$user->username}).",
+            'info',
+        );
+
         return redirect()
             ->route('users.index')
             ->with('success', "Data user {$user->name} berhasil diperbarui.");
@@ -134,6 +151,14 @@ class UserController extends Controller
 
         $name = $user->name;
         $user->delete();
+
+        ActivityLog::record(
+            Auth::user(),
+            'system',
+            'Menghapus user',
+            "Menghapus akun {$name}.",
+            'warning',
+        );
 
         return redirect()
             ->route('users.index')

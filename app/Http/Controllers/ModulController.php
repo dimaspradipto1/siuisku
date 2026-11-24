@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ModulRequest;
+use App\Models\ActivityLog;
 use App\Models\Modul;
 use Illuminate\Support\Facades\Auth;
 
@@ -57,7 +58,15 @@ class ModulController extends Controller
         $validated = $request->validated();
         $validated['is_active'] = $request->boolean('is_active');
 
-        Modul::create($validated);
+        $modul = Modul::create($validated);
+
+        ActivityLog::record(
+            Auth::user(),
+            'system',
+            'Menambahkan modul baru',
+            "Menambahkan modul {$modul->nama} ({$modul->kode}).",
+            'success',
+        );
 
         return redirect()
             ->route('pengaturan.modul.index')
@@ -70,6 +79,14 @@ class ModulController extends Controller
         $validated['is_active'] = $request->boolean('is_active');
 
         $modul->update($validated);
+
+        ActivityLog::record(
+            Auth::user(),
+            'system',
+            'Memperbarui modul',
+            "Memperbarui pengaturan modul {$modul->nama}.",
+            'info',
+        );
 
         return redirect()
             ->route('pengaturan.modul.index')
@@ -84,6 +101,14 @@ class ModulController extends Controller
 
         $statusLabel = $modul->is_active ? 'diaktifkan' : 'dinonaktifkan';
 
+        ActivityLog::record(
+            Auth::user(),
+            'system',
+            'Mengubah status modul',
+            "Modul {$modul->nama} {$statusLabel}.",
+            'warning',
+        );
+
         return redirect()
             ->route('pengaturan.modul.index')
             ->with('success', "Modul {$modul->nama} berhasil {$statusLabel}.");
@@ -93,6 +118,14 @@ class ModulController extends Controller
     {
         $nama = $modul->nama;
         $modul->delete();
+
+        ActivityLog::record(
+            Auth::user(),
+            'system',
+            'Menghapus modul',
+            "Menghapus modul {$nama}.",
+            'warning',
+        );
 
         return redirect()
             ->route('pengaturan.modul.index')

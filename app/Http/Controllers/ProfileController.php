@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileRequest;
+use App\Models\ActivityLog;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -26,14 +27,24 @@ class ProfileController extends Controller
             'email' => $validated['email'],
         ];
 
+        $photoChanged = false;
         if ($request->hasFile('photo')) {
             if (filled($user->photo) && Storage::disk('public')->exists($user->photo)) {
                 Storage::disk('public')->delete($user->photo);
             }
             $data['photo'] = $request->file('photo')->store('avatars', 'public');
+            $photoChanged = true;
         }
 
         $user->update($data);
+
+        ActivityLog::record(
+            $user,
+            'profile',
+            'Profil diperbarui',
+            $photoChanged ? 'Informasi profil dan foto profil diperbarui.' : 'Informasi profil akun diperbarui.',
+            'info',
+        );
 
         return redirect()
             ->route('profile.index')
@@ -46,6 +57,14 @@ class ProfileController extends Controller
         $user->update([
             'password' => $request->validated()['password'],
         ]);
+
+        ActivityLog::record(
+            $user,
+            'security',
+            'Password berhasil diubah',
+            'Password akun diperbarui melalui halaman My Profile.',
+            'success',
+        );
 
         return redirect()
             ->route('profile.index')
@@ -61,6 +80,14 @@ class ProfileController extends Controller
         }
 
         $user->update(['photo' => null]);
+
+        ActivityLog::record(
+            $user,
+            'profile',
+            'Foto profil dihapus',
+            'Foto profil dikembalikan ke avatar inisial.',
+            'warning',
+        );
 
         return redirect()
             ->route('profile.index')
