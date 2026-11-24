@@ -186,6 +186,25 @@
     </main>
 @endsection
 
+@push('style')
+    <style>
+        .users-table-wrap,
+        .users-table-wrap .dt-container,
+        #users-table,
+        #users-table th,
+        #users-table td,
+        #users-table code,
+        #users-table .badge {
+            font-size: 11px !important;
+        }
+
+        #users-table th,
+        #users-table td {
+            padding: 0.45rem 0.6rem;
+        }
+    </style>
+@endpush
+
 @push('scripts')
     @if (app()->environment('production'))
         {!! str_replace('http:', 'https:', $dataTable->scripts()) !!}
