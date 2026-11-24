@@ -24,9 +24,9 @@ class UsersDataTable extends DataTable
             ->editColumn('name', function (User $user) {
                 $url = route('users.show', $user->id);
 
-                return '<div class="d-flex align-items-center gap-2">'
+                return '<div class="d-flex align-items-center gap-2 flex-nowrap">'
                     .'<img src="'.e($user->avatar_url).'" alt="'.e($user->name).'" class="rounded-circle border" style="width: 30px; height: 30px; object-fit: cover; flex-shrink: 0;">'
-                    .'<a href="'.$url.'" class="fw-semibold text-decoration-none">'.e($user->name).'</a>'
+                    .'<a href="'.$url.'" class="fw-semibold text-decoration-none text-nowrap">'.e($user->name).'</a>'
                     .'</div>';
             })
             ->editColumn('username', fn (User $user) => '<code>'.e($user->username).'</code>')
@@ -121,34 +121,35 @@ class UsersDataTable extends DataTable
             Column::make('DT_RowIndex')
                 ->title('No')
                 ->addClass('text-center')
-                ->width('5%')
+                ->width('4%')
                 ->orderable(false)
                 ->searchable(false),
             Column::make('name')
                 ->title('Nama Pengguna')
-                ->addClass('text-start'),
+                ->addClass('text-start text-nowrap')
+                ->width('32%'),
             Column::make('username')
                 ->title('Username')
-                ->addClass('text-start')
-                ->width('15%'),
+                ->addClass('text-start text-nowrap')
+                ->width('10%'),
             Column::make('email')
                 ->title('Email')
-                ->addClass('text-start')
-                ->width('22%'),
+                ->addClass('text-start text-nowrap')
+                ->width('16%'),
             Column::make('roles')
                 ->title('Role Akses')
-                ->addClass('text-center')
-                ->width('15%'),
+                ->addClass('text-center text-nowrap')
+                ->width('18%'),
             Column::make('created_at')
                 ->title('Terdaftar')
-                ->addClass('text-center')
-                ->width('12%'),
+                ->addClass('text-center text-nowrap')
+                ->width('10%'),
             Column::computed('action')
                 ->title('Aksi')
                 ->exportable(false)
                 ->printable(false)
-                ->width('13%')
-                ->addClass('text-center'),
+                ->width('10%')
+                ->addClass('text-center text-nowrap'),
         ];
     }
 

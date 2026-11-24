@@ -201,6 +201,7 @@
         #users-table th,
         #users-table td {
             padding: 0.45rem 0.6rem;
+            white-space: nowrap;
         }
     </style>
 @endpush
