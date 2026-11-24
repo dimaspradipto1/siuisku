@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ModulController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -29,4 +30,6 @@ Route::middleware(['auth', 'checkrole'])->group(function(){
         Route::patch('{modul}/toggle', 'toggleStatus')->name('toggle');
         Route::delete('{modul}', 'destroy')->name('destroy');
     });
+
+    Route::resource('users', UserController::class);
 });

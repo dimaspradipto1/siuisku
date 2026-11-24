@@ -6,7 +6,7 @@
 
               <!-- Main Dashboard -->
               <li class="nav-item">
-                  <a class="nav-link active" href="index.html">
+                  <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
                       <span class="nav-icon"><i class="ph-light ph-squares-four"></i></span>
                       <span class="nav-text">Dashboard</span>
                       <span class="nav-badge nav-badge-soft">Main</span>
@@ -436,6 +436,13 @@
                   <a class="nav-link {{ request()->routeIs('pengaturan.modul.*') ? 'active' : '' }}" href="{{ route('pengaturan.modul.index') }}">
                       <span class="nav-icon"><i class="bi bi-grid-1x2"></i></span>
                       <span class="nav-text">Pengaturan Modul</span>
+                  </a>
+              </li>
+
+              <li class="nav-item">
+                  <a class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}" href="{{ route('users.index') }}">
+                      <span class="nav-icon"><i class="ph-light ph-users-three"></i></span>
+                      <span class="nav-text">Users</span>
                   </a>
               </li>
 
