@@ -91,6 +91,7 @@
   <!-- Sidebar Overlay (Mobile) -->
   <div class="sidebar-overlay"></div>
 
+   @sweetAlert
   @yield('content')
 
   <!-- Back to Top -->

@@ -5,6 +5,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Http\Middleware\ToSweetAlert;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -15,6 +16,10 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'checkrole' => Checkrole::class,
+        ]);
+
+        $middleware->web(append: [
+            ToSweetAlert::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
