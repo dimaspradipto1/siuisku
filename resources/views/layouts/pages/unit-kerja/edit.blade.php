@@ -58,7 +58,7 @@
 
               <div class="col-md-6">
                 <label for="parent_id" class="form-label">Induk Unit Kerja (Hierarki OTK)</label>
-                <select id="parent_id" name="parent_id" class="form-select @error('parent_id') is-invalid @enderror">
+                <select id="parent_id" name="parent_id" class="form-select select2 @error('parent_id') is-invalid @enderror" data-placeholder="-- Tidak ada (Level Puncak) --">
                   <option value="">-- Tidak ada (Level Puncak) --</option>
                   @foreach ($parents as $parent)
                     <option value="{{ $parent->id }}" {{ (string) old('parent_id', $unit->parent_id) === (string) $parent->id ? 'selected' : '' }}>

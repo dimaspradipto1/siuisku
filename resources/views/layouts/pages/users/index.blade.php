@@ -153,7 +153,7 @@
                                         </div>
                                         <div class="col-sm-6">
                                             <label class="form-label">Role Hak Akses (OTK)</label>
-                                            <select name="role_assignments[0][role_id]" class="form-select" required>
+                                            <select name="role_assignments[0][role_id]" class="form-select select2" data-placeholder="Pilih role..." required>
                                                 <option value="">Pilih role...</option>
                                                 @foreach ($roles as $r)
                                                     <option value="{{ $r->id }}">{{ $r->nama }}</option>
@@ -162,7 +162,7 @@
                                         </div>
                                         <div class="col-sm-6">
                                             <label class="form-label">Unit Kerja (OTK)</label>
-                                            <select name="role_assignments[0][unit_kerja_id]" class="form-select">
+                                            <select name="role_assignments[0][unit_kerja_id]" class="form-select select2" data-placeholder="Pilih unit kerja...">
                                                 <option value="">Universitas Ibnu Sina</option>
                                                 @foreach ($unitKerjas as $unit)
                                                     <option value="{{ $unit->id }}">[{{ $unit->kode }}] {{ $unit->nama }}</option>
@@ -171,7 +171,7 @@
                                         </div>
                                         <div class="col-12">
                                             <label class="form-label">Jabatan Struktural (OTK)</label>
-                                            <select name="role_assignments[0][jenis_jabatan_struktural_id]" class="form-select">
+                                            <select name="role_assignments[0][jenis_jabatan_struktural_id]" class="form-select select2" data-placeholder="-- Opsional --">
                                                 <option value="">-- Opsional --</option>
                                                 @foreach ($jabatans as $jab)
                                                     <option value="{{ $jab->id }}">[{{ $jab->kode }}] {{ $jab->nama }}</option>

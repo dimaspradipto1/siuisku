@@ -70,7 +70,7 @@
 
                   <div class="mb-3">
                     <label class="form-label required">Role Hak Akses</label>
-                    <select name="role_assignments[0][role_id]" class="form-select @error('role_assignments.0.role_id') is-invalid @enderror" required>
+                    <select name="role_assignments[0][role_id]" class="form-select select2 @error('role_assignments.0.role_id') is-invalid @enderror" data-placeholder="Pilih role..." required>
                       <option value="">Pilih role...</option>
                       @foreach ($roles as $r)
                         <option value="{{ $r->id }}" {{ (string) old('role_assignments.0.role_id') === (string) $r->id ? 'selected' : '' }}>
@@ -85,7 +85,7 @@
 
                   <div class="mb-3">
                     <label class="form-label">Unit Kerja (OTK)</label>
-                    <select name="role_assignments[0][unit_kerja_id]" class="form-select">
+                    <select name="role_assignments[0][unit_kerja_id]" class="form-select select2" data-placeholder="Pilih unit kerja...">
                       <option value="">Universitas Ibnu Sina (Default)</option>
                       @foreach ($unitKerjas as $unit)
                         <option value="{{ $unit->id }}" {{ (string) old('role_assignments.0.unit_kerja_id') === (string) $unit->id ? 'selected' : '' }}>
@@ -97,7 +97,7 @@
 
                   <div class="mb-0">
                     <label class="form-label">Jabatan Struktural (OTK)</label>
-                    <select name="role_assignments[0][jenis_jabatan_struktural_id]" class="form-select">
+                    <select name="role_assignments[0][jenis_jabatan_struktural_id]" class="form-select select2" data-placeholder="-- Opsional --">
                       <option value="">-- Opsional --</option>
                       @foreach ($jabatans as $jab)
                         <option value="{{ $jab->id }}" {{ (string) old('role_assignments.0.jenis_jabatan_struktural_id') === (string) $jab->id ? 'selected' : '' }}>

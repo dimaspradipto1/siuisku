@@ -190,7 +190,7 @@
                           </div>
                           <div class="col-md-6">
                             <label class="form-label small mb-1">Role Hak Akses <span class="text-danger">*</span></label>
-                            <select name="role_assignments[{{ $idx }}][role_id]" class="form-select form-select-sm" required>
+                            <select name="role_assignments[{{ $idx }}][role_id]" class="form-select form-select-sm select2" data-placeholder="Pilih role..." required>
                               <option value="">Pilih role...</option>
                               @foreach ($roles as $r)
                                 <option value="{{ $r->id }}" {{ (string) ($assignment['role_id'] ?? '') === (string) $r->id ? 'selected' : '' }}>
@@ -201,7 +201,7 @@
                           </div>
                           <div class="col-md-5">
                             <label class="form-label small mb-1">Unit Kerja (OTK)</label>
-                            <select name="role_assignments[{{ $idx }}][unit_kerja_id]" class="form-select form-select-sm">
+                            <select name="role_assignments[{{ $idx }}][unit_kerja_id]" class="form-select form-select-sm select2" data-placeholder="Pilih unit kerja...">
                               <option value="">Universitas Ibnu Sina</option>
                               @foreach ($unitKerjas as $unit)
                                 <option value="{{ $unit->id }}" {{ (string) ($assignment['unit_kerja_id'] ?? '') === (string) $unit->id ? 'selected' : '' }}>
@@ -212,7 +212,7 @@
                           </div>
                           <div class="col-md-6">
                             <label class="form-label small mb-1">Jabatan Struktural (OTK)</label>
-                            <select name="role_assignments[{{ $idx }}][jenis_jabatan_struktural_id]" class="form-select form-select-sm">
+                            <select name="role_assignments[{{ $idx }}][jenis_jabatan_struktural_id]" class="form-select form-select-sm select2" data-placeholder="-- Opsional --">
                               <option value="">-- Opsional --</option>
                               @foreach ($jabatans as $jab)
                                 <option value="{{ $jab->id }}" {{ (string) ($assignment['jenis_jabatan_struktural_id'] ?? '') === (string) $jab->id ? 'selected' : '' }}>
@@ -347,12 +347,26 @@
       addRoleBtn.addEventListener('click', function () {
         const firstRow = roleContainer.querySelector('.role-assignment-row');
         if (!firstRow) return;
+
+        if (typeof $ !== 'undefined' && $.fn && $.fn.select2) {
+          $(firstRow).find('select.select2').each(function () {
+            if ($(this).hasClass('select2-hidden-accessible')) {
+              $(this).select2('destroy');
+            }
+          });
+        }
+
         const clone = firstRow.cloneNode(true);
         clone.querySelectorAll('select').forEach(function (select, idx) {
           if (idx > 0) select.value = '';
         });
         roleContainer.appendChild(clone);
         reindexRoleRows();
+
+        if (window.initSelect2) {
+          window.initSelect2(firstRow);
+          window.initSelect2(clone);
+        }
       });
 
       roleContainer.addEventListener('click', function (event) {

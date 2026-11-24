@@ -185,7 +185,7 @@
             <div class="row g-3">
               <div class="col-12">
                 <label class="form-label">Pengguna <span class="text-danger">*</span></label>
-                <select name="user_id" class="form-select" required>
+                <select name="user_id" class="form-select select2" data-placeholder="Pilih pengguna..." required>
                   <option value="">Pilih pengguna...</option>
                   @foreach ($users as $u)
                     <option value="{{ $u->id }}">{{ $u->name }} ({{ $u->username }})</option>
@@ -204,7 +204,7 @@
               </div>
               <div class="col-md-6">
                 <label class="form-label">Role Hak Akses <span class="text-danger">*</span></label>
-                <select name="role_id" class="form-select" required>
+                <select name="role_id" class="form-select select2" data-placeholder="Pilih role..." required>
                   <option value="">Pilih role...</option>
                   @foreach ($roles as $r)
                     <option value="{{ $r->id }}">{{ $r->nama }}</option>
@@ -213,7 +213,7 @@
               </div>
               <div class="col-12">
                 <label class="form-label">Unit Kerja (OTK)</label>
-                <select name="unit_kerja_id" class="form-select">
+                <select name="unit_kerja_id" class="form-select select2" data-placeholder="Pilih unit kerja...">
                   <option value="">Universitas Ibnu Sina (Default)</option>
                   @foreach ($unitKerjas as $unit)
                     <option value="{{ $unit->id }}">[{{ $unit->kode }}] {{ $unit->nama }}</option>
@@ -222,7 +222,7 @@
               </div>
               <div class="col-12">
                 <label class="form-label">Jenis Jabatan Struktural (OTK)</label>
-                <select name="jenis_jabatan_struktural_id" class="form-select">
+                <select name="jenis_jabatan_struktural_id" class="form-select select2" data-placeholder="-- Opsional --">
                   <option value="">-- Opsional --</option>
                   @foreach ($jabatans as $jab)
                     <option value="{{ $jab->id }}">[{{ $jab->kode }}] {{ $jab->nama }}</option>

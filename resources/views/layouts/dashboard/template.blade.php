@@ -36,6 +36,47 @@
     <link href="{{ asset('assets/css/main.css') }}" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+    <style>
+        .select2-container {
+            width: 100% !important;
+        }
+        .select2-container .select2-selection--single {
+            height: 38px;
+            border: 1px solid var(--bs-border-color, #dee2e6);
+            border-radius: var(--bs-border-radius, 0.375rem);
+            display: flex;
+            align-items: center;
+            background-color: var(--bs-body-bg, #fff);
+        }
+        .select2-container .select2-selection--single .select2-selection__rendered {
+            line-height: normal;
+            padding-left: 0.75rem;
+            padding-right: 2rem;
+            color: var(--bs-body-color, #212529);
+            font-size: 0.875rem;
+        }
+        .select2-container .select2-selection--single .select2-selection__arrow {
+            height: 36px;
+            right: 6px;
+        }
+        .select2-dropdown {
+            border: 1px solid var(--bs-border-color, #dee2e6);
+            border-radius: var(--bs-border-radius, 0.375rem);
+            font-size: 0.875rem;
+            z-index: 1065;
+        }
+        .select2-search--dropdown .select2-search__field {
+            border: 1px solid var(--bs-border-color, #dee2e6);
+            border-radius: 0.25rem;
+            padding: 0.3rem 0.6rem;
+            outline: none;
+        }
+        .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
+            background-color: var(--accent-color, #0d6efd);
+        }
+    </style>
 
 </head>
 
@@ -123,8 +164,36 @@
     <script src="{{ asset('assets/js/apps-sidebar-toggle.js') }}"></script>
 
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
+
+    <script>
+        window.initSelect2 = function (context) {
+            if (typeof $ === 'undefined' || !$.fn || !$.fn.select2) return;
+            var $root = context ? $(context) : $(document);
+            $root.find('select.select2').each(function () {
+                var $el = $(this);
+                if ($el.hasClass('select2-hidden-accessible')) {
+                    $el.select2('destroy');
+                }
+                var $modal = $el.closest('.modal');
+                var options = {
+                    width: '100%',
+                    placeholder: $el.data('placeholder') || 'Pilih opsi...',
+                    allowClear: Boolean($el.data('allow-clear'))
+                };
+                if ($modal.length) {
+                    options.dropdownParent = $modal;
+                }
+                $el.select2(options);
+            });
+        };
+
+        document.addEventListener('DOMContentLoaded', function () {
+            window.initSelect2(document);
+        });
+    </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
