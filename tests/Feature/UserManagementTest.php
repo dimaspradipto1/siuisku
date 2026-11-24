@@ -33,7 +33,8 @@ class UserManagementTest extends TestCase
         $this->get(route('users.index'))
             ->assertOk()
             ->assertSee('People Directory')
-            ->assertSee('users-table');
+            ->assertSee('users-table')
+            ->assertSee('LaravelDataTables["users-table"]', false);
 
         $this->withHeaders(['X-Requested-With' => 'XMLHttpRequest'])
             ->getJson(route('users.index', ['draw' => 1]))

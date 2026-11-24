@@ -277,11 +277,16 @@
                     }
                 }
             };
-            var revenueChart = new ApexCharts(document.querySelector('#revenueChart'), revenueOptions);
-            revenueChart.render();
+            var revenueEl = document.querySelector('#revenueChart');
+            var revenueChart = null;
+            if (revenueEl) {
+                revenueChart = new ApexCharts(revenueEl, revenueOptions);
+                revenueChart.render();
+            }
             // Period tab switching
             document.querySelectorAll('.dash-chart-tab').forEach(function(tab) {
                 tab.addEventListener('click', function() {
+                    if (!revenueChart) return;
                     document.querySelectorAll('.dash-chart-tab').forEach(function(t) {
                         t.classList.remove('active');
                     });
@@ -358,8 +363,12 @@
                     colors: [surfaceColor]
                 }
             };
-            var trafficChart = new ApexCharts(document.querySelector('#trafficChart'), trafficOptions);
-            trafficChart.render();
+            var trafficEl = document.querySelector('#trafficChart');
+            var trafficChart = null;
+            if (trafficEl) {
+                trafficChart = new ApexCharts(trafficEl, trafficOptions);
+                trafficChart.render();
+            }
             // Update charts on theme change
             document.addEventListener('themeChanged', function() {
                 var newBorderColor = getComputedStyle(document.documentElement).getPropertyValue(
@@ -376,37 +385,42 @@
                     '--warning-color').trim();
                 var newInfoColor = getComputedStyle(document.documentElement).getPropertyValue(
                     '--info-color').trim();
-                revenueChart.updateOptions({
-                    colors: [newAccentColor, newSuccessColor],
-                    grid: {
-                        borderColor: newBorderColor
-                    },
-                    xaxis: {
-                        labels: {
-                            style: {
-                                colors: newMutedColor
+                if (revenueChart) {
+                    revenueChart.updateOptions({
+                        colors: [newAccentColor, newSuccessColor],
+                        grid: {
+                            borderColor: newBorderColor
+                        },
+                        xaxis: {
+                            labels: {
+                                style: {
+                                    colors: newMutedColor
+                                }
+                            }
+                        },
+                        yaxis: {
+                            labels: {
+                                style: {
+                                    colors: newMutedColor
+                                }
                             }
                         }
-                    },
-                    yaxis: {
-                        labels: {
-                            style: {
-                                colors: newMutedColor
-                            }
+                    });
+                }
+                if (trafficChart) {
+                    trafficChart.updateOptions({
+                        colors: [newAccentColor, newSuccessColor, newWarningColor, newInfoColor],
+                        stroke: {
+                            colors: [newSurfaceColor]
                         }
-                    }
-                });
-                trafficChart.updateOptions({
-                    colors: [newAccentColor, newSuccessColor, newWarningColor, newInfoColor],
-                    stroke: {
-                        colors: [newSurfaceColor]
-                    }
-                });
+                    });
+                }
             });
         });
     </script>
 
     @stack('script')
+    @stack('scripts')
     @stack('style')
 </body>
 

@@ -87,7 +87,7 @@ class UsersDataTable extends DataTable
     {
         $ajaxUrl = route('users.index', array_filter([
             'role' => $this->request()->get('role'),
-        ]));
+        ]), false);
 
         return $this->builder()
             ->setTableId('users-table')
