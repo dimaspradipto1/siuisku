@@ -4,6 +4,7 @@ namespace App\DataTables;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Column;
@@ -21,46 +22,49 @@ class UsersDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addIndexColumn()
             ->editColumn('name', function (User $user) {
-                $url = route('users.show', $user);
-                $avatar = e($user->avatar_url);
-                $name = e($user->name);
-                $email = e($user->email);
+                $url = route('users.show', $user->id);
 
-                return '<div class="users-user">'
-                    .'<div class="users-avatar-wrap">'
-                    .'<img src="'.$avatar.'" alt="'.$name.'" class="users-avatar">'
-                    .'<span class="users-avatar-status online"></span>'
-                    .'</div>'
-                    .'<div class="users-user-info">'
-                    .'<a href="'.$url.'" class="users-user-name">'.$name.'</a>'
-                    .'<span class="users-user-email">'.$email.'</span>'
-                    .'</div>'
+                return '<div class="d-flex align-items-center gap-2">'
+                    .'<img src="'.e($user->avatar_url).'" alt="'.e($user->name).'" class="rounded-circle border" style="width: 30px; height: 30px; object-fit: cover; flex-shrink: 0;">'
+                    .'<a href="'.$url.'" class="fw-semibold text-decoration-none">'.e($user->name).'</a>'
                     .'</div>';
-            })
-            ->filterColumn('name', function (QueryBuilder $query, string $keyword) {
-                $query->where(function (QueryBuilder $q) use ($keyword) {
-                    $q->where('name', 'like', "%{$keyword}%")
-                        ->orWhere('email', 'like', "%{$keyword}%");
-                });
             })
             ->editColumn('username', fn (User $user) => '<code>'.e($user->username).'</code>')
             ->editColumn('roles', function (User $user) {
                 $roleLower = strtolower((string) $user->roles);
-                $roleClass = str_contains($roleLower, 'admin')
-                    ? 'admin'
-                    : (str_contains($roleLower, 'ka.') || str_contains($roleLower, 'manager') ? 'manager' : 'user');
-                $roleIcon = $roleClass === 'admin'
-                    ? 'bi-shield-check'
-                    : ($roleClass === 'manager' ? 'bi-person-gear' : 'bi-person');
+                $badgeClass = match (true) {
+                    str_contains($roleLower, 'super') => 'bg-danger-subtle text-danger',
+                    str_contains($roleLower, 'admin') => 'bg-primary-subtle text-primary',
+                    str_contains($roleLower, 'ka.') => 'bg-info-subtle text-info',
+                    default => 'bg-secondary-subtle text-secondary',
+                };
 
-                return '<span class="users-role '.$roleClass.'">'
-                    .'<i class="bi '.$roleIcon.'"></i> '.e(ucwords((string) $user->roles))
-                    .'</span>';
+                return '<span class="badge '.$badgeClass.' px-2 py-1">'.e(ucwords((string) $user->roles)).'</span>';
             })
-            ->addColumn('status', fn () => '<span class="users-status active"><span class="users-status-dot"></span> Active</span>')
             ->editColumn('created_at', fn (User $user) => $user->created_at?->format('d M Y') ?? '-')
-            ->addColumn('action', fn (User $user) => view('layouts.pages.users.action', compact('user'))->render())
-            ->rawColumns(['name', 'username', 'roles', 'status', 'action'])
+            ->addColumn('action', function (User $user) {
+                $btnStyle = 'width: 32px; height: 32px; font-size: 0.875rem;';
+                $deleteForm = '';
+
+                if (Auth::id() !== $user->id) {
+                    $deleteForm = '
+                        <form action="'.route('users.destroy', $user->id).'" method="POST" style="display: inline" class="form-action-delete" onsubmit="return confirm(\'Yakin ingin menghapus user '.e($user->name).'?\')">
+                            '.csrf_field().'
+                            '.method_field('DELETE').'
+                            <button type="submit" class="btn btn-sm btn-danger d-inline-flex align-items-center justify-content-center p-0" style="'.$btnStyle.'" title="Hapus Pengguna"><i class="fa-solid fa-trash"></i></button>
+                        </form>
+                    ';
+                }
+
+                return '
+                    <div class="d-inline-flex align-items-center justify-content-center gap-1 flex-nowrap">
+                        <a href="'.route('users.show', $user->id).'" class="btn btn-sm btn-info text-white d-inline-flex align-items-center justify-content-center p-0" style="'.$btnStyle.'" title="Detail Pengguna"><i class="fa-solid fa-eye"></i></a>
+                        <a href="'.route('users.edit', $user->id).'" class="btn btn-sm btn-warning text-white d-inline-flex align-items-center justify-content-center p-0" style="'.$btnStyle.'" title="Edit Pengguna"><i class="fa-solid fa-pen-to-square"></i></a>
+                        '.$deleteForm.'
+                    </div>
+                ';
+            })
+            ->rawColumns(['name', 'username', 'roles', 'action'])
             ->setRowId('id');
     }
 
@@ -94,16 +98,16 @@ class UsersDataTable extends DataTable
             ->addTableClass('table table-hover align-middle w-100 mb-0')
             ->columns($this->getColumns())
             ->minifiedAjax($ajaxUrl)
-            ->orderBy(5, 'desc')
+            ->orderBy(1, 'asc')
             ->parameters([
                 'responsive' => true,
                 'autoWidth' => false,
                 'language' => [
                     'search' => 'Cari:',
                     'lengthMenu' => 'Tampilkan _MENU_ data',
-                    'info' => 'Menampilkan _START_ - _END_ dari _TOTAL_ user',
+                    'info' => 'Menampilkan _START_ - _END_ dari _TOTAL_ pengguna',
                     'infoEmpty' => 'Menampilkan 0 data',
-                    'zeroRecords' => 'Data user tidak ditemukan',
+                    'zeroRecords' => 'Data pengguna tidak ditemukan',
                 ],
             ]);
     }
@@ -114,25 +118,37 @@ class UsersDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::computed('DT_RowIndex')
-                ->title('#')
-                ->width(50)
-                ->searchable(false)
-                ->orderable(false),
-            Column::make('name')->title('User'),
-            Column::make('username')->title('Username'),
-            Column::make('roles')->title('Role'),
-            Column::computed('status')
-                ->title('Status')
-                ->searchable(false)
-                ->orderable(false),
-            Column::make('created_at')->title('Joined'),
+            Column::make('DT_RowIndex')
+                ->title('No')
+                ->addClass('text-center')
+                ->width('5%')
+                ->orderable(false)
+                ->searchable(false),
+            Column::make('name')
+                ->title('Nama Pengguna')
+                ->addClass('text-start'),
+            Column::make('username')
+                ->title('Username')
+                ->addClass('text-start')
+                ->width('15%'),
+            Column::make('email')
+                ->title('Email')
+                ->addClass('text-start')
+                ->width('22%'),
+            Column::make('roles')
+                ->title('Role Akses')
+                ->addClass('text-center')
+                ->width('15%'),
+            Column::make('created_at')
+                ->title('Terdaftar')
+                ->addClass('text-center')
+                ->width('12%'),
             Column::computed('action')
-                ->title('Actions')
+                ->title('Aksi')
                 ->exportable(false)
                 ->printable(false)
-                ->width(120)
-                ->addClass('users-th-actions'),
+                ->width('13%')
+                ->addClass('text-center'),
         ];
     }
 
