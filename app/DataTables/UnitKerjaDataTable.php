@@ -56,7 +56,7 @@ class UnitKerjaDataTable extends DataTable
      */
     public function query(UnitKerja $model): QueryBuilder
     {
-        return $model->newQuery()->with('parent');
+        return $model->newQuery()->with('parent')->orderBy('urutan')->orderBy('id');
     }
 
     public function html(): HtmlBuilder
@@ -66,8 +66,8 @@ class UnitKerjaDataTable extends DataTable
             ->addTableClass('table table-hover align-middle w-100 mb-0')
             ->columns($this->getColumns())
             ->minifiedAjax(route('unit-kerja.index', [], false))
-            ->orderBy(1, 'asc')
             ->parameters([
+                'order' => [],
                 'responsive' => true,
                 'autoWidth' => false,
                 'pageLength' => 25,

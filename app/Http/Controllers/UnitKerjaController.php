@@ -31,7 +31,7 @@ class UnitKerjaController extends Controller
 
     public function create()
     {
-        $parents = UnitKerja::orderBy('nama')->get();
+        $parents = UnitKerja::orderBy('urutan')->orderBy('id')->get();
         $jenisOptions = $this->jenisOptions();
 
         return view('layouts.pages.unit-kerja.create', compact('parents', 'jenisOptions'));
@@ -59,7 +59,7 @@ class UnitKerjaController extends Controller
 
     public function edit(UnitKerja $unitKerja)
     {
-        $parents = UnitKerja::where('id', '!=', $unitKerja->id)->orderBy('nama')->get();
+        $parents = UnitKerja::where('id', '!=', $unitKerja->id)->orderBy('urutan')->orderBy('id')->get();
         $jenisOptions = $this->jenisOptions();
 
         return view('layouts.pages.unit-kerja.edit', [

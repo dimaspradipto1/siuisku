@@ -48,7 +48,7 @@ class HakAksesTest extends TestCase
 
         $this->get(route('unit-kerja.index'))
             ->assertOk()
-            ->assertSee('Unit Kerja (OTK)')
+            ->assertSee('Unit Kerja')
             ->assertSee('LaravelDataTables["unit-kerja-table"]', false);
 
         $this->withHeaders(['X-Requested-With' => 'XMLHttpRequest'])

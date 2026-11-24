@@ -39,6 +39,7 @@ class UnitKerjaRequest extends FormRequest
                 'exists:unit_kerjas,id',
                 Rule::notIn([$unit?->id]),
             ],
+            'urutan' => ['nullable', 'integer', 'min:1'],
         ];
     }
 

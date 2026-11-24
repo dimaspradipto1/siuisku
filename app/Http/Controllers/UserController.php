@@ -22,7 +22,7 @@ class UserController extends Controller
         return [
             'modules' => Modul::orderBy('urutan')->orderBy('id')->get(),
             'roles' => Role::orderBy('nama')->get(),
-            'unitKerjas' => UnitKerja::orderBy('nama')->get(),
+            'unitKerjas' => UnitKerja::orderBy('urutan')->orderBy('id')->get(),
             'jabatans' => JenisJabatanStruktural::orderBy('urutan')->orderBy('id')->get(),
         ];
     }

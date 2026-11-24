@@ -43,7 +43,7 @@
                 @enderror
               </div>
 
-              <div class="col-md-6">
+              <div class="col-md-4">
                 <label for="jenis" class="form-label">Jenis Unit <span class="text-danger">*</span></label>
                 <select id="jenis" name="jenis" class="form-select @error('jenis') is-invalid @enderror" required>
                   @foreach ($jenisOptions as $val => $label)
@@ -55,7 +55,7 @@
                 @enderror
               </div>
 
-              <div class="col-md-6">
+              <div class="col-md-5">
                 <label for="parent_id" class="form-label">Induk Unit Kerja (Hierarki OTK)</label>
                 <select id="parent_id" name="parent_id" class="form-select select2 @error('parent_id') is-invalid @enderror" data-placeholder="-- Tidak ada (Level Puncak) --">
                   <option value="">-- Tidak ada (Level Puncak) --</option>
@@ -66,6 +66,14 @@
                   @endforeach
                 </select>
                 @error('parent_id')
+                  <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+              </div>
+
+              <div class="col-md-3">
+                <label for="urutan" class="form-label">Urutan Hierarki</label>
+                <input type="number" id="urutan" name="urutan" class="form-control @error('urutan') is-invalid @enderror" value="{{ old('urutan', 99) }}" min="1">
+                @error('urutan')
                   <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
               </div>

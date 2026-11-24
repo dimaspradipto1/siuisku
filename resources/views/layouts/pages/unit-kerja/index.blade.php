@@ -5,7 +5,7 @@
     <div class="main-content">
       <div class="page-header fx-page-header">
         <div>
-          <h1 class="page-title">Unit Kerja (OTK)</h1>
+          <h1 class="page-title">Unit Kerja</h1>
           <nav class="breadcrumb mb-0">
             <a href="{{ route('dashboard') }}" class="breadcrumb-item">Home</a>
             <span class="breadcrumb-item">Referensi Kepegawaian</span>
