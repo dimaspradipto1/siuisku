@@ -29,7 +29,7 @@
             @method('PUT')
 
             <div class="row g-3">
-              <div class="col-md-4">
+              <div class="col-md-3">
                 <label for="kode" class="form-label">Kode <span class="text-danger">*</span></label>
                 <input
                   type="text"
@@ -45,7 +45,7 @@
                 @enderror
               </div>
 
-              <div class="col-md-8">
+              <div class="col-md-6">
                 <label for="nama" class="form-label">Jenis Jabatan Struktural <span class="text-danger">*</span></label>
                 <input
                   type="text"
@@ -57,6 +57,21 @@
                   required
                 >
                 @error('nama')
+                  <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+              </div>
+
+              <div class="col-md-3">
+                <label for="urutan" class="form-label">Urutan Hierarki</label>
+                <input
+                  type="number"
+                  id="urutan"
+                  name="urutan"
+                  class="form-control @error('urutan') is-invalid @enderror"
+                  value="{{ old('urutan', $jabatan->urutan) }}"
+                  min="1"
+                >
+                @error('urutan')
                   <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
               </div>

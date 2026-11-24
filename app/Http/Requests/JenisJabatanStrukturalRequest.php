@@ -33,6 +33,7 @@ class JenisJabatanStrukturalRequest extends FormRequest
                 Rule::unique('jenis_jabatan_strukturals', 'kode')->ignore($jabatan?->id),
             ],
             'nama' => ['required', 'string', 'max:150'],
+            'urutan' => ['nullable', 'integer', 'min:1'],
         ];
     }
 

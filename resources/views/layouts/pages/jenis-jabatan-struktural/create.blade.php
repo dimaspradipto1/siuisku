@@ -28,7 +28,7 @@
             @csrf
 
             <div class="row g-3">
-              <div class="col-md-4">
+              <div class="col-md-3">
                 <label for="kode" class="form-label">Kode <span class="text-danger">*</span></label>
                 <input
                   type="text"
@@ -36,7 +36,7 @@
                   name="kode"
                   class="form-control text-uppercase @error('kode') is-invalid @enderror"
                   value="{{ old('kode') }}"
-                  placeholder="Contoh: DFB, R, WR1"
+                  placeholder="Contoh: R, WR1, DFB"
                   maxlength="20"
                   required
                   autofocus
@@ -46,7 +46,7 @@
                 @enderror
               </div>
 
-              <div class="col-md-8">
+              <div class="col-md-6">
                 <label for="nama" class="form-label">Jenis Jabatan Struktural <span class="text-danger">*</span></label>
                 <input
                   type="text"
@@ -59,6 +59,21 @@
                   required
                 >
                 @error('nama')
+                  <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+              </div>
+
+              <div class="col-md-3">
+                <label for="urutan" class="form-label">Urutan Hierarki</label>
+                <input
+                  type="number"
+                  id="urutan"
+                  name="urutan"
+                  class="form-control @error('urutan') is-invalid @enderror"
+                  value="{{ old('urutan', 99) }}"
+                  min="1"
+                >
+                @error('urutan')
                   <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
               </div>

@@ -47,7 +47,7 @@ class JenisJabatanStrukturalDataTable extends DataTable
      */
     public function query(JenisJabatanStruktural $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->orderBy('urutan')->orderBy('id');
     }
 
     /**
@@ -60,8 +60,8 @@ class JenisJabatanStrukturalDataTable extends DataTable
             ->addTableClass('table table-hover align-middle w-100 mb-0')
             ->columns($this->getColumns())
             ->minifiedAjax(route('jenis-jabatan-struktural.index', [], false))
-            ->orderBy(1, 'asc')
             ->parameters([
+                'order' => [],
                 'responsive' => true,
                 'autoWidth' => false,
                 'pageLength' => 25,

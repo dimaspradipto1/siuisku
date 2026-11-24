@@ -22,7 +22,7 @@ class HakAksesController extends Controller
         $modules = Modul::orderBy('urutan')->orderBy('id')->get();
         $roles = Role::orderBy('nama')->get();
         $unitKerjas = UnitKerja::orderBy('nama')->get();
-        $jabatans = JenisJabatanStruktural::orderBy('kode')->get();
+        $jabatans = JenisJabatanStruktural::orderBy('urutan')->orderBy('id')->get();
 
         $userRoles = UserRole::with(['user', 'modul', 'role', 'unitKerja', 'jenisJabatanStruktural'])
             ->latest()

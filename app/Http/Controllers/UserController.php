@@ -23,7 +23,7 @@ class UserController extends Controller
             'modules' => Modul::orderBy('urutan')->orderBy('id')->get(),
             'roles' => Role::orderBy('nama')->get(),
             'unitKerjas' => UnitKerja::orderBy('nama')->get(),
-            'jabatans' => JenisJabatanStruktural::orderBy('kode')->get(),
+            'jabatans' => JenisJabatanStruktural::orderBy('urutan')->orderBy('id')->get(),
         ];
     }
 
