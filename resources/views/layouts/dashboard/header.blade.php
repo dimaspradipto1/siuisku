@@ -49,36 +49,32 @@
           </div>
 
           <div class="header-action-wrap dropdown quickaccess-dropdown">
-            <button class="header-action dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" title="Quick Access">
+            <button class="header-action dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" title="Daftar Modul">
               <i class="bi bi-grid-3x3-gap"></i>
             </button>
             <div class="dropdown-menu dropdown-menu-end quickaccess-menu">
-              <div class="menu-title">Quick Actions</div>
+              <div class="menu-title d-flex align-items-center justify-content-between">
+                <span>Daftar Modul</span>
+                <a href="{{ route('modul') }}" class="small text-decoration-none">Semua</a>
+              </div>
               <div class="quickaccess-grid">
-                <a href="apps-calendar.html" class="quickaccess-item">
-                  <span class="quickaccess-icon"><i class="bi bi-calendar3"></i></span>
-                  <span class="quickaccess-label">Calendar</span>
-                </a>
-                <a href="apps-chat.html" class="quickaccess-item">
-                  <span class="quickaccess-icon"><i class="bi bi-chat-dots"></i></span>
-                  <span class="quickaccess-label">Chat</span>
-                </a>
-                <a href="apps-email.html" class="quickaccess-item">
-                  <span class="quickaccess-icon"><i class="bi bi-envelope"></i></span>
-                  <span class="quickaccess-label">Email</span>
-                </a>
-                <a href="apps-kanban.html" class="quickaccess-item">
-                  <span class="quickaccess-icon"><i class="bi bi-kanban"></i></span>
-                  <span class="quickaccess-label">Kanban</span>
-                </a>
-                <a href="apps-file-manager.html" class="quickaccess-item">
-                  <span class="quickaccess-icon"><i class="bi bi-folder2-open"></i></span>
-                  <span class="quickaccess-label">Files</span>
-                </a>
-                <a href="apps-support.html" class="quickaccess-item">
-                  <span class="quickaccess-icon"><i class="bi bi-headset"></i></span>
-                  <span class="quickaccess-label">Support</span>
-                </a>
+                @forelse ($headerModules ?? [] as $modul)
+                  <a
+                    href="{{ $modul->is_active ? $modul->resolvedUrl() : 'javascript:void(0)' }}"
+                    class="quickaccess-item {{ $modul->is_active ? '' : 'opacity-50' }}"
+                    title="{{ $modul->nama }}{{ $modul->is_active ? '' : ' (Belum Aktif)' }}"
+                    @unless ($modul->is_active) onclick="return false;" @endunless
+                  >
+                    <span class="quickaccess-icon" style="background: {{ $modul->warna_bg }}; color: {{ $modul->warna }};">
+                      <i class="bi {{ $modul->icon }}"></i>
+                    </span>
+                    <span class="quickaccess-label">{{ $modul->singkatan ?: $modul->nama }}</span>
+                  </a>
+                @empty
+                  <div class="text-center text-muted small py-2" style="grid-column: 1 / -1;">
+                    Belum ada modul
+                  </div>
+                @endforelse
               </div>
             </div>
           </div>
