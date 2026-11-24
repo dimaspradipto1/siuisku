@@ -41,7 +41,7 @@ class JenisJabatanStrukturalTest extends TestCase
         $this->withHeaders(['X-Requested-With' => 'XMLHttpRequest'])
             ->getJson(route('jenis-jabatan-struktural.index', ['draw' => 1]))
             ->assertOk()
-            ->assertJsonPath('recordsTotal', 13);
+            ->assertJsonPath('recordsTotal', 79);
 
         $this->get(route('jenis-jabatan-struktural.create'))
             ->assertOk()
