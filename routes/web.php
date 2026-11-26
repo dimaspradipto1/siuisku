@@ -19,6 +19,7 @@ use App\Http\Controllers\JenisPkmController;
 use App\Http\Controllers\JenisSertifikasiController;
 use App\Http\Controllers\JenisSkController;
 use App\Http\Controllers\JenisTesController;
+use App\Http\Controllers\KabupatenKotaController;
 use App\Http\Controllers\KlasifikasiSdmController;
 use App\Http\Controllers\ModulController;
 use App\Http\Controllers\NegaraController;
@@ -94,6 +95,9 @@ Route::middleware(['auth', 'checkrole'])->group(function(){
         Route::resource('jenis-luaran', JenisLuaranController::class)->except(['show']);
         Route::resource('negara', NegaraController::class)->except(['show']);
         Route::resource('provinsi', ProvinsiController::class)->except(['show']);
+        Route::resource('kabupaten-kota', KabupatenKotaController::class)
+            ->parameters(['kabupaten-kota' => 'kabupatenKota'])
+            ->except(['show']);
     });
 
     Route::middleware('permission:hak_akses.view')->group(function () {

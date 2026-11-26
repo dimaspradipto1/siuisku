@@ -37,6 +37,7 @@ class DatabaseSeeder extends Seeder
             JenisLuaranSeeder::class,
             NegaraSeeder::class,
             ProvinsiSeeder::class,
+            KabupatenKotaSeeder::class,
         ]);
     }
 }
