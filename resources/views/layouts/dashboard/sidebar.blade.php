@@ -363,18 +363,18 @@
               </li>
 
               <!-- Wilayah -->
-              <li class="nav-item has-submenu {{ request()->routeIs('negara.*', 'provinsi.*', 'kabupaten-kota.*') ? 'open' : '' }}">
-                  <a class="nav-link" href="#" aria-expanded="{{ request()->routeIs('negara.*', 'provinsi.*', 'kabupaten-kota.*') ? 'true' : 'false' }}">
+              <li class="nav-item has-submenu {{ request()->routeIs('negara.*', 'provinsi.*', 'kabupaten-kota.*', 'kecamatan.*') ? 'open' : '' }}">
+                  <a class="nav-link" href="#" aria-expanded="{{ request()->routeIs('negara.*', 'provinsi.*', 'kabupaten-kota.*', 'kecamatan.*') ? 'true' : 'false' }}">
                       <span class="nav-icon"><i class="ph-light ph-map-pin"></i></span>
                       <span class="nav-text">Wilayah</span>
                       <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
                   </a>
-                  <ul class="nav-submenu {{ request()->routeIs('negara.*', 'provinsi.*', 'kabupaten-kota.*') ? 'show' : '' }}">
+                  <ul class="nav-submenu {{ request()->routeIs('negara.*', 'provinsi.*', 'kabupaten-kota.*', 'kecamatan.*') ? 'show' : '' }}">
                       <li><a class="nav-link {{ request()->routeIs('negara.*') ? 'active' : '' }}" href="{{ route('negara.index') }}"><span class="nav-dot"></span>Negara</a></li>
                       <li><a class="nav-link {{ request()->routeIs('provinsi.*') ? 'active' : '' }}" href="{{ route('provinsi.index') }}"><span class="nav-dot"></span>Provinsi</a></li>
                       <li><a class="nav-link {{ request()->routeIs('kabupaten-kota.*') ? 'active' : '' }}" href="{{ route('kabupaten-kota.index') }}"><span class="nav-dot"></span>Kabupaten/Kota</a>
                       </li>
-                      <li><a class="nav-link " href="error-maintenance.html"><span
+                      <li><a class="nav-link {{ request()->routeIs('kecamatan.*') ? 'active' : '' }}" href="{{ route('kecamatan.index') }}"><span
                                   class="nav-dot"></span>Kecamatan</a></li>
                   </ul>
               </li>
