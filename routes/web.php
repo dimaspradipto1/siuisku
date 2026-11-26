@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EselonController;
 use App\Http\Controllers\GelarAkademikController;
 use App\Http\Controllers\HakAksesController;
+use App\Http\Controllers\HariLiburController;
 use App\Http\Controllers\HubunganKerjaController;
 use App\Http\Controllers\JabatanFungsionalController;
 use App\Http\Controllers\JabatanStrukturalController;
@@ -108,6 +109,7 @@ Route::middleware(['auth', 'checkrole'])->group(function(){
         Route::resource('jenis-cuti', JenisCutiController::class)->except(['show']);
         Route::resource('jenis-izin', JenisIzinController::class)->except(['show']);
         Route::resource('jenis-hari', JenisHariController::class)->only(['index', 'update']);
+        Route::resource('hari-libur', HariLiburController::class)->except(['show']);
     });
 
     Route::middleware('permission:hak_akses.view')->group(function () {

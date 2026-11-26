@@ -43,6 +43,7 @@ class DatabaseSeeder extends Seeder
             JenisCutiSeeder::class,
             JenisIzinSeeder::class,
             JenisHariSeeder::class,
+            HariLiburSeeder::class,
         ]);
     }
 }
