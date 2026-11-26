@@ -339,16 +339,16 @@
               </li>
 
               <!-- Aktifitas -->
-              <li class="nav-item has-submenu {{ request()->routeIs('jenis-sertifikasi.*') ? 'open' : '' }}">
-                  <a class="nav-link" href="#" aria-expanded="{{ request()->routeIs('jenis-sertifikasi.*') ? 'true' : 'false' }}">
+              <li class="nav-item has-submenu {{ request()->routeIs('jenis-sertifikasi.*', 'jenis-tes.*') ? 'open' : '' }}">
+                  <a class="nav-link" href="#" aria-expanded="{{ request()->routeIs('jenis-sertifikasi.*', 'jenis-tes.*') ? 'true' : 'false' }}">
                       <span class="nav-icon"><i class="ph-light ph-list-checks"></i></span>
                       <span class="nav-text">Aktifitas</span>
                       <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
                   </a>
-                  <ul class="nav-submenu {{ request()->routeIs('jenis-sertifikasi.*') ? 'show' : '' }}">
+                  <ul class="nav-submenu {{ request()->routeIs('jenis-sertifikasi.*', 'jenis-tes.*') ? 'show' : '' }}">
                       <li><a class="nav-link {{ request()->routeIs('jenis-sertifikasi.*') ? 'active' : '' }}" href="{{ route('jenis-sertifikasi.index') }}"><span class="nav-dot"></span>Jenis
                               Sertifikasi</a></li>
-                      <li><a class="nav-link " href="error-403.html"><span class="nav-dot"></span>Jenis Tes</a></li>
+                      <li><a class="nav-link {{ request()->routeIs('jenis-tes.*') ? 'active' : '' }}" href="{{ route('jenis-tes.index') }}"><span class="nav-dot"></span>Jenis Tes</a></li>
                       <li><a class="nav-link " href="error-500.html"><span class="nav-dot"></span>Jenis Pengabdian
                               Masyarakat</a></li>
                       <li><a class="nav-link " href="error-maintenance.html"><span class="nav-dot"></span>Output

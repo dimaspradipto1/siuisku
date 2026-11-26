@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
             RumpunBidangIlmuSeeder::class,
             GelarAkademikSeeder::class,
             JenisSertifikasiSeeder::class,
+            JenisTesSeeder::class,
         ]);
     }
 }
