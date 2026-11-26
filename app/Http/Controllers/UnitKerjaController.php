@@ -18,7 +18,7 @@ class UnitKerjaController extends Controller
             'biro' => 'Biro',
             'fakultas' => 'Fakultas',
             'prodi' => 'Program Studi',
-            'unit' => 'Unit / Bagian',
+            'unit' => 'Unit',
         ];
     }
 

@@ -58,7 +58,7 @@ class HakAksesSeeder extends Seeder
             ],
             [
                 'kode' => 'staff',
-                'nama' => 'Staff / Pegawai',
+                'nama' => 'Staff',
                 'scope' => 'self',
                 'deskripsi' => 'Akses mandiri untuk profil, kehadiran, cuti, dan dokumen pribadi.',
             ],
