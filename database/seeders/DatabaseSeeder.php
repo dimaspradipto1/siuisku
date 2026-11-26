@@ -41,6 +41,7 @@ class DatabaseSeeder extends Seeder
             KecamatanSeeder::class,
             JenisKehadiranSeeder::class,
             JenisCutiSeeder::class,
+            JenisIzinSeeder::class,
         ]);
     }
 }
