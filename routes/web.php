@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BackupController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HakAksesController;
+use App\Http\Controllers\HubunganKerjaController;
 use App\Http\Controllers\JabatanStrukturalController;
 use App\Http\Controllers\JenisJabatanStrukturalController;
 use App\Http\Controllers\JenisSkController;
@@ -60,6 +61,7 @@ Route::middleware(['auth', 'checkrole'])->group(function(){
         Route::resource('unit-kerja', UnitKerjaController::class)->except(['show']);
         Route::resource('jenis-sk', JenisSkController::class)->except(['show', 'edit']);
         Route::resource('status-aktif', StatusAktifController::class)->except(['show']);
+        Route::resource('hubungan-kerja', HubunganKerjaController::class)->except(['show']);
     });
 
     Route::middleware('permission:hak_akses.view')->group(function () {

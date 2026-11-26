@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             JenisSkSeeder::class,
             JabatanStrukturalSeeder::class,
             StatusAktifSeeder::class,
+            HubunganKerjaSeeder::class,
         ]);
     }
 }
