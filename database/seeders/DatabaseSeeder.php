@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
             StatusAktifSeeder::class,
             HubunganKerjaSeeder::class,
             PangkatSeeder::class,
+            KlasifikasiSdmSeeder::class,
         ]);
     }
 }
