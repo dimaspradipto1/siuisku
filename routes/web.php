@@ -11,6 +11,7 @@ use App\Http\Controllers\HubunganKerjaController;
 use App\Http\Controllers\JabatanFungsionalController;
 use App\Http\Controllers\JabatanStrukturalController;
 use App\Http\Controllers\JenisJabatanStrukturalController;
+use App\Http\Controllers\JenisKehadiranController;
 use App\Http\Controllers\JenisKenaikanPangkatController;
 use App\Http\Controllers\JenisLuaranController;
 use App\Http\Controllers\JenisPelanggaranController;
@@ -100,6 +101,7 @@ Route::middleware(['auth', 'checkrole'])->group(function(){
             ->parameters(['kabupaten-kota' => 'kabupatenKota'])
             ->except(['show']);
         Route::resource('kecamatan', KecamatanController::class)->except(['show']);
+        Route::resource('jenis-kehadiran', JenisKehadiranController::class)->except(['show']);
     });
 
     Route::middleware('permission:hak_akses.view')->group(function () {
