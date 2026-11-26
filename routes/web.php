@@ -27,6 +27,7 @@ use App\Http\Controllers\JenisPkmController;
 use App\Http\Controllers\JenisSertifikasiController;
 use App\Http\Controllers\JenisSkController;
 use App\Http\Controllers\JenisTesController;
+use App\Http\Controllers\JenjangPendidikanController;
 use App\Http\Controllers\KabupatenKotaController;
 use App\Http\Controllers\KecamatanController;
 use App\Http\Controllers\KlasifikasiSdmController;
@@ -120,6 +121,7 @@ Route::middleware(['auth', 'checkrole'])->group(function(){
         Route::resource('bahasa', BahasaController::class)->except(['show']);
         Route::resource('pekerjaan', PekerjaanController::class)->except(['show']);
         Route::resource('status-pernikahan', StatusPernikahanController::class)->only(['index', 'update']);
+        Route::resource('jenjang-pendidikan', JenjangPendidikanController::class)->except(['show']);
     });
 
     Route::middleware('permission:hak_akses.view')->group(function () {

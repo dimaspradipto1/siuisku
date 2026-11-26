@@ -401,20 +401,20 @@
               </li>
 
               <!-- Pelengkap -->
-              <li class="nav-item has-submenu {{ request()->routeIs('agama.*', 'bahasa.*', 'pekerjaan.*', 'status-pernikahan.*') ? 'open' : '' }}">
-                  <a class="nav-link" href="#" aria-expanded="{{ request()->routeIs('agama.*', 'bahasa.*', 'pekerjaan.*', 'status-pernikahan.*') ? 'true' : 'false' }}">
+              <li class="nav-item has-submenu {{ request()->routeIs('agama.*', 'bahasa.*', 'pekerjaan.*', 'status-pernikahan.*', 'jenjang-pendidikan.*') ? 'open' : '' }}">
+                  <a class="nav-link" href="#" aria-expanded="{{ request()->routeIs('agama.*', 'bahasa.*', 'pekerjaan.*', 'status-pernikahan.*', 'jenjang-pendidikan.*') ? 'true' : 'false' }}">
                       <span class="nav-icon"><i class="ph-light ph-folders"></i></span>
                       <span class="nav-text">Pelengkap</span>
                       <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
                   </a>
-                  <ul class="nav-submenu {{ request()->routeIs('agama.*', 'bahasa.*', 'pekerjaan.*', 'status-pernikahan.*') ? 'show' : '' }}">
+                  <ul class="nav-submenu {{ request()->routeIs('agama.*', 'bahasa.*', 'pekerjaan.*', 'status-pernikahan.*', 'jenjang-pendidikan.*') ? 'show' : '' }}">
                       <li><a class="nav-link {{ request()->routeIs('agama.*') ? 'active' : '' }}" href="{{ route('agama.index') }}"><span class="nav-dot"></span>Agama</a></li>
                       <li><a class="nav-link {{ request()->routeIs('bahasa.*') ? 'active' : '' }}" href="{{ route('bahasa.index') }}"><span class="nav-dot"></span>Bahasa</a></li>
                       <li><a class="nav-link {{ request()->routeIs('pekerjaan.*') ? 'active' : '' }}" href="{{ route('pekerjaan.index') }}"><span class="nav-dot"></span>Pekerjaan</a></li>
                       <li><a class="nav-link {{ request()->routeIs('status-pernikahan.*') ? 'active' : '' }}" href="{{ route('status-pernikahan.index') }}"><span class="nav-dot"></span>Status
                               Pernikahan</a></li>
-                      <li><a class="nav-link " href="error-maintenance.html"><span class="nav-dot"></span>Jenjang
-                              Pendidiikan </a></li>
+                      <li><a class="nav-link {{ request()->routeIs('jenjang-pendidikan.*') ? 'active' : '' }}" href="{{ route('jenjang-pendidikan.index') }}"><span class="nav-dot"></span>Jenjang
+                              Pendidikan</a></li>
                       <li><a class="nav-link " href="error-maintenance.html"><span class="nav-dot"></span>Perguruan
                               Tinggi</a></li>
                       <li><a class="nav-link " href="error-maintenance.html"><span class="nav-dot"></span>Prodi
