@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             HakAksesSeeder::class,
             JenisSkSeeder::class,
             JabatanStrukturalSeeder::class,
+            StatusAktifSeeder::class,
         ]);
     }
 }
