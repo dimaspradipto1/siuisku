@@ -22,6 +22,13 @@ class ModulRequest extends FormRequest
      */
     public function rules(): array
     {
+        if ($this->routeIs('pengaturan.modul.users.sync')) {
+            return [
+                'user_ids' => ['nullable', 'array'],
+                'user_ids.*' => ['integer', 'exists:users,id'],
+            ];
+        }
+
         $modul = $this->route('modul');
 
         return [

@@ -109,6 +109,39 @@
                   </div>
                 </div>
               </div>
+
+              <div class="card mt-4">
+                <div class="card-header">
+                  <h5 class="card-title mb-0">Akses Modul Portal</h5>
+                </div>
+                <div class="card-body">
+                  <input type="hidden" name="sync_moduls" value="1">
+                  @php
+                    $oldModuls = old('modul_ids', $modules->where('kode', 'simpeg')->pluck('id')->all());
+                  @endphp
+                  <div class="d-flex flex-column gap-2">
+                    @foreach ($modules->where('is_active', true) as $mod)
+                      <label class="d-flex align-items-center justify-content-between border rounded-3 px-3 py-2 mb-0" style="cursor: pointer;">
+                        <span class="d-flex align-items-center gap-2">
+                          <input
+                            class="form-check-input mt-0"
+                            type="checkbox"
+                            name="modul_ids[]"
+                            value="{{ $mod->id }}"
+                            {{ in_array($mod->id, $oldModuls) ? 'checked' : '' }}
+                          >
+                          <span class="d-inline-flex align-items-center justify-content-center rounded-2" style="width: 26px; height: 26px; background: {{ $mod->warna_bg }}; color: {{ $mod->warna }};">
+                            <i class="bi {{ $mod->icon }}"></i>
+                          </span>
+                          <span class="small fw-semibold">{{ $mod->nama }}</span>
+                        </span>
+                        <span class="badge bg-light text-muted border">{{ $mod->isExternal() ? 'Eksternal' : 'Internal' }}</span>
+                      </label>
+                    @endforeach
+                  </div>
+                  <div class="form-text mt-2">Hanya modul yang dicentang yang akan tampil di portal &amp; header user ini.</div>
+                </div>
+              </div>
             </div>
 
             <!-- Right Column -->

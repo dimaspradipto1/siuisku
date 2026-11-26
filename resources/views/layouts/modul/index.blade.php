@@ -375,10 +375,12 @@
               @endphp
               <button
                 type="button"
-                class="module-item {{ $isSelected ? 'active' : '' }} {{ !$module->is_active ? 'disabled-module' : '' }}"
+                class="module-item {{ $isSelected ? 'active' : '' }}"
+                data-module-id="{{ $module->id }}"
                 data-module-key="{{ $module->kode }}"
                 data-module-title="{{ $displayTitle }}"
                 data-module-available="{{ $module->is_active ? '1' : '0' }}"
+                data-module-external="{{ $module->isExternal() ? '1' : '0' }}"
                 data-module-url="{{ $module->resolvedUrl() }}"
               >
                 @if ($module->is_active)
@@ -468,6 +470,7 @@
 
         const moduleTitle = this.dataset.moduleTitle;
         const isAvailable = this.dataset.moduleAvailable === '1';
+        const isExternal = this.dataset.moduleExternal === '1';
         const moduleUrl = this.dataset.moduleUrl;
 
         selectedModuleTitle.textContent = moduleTitle;
@@ -477,6 +480,13 @@
         if (isAvailable && moduleUrl) {
           roleLinks.forEach(function (link) {
             link.setAttribute('href', moduleUrl);
+            if (isExternal) {
+              link.setAttribute('target', '_blank');
+              link.setAttribute('rel', 'noopener noreferrer');
+            } else {
+              link.removeAttribute('target');
+              link.removeAttribute('rel');
+            }
           });
         }
       });

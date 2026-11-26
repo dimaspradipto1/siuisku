@@ -86,4 +86,45 @@ class ModulPengaturanTest extends TestCase
         $deleteResponse->assertRedirect(route('pengaturan.modul.index'));
         $this->assertDatabaseMissing('moduls', ['id' => $modul->id]);
     }
+
+    public function test_per_user_module_access_hides_unauthorized_modules(): void
+    {
+        $this->seed(ModulSeeder::class);
+        $admin = $this->actingAsAdmin();
+
+        $simpeg = Modul::where('kode', 'simpeg')->firstOrFail();
+        $siakad = Modul::where('kode', 'siakad')->firstOrFail();
+        $siakad->update(['is_active' => true, 'url' => 'https://siakadku.uis.ac.id/gate/login']);
+
+        $staff = User::create([
+            'name' => 'Staff Humas',
+            'username' => 'staffhumas',
+            'email' => 'humas@uis.ac.id',
+            'roles' => 'staff',
+            'password' => 'password123',
+        ]);
+
+        // Only grant SIMPEG to staff via Pengaturan Modul -> syncUsers
+        $this->put(route('pengaturan.modul.users.sync', $simpeg), [
+            'user_ids' => [$staff->id],
+        ])->assertRedirect(route('pengaturan.modul.index'));
+
+        $this->actingAs($staff);
+        $this->get(route('modul'))
+            ->assertOk()
+            ->assertSee('SIM Kepegawaian')
+            ->assertDontSee('SIM Akademik');
+
+        // Grant SIAKAD as well
+        $this->actingAs($admin);
+        $this->put(route('pengaturan.modul.users.sync', $siakad), [
+            'user_ids' => [$staff->id],
+        ])->assertRedirect(route('pengaturan.modul.index'));
+
+        $this->actingAs($staff);
+        $this->get(route('modul'))
+            ->assertOk()
+            ->assertSee('SIM Kepegawaian')
+            ->assertSee('SIM Akademik');
+    }
 }

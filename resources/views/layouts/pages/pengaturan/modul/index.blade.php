@@ -51,8 +51,9 @@
                   <th>Modul</th>
                   <th>Kode</th>
                   <th>URL Tujuan</th>
+                  <th style="width: 120px;">Akses User</th>
                   <th style="width: 140px;">Status</th>
-                  <th class="text-end pe-3" style="width: 170px;">Aksi</th>
+                  <th class="text-end pe-3" style="width: 210px;">Aksi</th>
                 </tr>
               </thead>
               <tbody>
@@ -86,6 +87,11 @@
                       @endif
                     </td>
                     <td>
+                      <span class="badge bg-info-subtle text-info">
+                        <i class="bi bi-people me-1"></i>{{ $modul->users_count }} User
+                      </span>
+                    </td>
+                    <td>
                       <form action="{{ route('pengaturan.modul.toggle', $modul) }}" method="POST" class="d-inline">
                         @csrf
                         @method('PATCH')
@@ -100,6 +106,18 @@
                       </form>
                     </td>
                     <td class="text-end pe-3">
+                      <button
+                        type="button"
+                        class="btn btn-outline-info btn-sm"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modalAturUserModul"
+                        data-nama="{{ $modul->nama }}"
+                        data-action="{{ route('pengaturan.modul.users.sync', $modul) }}"
+                        data-user-ids='@json($modul->users->pluck("id")->values())'
+                        title="Atur Pengguna Modul"
+                      >
+                        <i class="bi bi-people"></i>
+                      </button>
                       <button
                         type="button"
                         class="btn btn-outline-primary btn-sm"
@@ -281,6 +299,48 @@
       </div>
     </div>
   </div>
+  <!-- Modal Atur Pengguna Modul -->
+  <div class="modal fade" id="modalAturUserModul" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <form id="formAturUserModul" method="POST">
+          @csrf
+          @method('PUT')
+          <div class="modal-header">
+            <h5 class="modal-title">Atur Akses Pengguna: <span id="aturUserModulNama"></span></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <small class="text-muted">Super Admin otomatis memiliki akses ke semua modul aktif.</small>
+              <div class="form-check mb-0">
+                <input class="form-check-input" type="checkbox" id="checkAllModulUsers">
+                <label class="form-check-label small" for="checkAllModulUsers">Pilih Semua</label>
+              </div>
+            </div>
+            <div class="list-group">
+              @foreach ($allUsers as $u)
+                <label class="list-group-item d-flex align-items-center justify-content-between gap-2" style="cursor: pointer;">
+                  <span class="d-flex align-items-center gap-2">
+                    <input class="form-check-input mt-0 modul-user-checkbox" type="checkbox" name="user_ids[]" value="{{ $u->id }}">
+                    <span>
+                      <span class="fw-semibold d-block small">{{ $u->name }}</span>
+                      <small class="text-muted">{{ $u->username }}</small>
+                    </span>
+                  </span>
+                  <span class="badge bg-light text-dark border">{{ ucwords((string) $u->roles) }}</span>
+                </label>
+              @endforeach
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
+            <button type="submit" class="btn btn-primary">Simpan Akses</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 @endsection
 
 @push('script')
@@ -302,6 +362,43 @@
         document.getElementById('edit_urutan').value = button.dataset.urutan || '0';
         document.getElementById('edit_is_active').checked = button.dataset.isActive === '1';
       });
+    }
+
+    const modalAturUserModul = document.getElementById('modalAturUserModul');
+    if (modalAturUserModul) {
+      const checkAllUsers = document.getElementById('checkAllModulUsers');
+
+      modalAturUserModul.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        if (!button) return;
+
+        document.getElementById('formAturUserModul').setAttribute('action', button.dataset.action);
+        document.getElementById('aturUserModulNama').textContent = button.dataset.nama || '';
+
+        let selectedIds = [];
+        try {
+          selectedIds = JSON.parse(button.dataset.userIds || '[]').map(String);
+        } catch (e) {
+          selectedIds = [];
+        }
+
+        const checkboxes = modalAturUserModul.querySelectorAll('.modul-user-checkbox');
+        let allChecked = checkboxes.length > 0;
+        checkboxes.forEach(function (cb) {
+          cb.checked = selectedIds.includes(String(cb.value));
+          if (!cb.checked) allChecked = false;
+        });
+
+        if (checkAllUsers) checkAllUsers.checked = allChecked;
+      });
+
+      if (checkAllUsers) {
+        checkAllUsers.addEventListener('change', function () {
+          modalAturUserModul.querySelectorAll('.modul-user-checkbox').forEach(function (cb) {
+            cb.checked = checkAllUsers.checked;
+          });
+        });
+      }
     }
   </script>
 @endpush

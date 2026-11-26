@@ -60,10 +60,10 @@
               <div class="quickaccess-grid">
                 @forelse ($headerModules ?? [] as $modul)
                   <a
-                    href="{{ $modul->is_active ? $modul->resolvedUrl() : 'javascript:void(0)' }}"
-                    class="quickaccess-item {{ $modul->is_active ? '' : 'opacity-50' }}"
-                    title="{{ $modul->nama }}{{ $modul->is_active ? '' : ' (Belum Aktif)' }}"
-                    @unless ($modul->is_active) onclick="return false;" @endunless
+                    href="{{ $modul->resolvedUrl() }}"
+                    class="quickaccess-item"
+                    title="{{ $modul->nama }}"
+                    @if ($modul->isExternal()) target="_blank" rel="noopener noreferrer" @endif
                   >
                     <span class="quickaccess-icon" style="background: {{ $modul->warna_bg }}; color: {{ $modul->warna }};">
                       <i class="bi {{ $modul->icon }}"></i>

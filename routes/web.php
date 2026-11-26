@@ -34,6 +34,7 @@ Route::middleware(['auth', 'checkrole'])->group(function(){
         Route::get('/', 'pengaturan')->name('index');
         Route::post('/', 'store')->name('store');
         Route::put('{modul}', 'update')->name('update');
+        Route::put('{modul}/users', 'syncUsers')->name('users.sync');
         Route::patch('{modul}/toggle', 'toggleStatus')->name('toggle');
         Route::delete('{modul}', 'destroy')->name('destroy');
     });

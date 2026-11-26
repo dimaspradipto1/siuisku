@@ -54,6 +54,8 @@ class UserRequest extends FormRequest
             'role_assignments.*.role_id' => ['required_with:role_assignments', 'exists:roles,id'],
             'role_assignments.*.unit_kerja_id' => ['nullable', 'exists:unit_kerjas,id'],
             'role_assignments.*.jenis_jabatan_struktural_id' => ['nullable', 'exists:jenis_jabatan_strukturals,id'],
+            'modul_ids' => ['nullable', 'array'],
+            'modul_ids.*' => ['integer', 'exists:moduls,id'],
         ];
     }
 

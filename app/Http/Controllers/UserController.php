@@ -85,6 +85,10 @@ class UserController extends Controller
 
         $this->syncUserRoles($created, $assignments);
 
+        if ($request->has('modul_ids') || $request->boolean('sync_moduls')) {
+            $created->moduls()->sync($validated['modul_ids'] ?? []);
+        }
+
         ActivityLog::record(
             Auth::user(),
             'system',
@@ -107,7 +111,7 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        $user->load(['userRoles.modul', 'userRoles.role', 'userRoles.unitKerja', 'userRoles.jenisJabatanStruktural']);
+        $user->load(['moduls', 'userRoles.modul', 'userRoles.role', 'userRoles.unitKerja', 'userRoles.jenisJabatanStruktural']);
 
         return view('layouts.pages.users.edit', array_merge(
             compact('user'),
@@ -144,6 +148,10 @@ class UserController extends Controller
 
         if ($assignments !== null) {
             $this->syncUserRoles($user, $assignments);
+        }
+
+        if ($request->has('modul_ids') || $request->boolean('sync_moduls')) {
+            $user->moduls()->sync($validated['modul_ids'] ?? []);
         }
 
         ActivityLog::record(

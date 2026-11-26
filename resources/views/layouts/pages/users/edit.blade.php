@@ -236,6 +236,41 @@
 
               <div class="card mb-4">
                 <div class="card-header">
+                  <h5 class="card-title mb-0">Akses Modul Portal</h5>
+                </div>
+                <div class="card-body">
+                  <input type="hidden" name="sync_moduls" value="1">
+                  @php
+                    $checkedModuls = old('modul_ids', $user->moduls->pluck('id')->merge($user->userRoles->pluck('modul_id'))->unique()->all());
+                  @endphp
+                  <div class="row g-2">
+                    @foreach ($modules->where('is_active', true) as $mod)
+                      <div class="col-md-6">
+                        <label class="d-flex align-items-center justify-content-between border rounded-3 px-3 py-2 mb-0 h-100" style="cursor: pointer;">
+                          <span class="d-flex align-items-center gap-2">
+                            <input
+                              class="form-check-input mt-0"
+                              type="checkbox"
+                              name="modul_ids[]"
+                              value="{{ $mod->id }}"
+                              {{ in_array($mod->id, $checkedModuls) ? 'checked' : '' }}
+                            >
+                            <span class="d-inline-flex align-items-center justify-content-center rounded-2" style="width: 28px; height: 28px; background: {{ $mod->warna_bg }}; color: {{ $mod->warna }};">
+                              <i class="bi {{ $mod->icon }}"></i>
+                            </span>
+                            <span class="small fw-semibold">{{ $mod->nama }}</span>
+                          </span>
+                          <span class="badge bg-light text-muted border">{{ $mod->isExternal() ? 'Eksternal' : 'Internal' }}</span>
+                        </label>
+                      </div>
+                    @endforeach
+                  </div>
+                  <div class="form-text mt-2">Super Admin otomatis melihat seluruh modul aktif. User lain hanya melihat modul yang dicentang di sini.</div>
+                </div>
+              </div>
+
+              <div class="card mb-4">
+                <div class="card-header">
                   <h5 class="card-title">Change Password</h5>
                 </div>
                 <div class="card-body">

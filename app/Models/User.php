@@ -7,9 +7,12 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 
 #[Fillable(['name', 'username', 'email', 'roles', 'photo', 'password'])]
@@ -85,6 +88,70 @@ class User extends Authenticatable
     public function userRoles(): HasMany
     {
         return $this->hasMany(UserRole::class);
+    }
+
+    public function moduls(): BelongsToMany
+    {
+        return $this->belongsToMany(Modul::class, 'user_moduls')->withTimestamps();
+    }
+
+    public function isSuperAdmin(): bool
+    {
+        if (in_array(strtolower((string) $this->roles), ['super admin', 'superadmin'], true)) {
+            return true;
+        }
+
+        return $this->userRoles()
+            ->whereHas('role', fn ($q) => $q->where('kode', 'super_admin'))
+            ->exists();
+    }
+
+    /**
+     * Get active modules accessible by this user (Principle of Least Exposure).
+     *
+     * @return Collection<int, Modul>
+     */
+    public function accessibleModules(): Collection
+    {
+        if (! Schema::hasTable('moduls')) {
+            return collect();
+        }
+
+        if ($this->isSuperAdmin()) {
+            return Modul::query()
+                ->where('is_active', true)
+                ->orderBy('urutan')
+                ->orderBy('id')
+                ->get();
+        }
+
+        $allowedIds = collect();
+
+        if (Schema::hasTable('user_moduls')) {
+            $allowedIds = $allowedIds->merge($this->moduls()->pluck('moduls.id'));
+        }
+
+        if (Schema::hasTable('user_roles')) {
+            $allowedIds = $allowedIds->merge($this->userRoles()->pluck('modul_id'));
+        }
+
+        $allowedIds = $allowedIds->filter()->unique()->values();
+
+        if ($allowedIds->isEmpty()) {
+            return Modul::query()
+                ->where('is_active', true)
+                ->where('kode', 'simpeg')
+                ->orderBy('urutan')
+                ->orderBy('id')
+                ->get();
+        }
+
+        return Modul::query()
+            ->where('is_active', true)
+            ->whereIn('id', $allowedIds)
+            ->orderBy('urutan')
+            ->orderBy('id')
+            ->get();
     }
 
     public function hasPermission(string $permissionCode): bool

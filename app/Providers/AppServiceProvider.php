@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Modul;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
@@ -31,9 +32,11 @@ class AppServiceProvider extends ServiceProvider
         }
 
         View::composer('layouts.dashboard.header', function ($view): void {
-            $headerModules = Schema::hasTable('moduls')
-                ? Modul::query()->orderBy('urutan')->orderBy('id')->get()
-                : collect();
+            $headerModules = Auth::check()
+                ? Auth::user()->accessibleModules()
+                : (Schema::hasTable('moduls')
+                    ? Modul::query()->where('is_active', true)->orderBy('urutan')->orderBy('id')->get()
+                    : collect());
 
             $view->with('headerModules', $headerModules);
         });

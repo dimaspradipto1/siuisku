@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ModulRequest;
 use App\Models\ActivityLog;
 use App\Models\Modul;
+use App\Models\User;
 use App\Models\UserRole;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,12 +25,8 @@ class ModulController extends Controller
             ->get()
             ->groupBy('modul_id');
 
-        $modules = Modul::query()
-            ->orderBy('urutan')
-            ->orderBy('id')
-            ->get();
-
-        $defaultModule = $modules->firstWhere('is_active', true) ?? $modules->first();
+        $modules = $user->accessibleModules();
+        $defaultModule = $modules->first();
 
         return view('layouts.modul.index', compact(
             'user',
@@ -60,9 +57,13 @@ class ModulController extends Controller
     public function pengaturan()
     {
         $modules = Modul::query()
+            ->with('users:id')
+            ->withCount('users')
             ->orderBy('urutan')
             ->orderBy('id')
             ->get();
+
+        $allUsers = User::orderBy('name')->get(['id', 'name', 'username', 'roles']);
 
         $iconPresets = [
             'bi-people-fill' => 'Kepegawaian (People)',
@@ -79,7 +80,25 @@ class ModulController extends Controller
             'bi-grid-fill' => 'Umum (Grid)',
         ];
 
-        return view('layouts.pages.pengaturan.modul.index', compact('modules', 'iconPresets'));
+        return view('layouts.pages.pengaturan.modul.index', compact('modules', 'allUsers', 'iconPresets'));
+    }
+
+    public function syncUsers(ModulRequest $request, Modul $modul)
+    {
+        $userIds = $request->validated()['user_ids'] ?? [];
+        $modul->users()->sync($userIds);
+
+        ActivityLog::record(
+            Auth::user(),
+            'security',
+            'Mengatur akses pengguna modul',
+            "Memperbarui daftar pengguna modul {$modul->nama} (".count($userIds).' pengguna).',
+            'info',
+        );
+
+        return redirect()
+            ->route('pengaturan.modul.index')
+            ->with('success', "Akses pengguna untuk modul {$modul->nama} berhasil diperbarui.");
     }
 
     public function store(ModulRequest $request)
