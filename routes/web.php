@@ -25,6 +25,7 @@ use App\Http\Controllers\NegaraController;
 use App\Http\Controllers\OutputPenelitianController;
 use App\Http\Controllers\PangkatController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProvinsiController;
 use App\Http\Controllers\RumpunBidangIlmuController;
 use App\Http\Controllers\StatusAktifController;
 use App\Http\Controllers\UnitKerjaController;
@@ -92,6 +93,7 @@ Route::middleware(['auth', 'checkrole'])->group(function(){
         Route::resource('jenis-pelanggaran', JenisPelanggaranController::class)->except(['show']);
         Route::resource('jenis-luaran', JenisLuaranController::class)->except(['show']);
         Route::resource('negara', NegaraController::class)->except(['show']);
+        Route::resource('provinsi', ProvinsiController::class)->except(['show']);
     });
 
     Route::middleware('permission:hak_akses.view')->group(function () {

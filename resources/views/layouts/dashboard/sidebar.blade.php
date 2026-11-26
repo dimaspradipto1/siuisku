@@ -363,15 +363,15 @@
               </li>
 
               <!-- Wilayah -->
-              <li class="nav-item has-submenu {{ request()->routeIs('negara.*') ? 'open' : '' }}">
-                  <a class="nav-link" href="#" aria-expanded="{{ request()->routeIs('negara.*') ? 'true' : 'false' }}">
+              <li class="nav-item has-submenu {{ request()->routeIs('negara.*', 'provinsi.*') ? 'open' : '' }}">
+                  <a class="nav-link" href="#" aria-expanded="{{ request()->routeIs('negara.*', 'provinsi.*') ? 'true' : 'false' }}">
                       <span class="nav-icon"><i class="ph-light ph-map-pin"></i></span>
                       <span class="nav-text">Wilayah</span>
                       <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
                   </a>
-                  <ul class="nav-submenu {{ request()->routeIs('negara.*') ? 'show' : '' }}">
+                  <ul class="nav-submenu {{ request()->routeIs('negara.*', 'provinsi.*') ? 'show' : '' }}">
                       <li><a class="nav-link {{ request()->routeIs('negara.*') ? 'active' : '' }}" href="{{ route('negara.index') }}"><span class="nav-dot"></span>Negara</a></li>
-                      <li><a class="nav-link " href="error-403.html"><span class="nav-dot"></span>Provinsi</a></li>
+                      <li><a class="nav-link {{ request()->routeIs('provinsi.*') ? 'active' : '' }}" href="{{ route('provinsi.index') }}"><span class="nav-dot"></span>Provinsi</a></li>
                       <li><a class="nav-link " href="error-500.html"><span class="nav-dot"></span>Kabupaten/Kota</a>
                       </li>
                       <li><a class="nav-link " href="error-maintenance.html"><span
