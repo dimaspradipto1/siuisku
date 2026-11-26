@@ -339,13 +339,13 @@
               </li>
 
               <!-- Aktifitas -->
-              <li class="nav-item has-submenu {{ request()->routeIs('jenis-sertifikasi.*', 'jenis-tes.*', 'jenis-pkm.*', 'output-penelitian.*') ? 'open' : '' }}">
-                  <a class="nav-link" href="#" aria-expanded="{{ request()->routeIs('jenis-sertifikasi.*', 'jenis-tes.*', 'jenis-pkm.*', 'output-penelitian.*') ? 'true' : 'false' }}">
+              <li class="nav-item has-submenu {{ request()->routeIs('jenis-sertifikasi.*', 'jenis-tes.*', 'jenis-pkm.*', 'output-penelitian.*', 'jenis-penghargaan.*') ? 'open' : '' }}">
+                  <a class="nav-link" href="#" aria-expanded="{{ request()->routeIs('jenis-sertifikasi.*', 'jenis-tes.*', 'jenis-pkm.*', 'output-penelitian.*', 'jenis-penghargaan.*') ? 'true' : 'false' }}">
                       <span class="nav-icon"><i class="ph-light ph-list-checks"></i></span>
                       <span class="nav-text">Aktifitas</span>
                       <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
                   </a>
-                  <ul class="nav-submenu {{ request()->routeIs('jenis-sertifikasi.*', 'jenis-tes.*', 'jenis-pkm.*', 'output-penelitian.*') ? 'show' : '' }}">
+                  <ul class="nav-submenu {{ request()->routeIs('jenis-sertifikasi.*', 'jenis-tes.*', 'jenis-pkm.*', 'output-penelitian.*', 'jenis-penghargaan.*') ? 'show' : '' }}">
                       <li><a class="nav-link {{ request()->routeIs('jenis-sertifikasi.*') ? 'active' : '' }}" href="{{ route('jenis-sertifikasi.index') }}"><span class="nav-dot"></span>Jenis
                               Sertifikasi</a></li>
                       <li><a class="nav-link {{ request()->routeIs('jenis-tes.*') ? 'active' : '' }}" href="{{ route('jenis-tes.index') }}"><span class="nav-dot"></span>Jenis Tes</a></li>
@@ -353,7 +353,7 @@
                               Masyarakat</a></li>
                       <li><a class="nav-link {{ request()->routeIs('output-penelitian.*') ? 'active' : '' }}" href="{{ route('output-penelitian.index') }}"><span class="nav-dot"></span>Output
                               Penelitian</a></li>
-                      <li><a class="nav-link " href="error-coming-soon.html"><span class="nav-dot"></span>Jenis
+                      <li><a class="nav-link {{ request()->routeIs('jenis-penghargaan.*') ? 'active' : '' }}" href="{{ route('jenis-penghargaan.index') }}"><span class="nav-dot"></span>Jenis
                               Penghargaan</a></li>
                       <li><a class="nav-link " href="error-coming-soon.html"><span class="nav-dot"></span>Jenis
                               Pelanggaran</a></li>
