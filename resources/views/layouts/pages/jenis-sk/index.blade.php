@@ -5,17 +5,16 @@
     <div class="main-content">
       <div class="page-header fx-page-header">
         <div>
-          <h1 class="page-title">Daftar Jenis SK</h1>
+          <h1 class="page-title">Jenis SK</h1>
           <nav class="breadcrumb mb-0">
-            <a href="{{ route('dashboard') }}" class="breadcrumb-item">Beranda</a>
-            <span class="breadcrumb-item">Referensi</span>
-            <span class="breadcrumb-item">Kepegawaian</span>
+            <a href="{{ route('dashboard') }}" class="breadcrumb-item">Home</a>
+            <span class="breadcrumb-item">Referensi Kepegawaian</span>
             <span class="breadcrumb-item active">Jenis SK</span>
           </nav>
         </div>
         <div class="page-header-actions d-flex gap-2">
-          <button type="button" id="btnTambahInlineSk" class="btn btn-success btn-sm px-3">
-            <i class="bi bi-plus-lg me-1"></i> Tambah
+          <button type="button" id="btnTambahInlineSk" class="btn btn-primary btn-sm">
+            <i class="bi bi-plus-lg me-1"></i> Tambah Jenis SK
           </button>
         </div>
       </div>
@@ -55,9 +54,9 @@
         @method('PUT')
       </form>
 
-      <div class="card border-top border-success border-3">
+      <div class="card">
         <div class="card-header d-flex align-items-center justify-content-between">
-          <h5 class="card-title mb-0">Data Jenis SK</h5>
+          <h5 class="card-title mb-0">Daftar Jenis SK</h5>
           <span class="badge bg-primary-subtle text-primary">{{ $total }} Data</span>
         </div>
         <div class="card-body">
