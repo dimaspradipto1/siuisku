@@ -8,6 +8,7 @@ use App\Models\Modul;
 use App\Models\User;
 use App\Models\UserRole;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Schema;
 
 class ModulController extends Controller
 {
@@ -56,12 +57,24 @@ class ModulController extends Controller
 
     public function pengaturan()
     {
-        $modules = Modul::query()
-            ->with('users:id')
-            ->withCount('users')
+        $hasUserModulsTable = Schema::hasTable('user_moduls');
+
+        $modulesQuery = Modul::query()
             ->orderBy('urutan')
-            ->orderBy('id')
-            ->get();
+            ->orderBy('id');
+
+        if ($hasUserModulsTable) {
+            $modulesQuery->with('users:id')->withCount('users');
+        }
+
+        $modules = $modulesQuery->get();
+
+        if (! $hasUserModulsTable) {
+            $modules->each(function (Modul $modul): void {
+                $modul->setRelation('users', collect());
+                $modul->setAttribute('users_count', 0);
+            });
+        }
 
         $allUsers = User::orderBy('name')->get(['id', 'name', 'username', 'roles']);
 
@@ -85,6 +98,12 @@ class ModulController extends Controller
 
     public function syncUsers(ModulRequest $request, Modul $modul)
     {
+        if (! Schema::hasTable('user_moduls')) {
+            return redirect()
+                ->route('pengaturan.modul.index')
+                ->with('error', 'Tabel user_moduls belum tersedia. Silakan jalankan php artisan migrate terlebih dahulu.');
+        }
+
         $userIds = $request->validated()['user_ids'] ?? [];
         $modul->users()->sync($userIds);
 

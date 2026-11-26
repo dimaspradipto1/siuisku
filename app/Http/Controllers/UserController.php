@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Models\UserRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
@@ -85,7 +86,7 @@ class UserController extends Controller
 
         $this->syncUserRoles($created, $assignments);
 
-        if ($request->has('modul_ids') || $request->boolean('sync_moduls')) {
+        if (Schema::hasTable('user_moduls') && ($request->has('modul_ids') || $request->boolean('sync_moduls'))) {
             $created->moduls()->sync($validated['modul_ids'] ?? []);
         }
 
@@ -111,7 +112,14 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        $user->load(['moduls', 'userRoles.modul', 'userRoles.role', 'userRoles.unitKerja', 'userRoles.jenisJabatanStruktural']);
+        $relations = ['userRoles.modul', 'userRoles.role', 'userRoles.unitKerja', 'userRoles.jenisJabatanStruktural'];
+        if (Schema::hasTable('user_moduls')) {
+            $relations[] = 'moduls';
+        }
+        $user->load($relations);
+        if (! Schema::hasTable('user_moduls')) {
+            $user->setRelation('moduls', collect());
+        }
 
         return view('layouts.pages.users.edit', array_merge(
             compact('user'),
@@ -150,7 +158,7 @@ class UserController extends Controller
             $this->syncUserRoles($user, $assignments);
         }
 
-        if ($request->has('modul_ids') || $request->boolean('sync_moduls')) {
+        if (Schema::hasTable('user_moduls') && ($request->has('modul_ids') || $request->boolean('sync_moduls'))) {
             $user->moduls()->sync($validated['modul_ids'] ?? []);
         }
 
