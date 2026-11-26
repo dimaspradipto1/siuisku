@@ -10,6 +10,7 @@ use App\Http\Controllers\HakAksesController;
 use App\Http\Controllers\HubunganKerjaController;
 use App\Http\Controllers\JabatanFungsionalController;
 use App\Http\Controllers\JabatanStrukturalController;
+use App\Http\Controllers\JenisCutiController;
 use App\Http\Controllers\JenisJabatanStrukturalController;
 use App\Http\Controllers\JenisKehadiranController;
 use App\Http\Controllers\JenisKenaikanPangkatController;
@@ -102,6 +103,7 @@ Route::middleware(['auth', 'checkrole'])->group(function(){
             ->except(['show']);
         Route::resource('kecamatan', KecamatanController::class)->except(['show']);
         Route::resource('jenis-kehadiran', JenisKehadiranController::class)->except(['show']);
+        Route::resource('jenis-cuti', JenisCutiController::class)->except(['show']);
     });
 
     Route::middleware('permission:hak_akses.view')->group(function () {

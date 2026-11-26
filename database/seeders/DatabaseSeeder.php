@@ -40,6 +40,7 @@ class DatabaseSeeder extends Seeder
             KabupatenKotaSeeder::class,
             KecamatanSeeder::class,
             JenisKehadiranSeeder::class,
+            JenisCutiSeeder::class,
         ]);
     }
 }
