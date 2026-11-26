@@ -301,36 +301,66 @@
   </div>
   <!-- Modal Atur Pengguna Modul -->
   <div class="modal fade" id="modalAturUserModul" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
       <div class="modal-content">
         <form id="formAturUserModul" method="POST">
           @csrf
           @method('PUT')
           <div class="modal-header">
-            <h5 class="modal-title">Atur Akses Pengguna: <span id="aturUserModulNama"></span></h5>
+            <div>
+              <h5 class="modal-title mb-0">Atur Akses Pengguna: <span id="aturUserModulNama"></span></h5>
+              <small class="text-muted">Super Admin otomatis memiliki akses ke semua modul aktif.</small>
+            </div>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <div class="d-flex align-items-center justify-content-between mb-2">
-              <small class="text-muted">Super Admin otomatis memiliki akses ke semua modul aktif.</small>
-              <div class="form-check mb-0">
-                <input class="form-check-input" type="checkbox" id="checkAllModulUsers">
-                <label class="form-check-label small" for="checkAllModulUsers">Pilih Semua</label>
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+              <div class="input-group input-group-sm" style="max-width: 340px;">
+                <span class="input-group-text bg-light"><i class="bi bi-search"></i></span>
+                <input
+                  type="text"
+                  id="searchModulUsers"
+                  class="form-control"
+                  placeholder="Cari nama, username, atau role..."
+                  autocomplete="off"
+                >
+              </div>
+              <div class="d-flex align-items-center gap-3">
+                <span class="badge bg-primary-subtle text-primary" id="selectedModulUsersCount">0 dipilih</span>
+                <div class="form-check mb-0 text-nowrap">
+                  <input class="form-check-input" type="checkbox" id="checkAllModulUsers">
+                  <label class="form-check-label small fw-semibold" for="checkAllModulUsers">Pilih Semua</label>
+                </div>
               </div>
             </div>
-            <div class="list-group">
+
+            <div class="list-group" id="modulUsersList" style="max-height: 360px; overflow-y: auto;">
               @foreach ($allUsers as $u)
-                <label class="list-group-item d-flex align-items-center justify-content-between gap-2" style="cursor: pointer;">
-                  <span class="d-flex align-items-center gap-2">
-                    <input class="form-check-input mt-0 modul-user-checkbox" type="checkbox" name="user_ids[]" value="{{ $u->id }}">
-                    <span>
-                      <span class="fw-semibold d-block small">{{ $u->name }}</span>
-                      <small class="text-muted">{{ $u->username }}</small>
-                    </span>
+                @php
+                  $searchText = strtolower($u->name.' '.$u->username.' '.$u->roles);
+                @endphp
+                <label
+                  class="list-group-item list-group-item-action d-flex align-items-center justify-content-between gap-3 py-2 px-3 modul-user-item"
+                  data-search="{{ $searchText }}"
+                  style="cursor: pointer;"
+                >
+                  <div class="d-flex align-items-center gap-2 flex-grow-1" style="min-width: 0;">
+                    <input class="form-check-input mt-0 flex-shrink-0 modul-user-checkbox" type="checkbox" name="user_ids[]" value="{{ $u->id }}">
+                    <div class="text-truncate">
+                      <div class="fw-semibold small text-truncate">{{ $u->name }}</div>
+                      <div class="text-muted" style="font-size: 11px;">{{ $u->username }}</div>
+                    </div>
+                  </div>
+                  <span class="badge bg-light text-dark border text-truncate flex-shrink-0" style="max-width: 240px; font-size: 11px;" title="{{ ucwords((string) $u->roles) }}">
+                    {{ ucwords((string) $u->roles) }}
                   </span>
-                  <span class="badge bg-light text-dark border">{{ ucwords((string) $u->roles) }}</span>
                 </label>
               @endforeach
+            </div>
+
+            <div id="modulUsersEmpty" class="text-center text-muted small py-4 d-none">
+              <i class="bi bi-search d-block fs-4 mb-1"></i>
+              Pengguna tidak ditemukan.
             </div>
           </div>
           <div class="modal-footer">
@@ -367,6 +397,40 @@
     const modalAturUserModul = document.getElementById('modalAturUserModul');
     if (modalAturUserModul) {
       const checkAllUsers = document.getElementById('checkAllModulUsers');
+      const searchInput = document.getElementById('searchModulUsers');
+      const countBadge = document.getElementById('selectedModulUsersCount');
+      const emptyState = document.getElementById('modulUsersEmpty');
+
+      function updateModulUserSummary() {
+        const allCheckboxes = modalAturUserModul.querySelectorAll('.modul-user-checkbox');
+        const checkedCount = Array.from(allCheckboxes).filter(cb => cb.checked).length;
+        if (countBadge) {
+          countBadge.textContent = checkedCount + ' dipilih';
+        }
+
+        const visibleCheckboxes = Array.from(modalAturUserModul.querySelectorAll('.modul-user-item:not(.d-none) .modul-user-checkbox'));
+        if (checkAllUsers) {
+          checkAllUsers.checked = visibleCheckboxes.length > 0 && visibleCheckboxes.every(cb => cb.checked);
+        }
+      }
+
+      function filterModulUsers() {
+        const keyword = (searchInput?.value || '').trim().toLowerCase();
+        const items = modalAturUserModul.querySelectorAll('.modul-user-item');
+        let visibleCount = 0;
+
+        items.forEach(function (item) {
+          const text = item.dataset.search || '';
+          const match = keyword === '' || text.includes(keyword);
+          item.classList.toggle('d-none', !match);
+          if (match) visibleCount++;
+        });
+
+        if (emptyState) {
+          emptyState.classList.toggle('d-none', visibleCount > 0);
+        }
+        updateModulUserSummary();
+      }
 
       modalAturUserModul.addEventListener('show.bs.modal', function (event) {
         const button = event.relatedTarget;
@@ -375,6 +439,8 @@
         document.getElementById('formAturUserModul').setAttribute('action', button.dataset.action);
         document.getElementById('aturUserModulNama').textContent = button.dataset.nama || '';
 
+        if (searchInput) searchInput.value = '';
+
         let selectedIds = [];
         try {
           selectedIds = JSON.parse(button.dataset.userIds || '[]').map(String);
@@ -382,23 +448,31 @@
           selectedIds = [];
         }
 
-        const checkboxes = modalAturUserModul.querySelectorAll('.modul-user-checkbox');
-        let allChecked = checkboxes.length > 0;
-        checkboxes.forEach(function (cb) {
+        modalAturUserModul.querySelectorAll('.modul-user-checkbox').forEach(function (cb) {
           cb.checked = selectedIds.includes(String(cb.value));
-          if (!cb.checked) allChecked = false;
         });
 
-        if (checkAllUsers) checkAllUsers.checked = allChecked;
+        filterModulUsers();
       });
+
+      if (searchInput) {
+        searchInput.addEventListener('input', filterModulUsers);
+      }
 
       if (checkAllUsers) {
         checkAllUsers.addEventListener('change', function () {
-          modalAturUserModul.querySelectorAll('.modul-user-checkbox').forEach(function (cb) {
+          modalAturUserModul.querySelectorAll('.modul-user-item:not(.d-none) .modul-user-checkbox').forEach(function (cb) {
             cb.checked = checkAllUsers.checked;
           });
+          updateModulUserSummary();
         });
       }
+
+      modalAturUserModul.addEventListener('change', function (event) {
+        if (event.target.classList.contains('modul-user-checkbox')) {
+          updateModulUserSummary();
+        }
+      });
     }
   </script>
 @endpush
