@@ -12,6 +12,7 @@ use App\Http\Controllers\JabatanFungsionalController;
 use App\Http\Controllers\JabatanStrukturalController;
 use App\Http\Controllers\JenisJabatanStrukturalController;
 use App\Http\Controllers\JenisKenaikanPangkatController;
+use App\Http\Controllers\JenisSertifikasiController;
 use App\Http\Controllers\JenisSkController;
 use App\Http\Controllers\KlasifikasiSdmController;
 use App\Http\Controllers\ModulController;
@@ -76,6 +77,7 @@ Route::middleware(['auth', 'checkrole'])->group(function(){
         Route::resource('eselon', EselonController::class)->except(['show']);
         Route::resource('rumpun-bidang-ilmu', RumpunBidangIlmuController::class)->except(['show']);
         Route::resource('gelar-akademik', GelarAkademikController::class)->except(['show']);
+        Route::resource('jenis-sertifikasi', JenisSertifikasiController::class)->except(['show']);
     });
 
     Route::middleware('permission:hak_akses.view')->group(function () {
