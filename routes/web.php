@@ -12,6 +12,7 @@ use App\Http\Controllers\JabatanFungsionalController;
 use App\Http\Controllers\JabatanStrukturalController;
 use App\Http\Controllers\JenisJabatanStrukturalController;
 use App\Http\Controllers\JenisKenaikanPangkatController;
+use App\Http\Controllers\JenisPelanggaranController;
 use App\Http\Controllers\JenisPenghargaanController;
 use App\Http\Controllers\JenisPkmController;
 use App\Http\Controllers\JenisSertifikasiController;
@@ -86,6 +87,7 @@ Route::middleware(['auth', 'checkrole'])->group(function(){
         Route::resource('jenis-pkm', JenisPkmController::class)->except(['show']);
         Route::resource('output-penelitian', OutputPenelitianController::class)->except(['show']);
         Route::resource('jenis-penghargaan', JenisPenghargaanController::class)->except(['show']);
+        Route::resource('jenis-pelanggaran', JenisPelanggaranController::class)->except(['show']);
     });
 
     Route::middleware('permission:hak_akses.view')->group(function () {
