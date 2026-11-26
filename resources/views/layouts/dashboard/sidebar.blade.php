@@ -380,13 +380,13 @@
               </li>
 
               <!-- Kehadiran -->
-              <li class="nav-item has-submenu {{ request()->routeIs('jenis-kehadiran.*', 'jenis-cuti.*', 'jenis-izin.*', 'jenis-hari.*', 'hari-libur.*') ? 'open' : '' }}">
-                  <a class="nav-link" href="#" aria-expanded="{{ request()->routeIs('jenis-kehadiran.*', 'jenis-cuti.*', 'jenis-izin.*', 'jenis-hari.*', 'hari-libur.*') ? 'true' : 'false' }}">
+              <li class="nav-item has-submenu {{ request()->routeIs('jenis-kehadiran.*', 'jenis-cuti.*', 'jenis-izin.*', 'jenis-hari.*', 'hari-libur.*', 'jam-kerja.*') ? 'open' : '' }}">
+                  <a class="nav-link" href="#" aria-expanded="{{ request()->routeIs('jenis-kehadiran.*', 'jenis-cuti.*', 'jenis-izin.*', 'jenis-hari.*', 'hari-libur.*', 'jam-kerja.*') ? 'true' : 'false' }}">
                       <span class="nav-icon"><i class="ph-light ph-clock"></i></span>
                       <span class="nav-text">Kehadiran</span>
                       <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
                   </a>
-                  <ul class="nav-submenu {{ request()->routeIs('jenis-kehadiran.*', 'jenis-cuti.*', 'jenis-izin.*', 'jenis-hari.*', 'hari-libur.*') ? 'show' : '' }}">
+                  <ul class="nav-submenu {{ request()->routeIs('jenis-kehadiran.*', 'jenis-cuti.*', 'jenis-izin.*', 'jenis-hari.*', 'hari-libur.*', 'jam-kerja.*') ? 'show' : '' }}">
                       <li><a class="nav-link {{ request()->routeIs('jenis-kehadiran.*') ? 'active' : '' }}" href="{{ route('jenis-kehadiran.index') }}"><span class="nav-dot"></span>Jenis Kehadiran</a>
                       </li>
                       <li><a class="nav-link {{ request()->routeIs('jenis-cuti.*') ? 'active' : '' }}" href="{{ route('jenis-cuti.index') }}"><span class="nav-dot"></span>Jenis Cuti</a></li>
@@ -395,7 +395,7 @@
                               Hari</a></li>
                       <li><a class="nav-link {{ request()->routeIs('hari-libur.*') ? 'active' : '' }}" href="{{ route('hari-libur.index') }}"><span class="nav-dot"></span>Hari
                               Libur</a></li>
-                      <li><a class="nav-link " href="error-maintenance.html"><span class="nav-dot"></span>Jam
+                      <li><a class="nav-link {{ request()->routeIs('jam-kerja.*') ? 'active' : '' }}" href="{{ route('jam-kerja.index') }}"><span class="nav-dot"></span>Jam
                               Kerja</a></li>
                   </ul>
               </li>

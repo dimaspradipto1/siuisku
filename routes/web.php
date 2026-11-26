@@ -11,6 +11,7 @@ use App\Http\Controllers\HariLiburController;
 use App\Http\Controllers\HubunganKerjaController;
 use App\Http\Controllers\JabatanFungsionalController;
 use App\Http\Controllers\JabatanStrukturalController;
+use App\Http\Controllers\JamKerjaController;
 use App\Http\Controllers\JenisCutiController;
 use App\Http\Controllers\JenisHariController;
 use App\Http\Controllers\JenisIzinController;
@@ -110,6 +111,7 @@ Route::middleware(['auth', 'checkrole'])->group(function(){
         Route::resource('jenis-izin', JenisIzinController::class)->except(['show']);
         Route::resource('jenis-hari', JenisHariController::class)->only(['index', 'update']);
         Route::resource('hari-libur', HariLiburController::class)->except(['show']);
+        Route::resource('jam-kerja', JamKerjaController::class)->except(['show']);
     });
 
     Route::middleware('permission:hak_akses.view')->group(function () {
