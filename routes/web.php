@@ -18,6 +18,7 @@ use App\Http\Controllers\JenisSkController;
 use App\Http\Controllers\JenisTesController;
 use App\Http\Controllers\KlasifikasiSdmController;
 use App\Http\Controllers\ModulController;
+use App\Http\Controllers\OutputPenelitianController;
 use App\Http\Controllers\PangkatController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RumpunBidangIlmuController;
@@ -82,6 +83,7 @@ Route::middleware(['auth', 'checkrole'])->group(function(){
         Route::resource('jenis-sertifikasi', JenisSertifikasiController::class)->except(['show']);
         Route::resource('jenis-tes', JenisTesController::class)->parameters(['jenis-tes' => 'jenisTes'])->except(['show']);
         Route::resource('jenis-pkm', JenisPkmController::class)->except(['show']);
+        Route::resource('output-penelitian', OutputPenelitianController::class)->except(['show']);
     });
 
     Route::middleware('permission:hak_akses.view')->group(function () {
