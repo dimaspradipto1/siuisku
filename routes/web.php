@@ -39,6 +39,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProvinsiController;
 use App\Http\Controllers\RumpunBidangIlmuController;
 use App\Http\Controllers\StatusAktifController;
+use App\Http\Controllers\StatusPernikahanController;
 use App\Http\Controllers\UnitKerjaController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -118,6 +119,7 @@ Route::middleware(['auth', 'checkrole'])->group(function(){
         Route::resource('agama', AgamaController::class)->except(['show']);
         Route::resource('bahasa', BahasaController::class)->except(['show']);
         Route::resource('pekerjaan', PekerjaanController::class)->except(['show']);
+        Route::resource('status-pernikahan', StatusPernikahanController::class)->only(['index', 'update']);
     });
 
     Route::middleware('permission:hak_akses.view')->group(function () {
