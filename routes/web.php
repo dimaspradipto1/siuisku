@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BackupController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EselonController;
+use App\Http\Controllers\GelarAkademikController;
 use App\Http\Controllers\HakAksesController;
 use App\Http\Controllers\HubunganKerjaController;
 use App\Http\Controllers\JabatanFungsionalController;
@@ -74,6 +75,7 @@ Route::middleware(['auth', 'checkrole'])->group(function(){
         Route::resource('jabatan-fungsional', JabatanFungsionalController::class)->except(['show']);
         Route::resource('eselon', EselonController::class)->except(['show']);
         Route::resource('rumpun-bidang-ilmu', RumpunBidangIlmuController::class)->except(['show']);
+        Route::resource('gelar-akademik', GelarAkademikController::class)->except(['show']);
     });
 
     Route::middleware('permission:hak_akses.view')->group(function () {
