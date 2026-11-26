@@ -12,6 +12,7 @@ use App\Http\Controllers\JabatanFungsionalController;
 use App\Http\Controllers\JabatanStrukturalController;
 use App\Http\Controllers\JenisJabatanStrukturalController;
 use App\Http\Controllers\JenisKenaikanPangkatController;
+use App\Http\Controllers\JenisPkmController;
 use App\Http\Controllers\JenisSertifikasiController;
 use App\Http\Controllers\JenisSkController;
 use App\Http\Controllers\JenisTesController;
@@ -80,6 +81,7 @@ Route::middleware(['auth', 'checkrole'])->group(function(){
         Route::resource('gelar-akademik', GelarAkademikController::class)->except(['show']);
         Route::resource('jenis-sertifikasi', JenisSertifikasiController::class)->except(['show']);
         Route::resource('jenis-tes', JenisTesController::class)->parameters(['jenis-tes' => 'jenisTes'])->except(['show']);
+        Route::resource('jenis-pkm', JenisPkmController::class)->except(['show']);
     });
 
     Route::middleware('permission:hak_akses.view')->group(function () {
