@@ -34,6 +34,7 @@ class DatabaseSeeder extends Seeder
             GelarAkademikSeeder::class,
             JenisSertifikasiSeeder::class,
             JenisTesSeeder::class,
+            JenisLuaranSeeder::class,
         ]);
     }
 }
