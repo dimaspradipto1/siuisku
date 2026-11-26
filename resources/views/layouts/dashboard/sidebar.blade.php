@@ -305,13 +305,13 @@
               <li class="nav-heading"><span>REFERENSI</span></li>
 
               <!-- Kepegawaian -->
-              <li class="nav-item has-submenu {{ request()->routeIs('jenis-jabatan-struktural.*', 'unit-kerja.*') ? 'open' : '' }}">
-                  <a class="nav-link" href="#" aria-expanded="{{ request()->routeIs('jenis-jabatan-struktural.*', 'unit-kerja.*') ? 'true' : 'false' }}">
+              <li class="nav-item has-submenu {{ request()->routeIs('jenis-jabatan-struktural.*', 'unit-kerja.*', 'jenis-sk.*') ? 'open' : '' }}">
+                  <a class="nav-link" href="#" aria-expanded="{{ request()->routeIs('jenis-jabatan-struktural.*', 'unit-kerja.*', 'jenis-sk.*') ? 'true' : 'false' }}">
                       <span class="nav-icon"><i class="ph-light ph-receipt"></i></span>
                       <span class="nav-text">Kepegawaian</span>
                       <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
                   </a>
-                  <ul class="nav-submenu {{ request()->routeIs('jenis-jabatan-struktural.*', 'unit-kerja.*') ? 'show' : '' }}">
+                  <ul class="nav-submenu {{ request()->routeIs('jenis-jabatan-struktural.*', 'unit-kerja.*', 'jenis-sk.*') ? 'show' : '' }}">
                       <li><a class="nav-link {{ request()->routeIs('unit-kerja.*') ? 'active' : '' }}" href="{{ route('unit-kerja.index') }}"><span class="nav-dot"></span>Unit Kerja</a>
                       </li>
                       <li><a class="nav-link " href="invoice.html"><span class="nav-dot"></span>Status Keaktifan</a>
@@ -332,7 +332,7 @@
                       </li>
                       <li><a class="nav-link " href="invoice.html"><span class="nav-dot"></span>Rumpun Bidang
                               Ilmu</a></li>
-                      <li><a class="nav-link " href="invoice.html"><span class="nav-dot"></span>Jenis SK</a></li>
+                      <li><a class="nav-link {{ request()->routeIs('jenis-sk.*') ? 'active' : '' }}" href="{{ route('jenis-sk.index') }}"><span class="nav-dot"></span>Jenis SK</a></li>
                       <li><a class="nav-link " href="invoice.html"><span class="nav-dot"></span>Gelar Akademik</a>
                       </li>
                   </ul>

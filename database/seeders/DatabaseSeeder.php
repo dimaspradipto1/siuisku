@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             JenisJabatanStrukturalSeeder::class,
             UnitKerjaSeeder::class,
             HakAksesSeeder::class,
+            JenisSkSeeder::class,
         ]);
     }
 }

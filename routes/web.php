@@ -6,6 +6,7 @@ use App\Http\Controllers\BackupController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HakAksesController;
 use App\Http\Controllers\JenisJabatanStrukturalController;
+use App\Http\Controllers\JenisSkController;
 use App\Http\Controllers\ModulController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UnitKerjaController;
@@ -54,6 +55,7 @@ Route::middleware(['auth', 'checkrole'])->group(function(){
     Route::middleware('permission:referensi.view')->group(function () {
         Route::resource('jenis-jabatan-struktural', JenisJabatanStrukturalController::class)->except(['show']);
         Route::resource('unit-kerja', UnitKerjaController::class)->except(['show']);
+        Route::resource('jenis-sk', JenisSkController::class)->except(['show', 'edit']);
     });
 
     Route::middleware('permission:hak_akses.view')->group(function () {
