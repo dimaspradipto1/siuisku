@@ -401,16 +401,16 @@
               </li>
 
               <!-- Pelengkap -->
-              <li class="nav-item has-submenu {{ request()->routeIs('agama.*', 'bahasa.*') ? 'open' : '' }}">
-                  <a class="nav-link" href="#" aria-expanded="{{ request()->routeIs('agama.*', 'bahasa.*') ? 'true' : 'false' }}">
+              <li class="nav-item has-submenu {{ request()->routeIs('agama.*', 'bahasa.*', 'pekerjaan.*') ? 'open' : '' }}">
+                  <a class="nav-link" href="#" aria-expanded="{{ request()->routeIs('agama.*', 'bahasa.*', 'pekerjaan.*') ? 'true' : 'false' }}">
                       <span class="nav-icon"><i class="ph-light ph-folders"></i></span>
                       <span class="nav-text">Pelengkap</span>
                       <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
                   </a>
-                  <ul class="nav-submenu {{ request()->routeIs('agama.*', 'bahasa.*') ? 'show' : '' }}">
+                  <ul class="nav-submenu {{ request()->routeIs('agama.*', 'bahasa.*', 'pekerjaan.*') ? 'show' : '' }}">
                       <li><a class="nav-link {{ request()->routeIs('agama.*') ? 'active' : '' }}" href="{{ route('agama.index') }}"><span class="nav-dot"></span>Agama</a></li>
                       <li><a class="nav-link {{ request()->routeIs('bahasa.*') ? 'active' : '' }}" href="{{ route('bahasa.index') }}"><span class="nav-dot"></span>Bahasa</a></li>
-                      <li><a class="nav-link " href="error-500.html"><span class="nav-dot"></span>Pekerjaan</a></li>
+                      <li><a class="nav-link {{ request()->routeIs('pekerjaan.*') ? 'active' : '' }}" href="{{ route('pekerjaan.index') }}"><span class="nav-dot"></span>Pekerjaan</a></li>
                       <li><a class="nav-link " href="error-maintenance.html"><span class="nav-dot"></span>Status
                               Pernikahan</a></li>
                       <li><a class="nav-link " href="error-maintenance.html"><span class="nav-dot"></span>Jenjang

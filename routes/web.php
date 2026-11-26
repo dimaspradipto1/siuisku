@@ -34,6 +34,7 @@ use App\Http\Controllers\ModulController;
 use App\Http\Controllers\NegaraController;
 use App\Http\Controllers\OutputPenelitianController;
 use App\Http\Controllers\PangkatController;
+use App\Http\Controllers\PekerjaanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProvinsiController;
 use App\Http\Controllers\RumpunBidangIlmuController;
@@ -116,6 +117,7 @@ Route::middleware(['auth', 'checkrole'])->group(function(){
         Route::resource('jam-kerja', JamKerjaController::class)->except(['show']);
         Route::resource('agama', AgamaController::class)->except(['show']);
         Route::resource('bahasa', BahasaController::class)->except(['show']);
+        Route::resource('pekerjaan', PekerjaanController::class)->except(['show']);
     });
 
     Route::middleware('permission:hak_akses.view')->group(function () {
