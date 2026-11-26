@@ -380,18 +380,18 @@
               </li>
 
               <!-- Kehadiran -->
-              <li class="nav-item has-submenu {{ request()->routeIs('jenis-kehadiran.*', 'jenis-cuti.*', 'jenis-izin.*') ? 'open' : '' }}">
-                  <a class="nav-link" href="#" aria-expanded="{{ request()->routeIs('jenis-kehadiran.*', 'jenis-cuti.*', 'jenis-izin.*') ? 'true' : 'false' }}">
+              <li class="nav-item has-submenu {{ request()->routeIs('jenis-kehadiran.*', 'jenis-cuti.*', 'jenis-izin.*', 'jenis-hari.*') ? 'open' : '' }}">
+                  <a class="nav-link" href="#" aria-expanded="{{ request()->routeIs('jenis-kehadiran.*', 'jenis-cuti.*', 'jenis-izin.*', 'jenis-hari.*') ? 'true' : 'false' }}">
                       <span class="nav-icon"><i class="ph-light ph-clock"></i></span>
                       <span class="nav-text">Kehadiran</span>
                       <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
                   </a>
-                  <ul class="nav-submenu {{ request()->routeIs('jenis-kehadiran.*', 'jenis-cuti.*', 'jenis-izin.*') ? 'show' : '' }}">
+                  <ul class="nav-submenu {{ request()->routeIs('jenis-kehadiran.*', 'jenis-cuti.*', 'jenis-izin.*', 'jenis-hari.*') ? 'show' : '' }}">
                       <li><a class="nav-link {{ request()->routeIs('jenis-kehadiran.*') ? 'active' : '' }}" href="{{ route('jenis-kehadiran.index') }}"><span class="nav-dot"></span>Jenis Kehadiran</a>
                       </li>
                       <li><a class="nav-link {{ request()->routeIs('jenis-cuti.*') ? 'active' : '' }}" href="{{ route('jenis-cuti.index') }}"><span class="nav-dot"></span>Jenis Cuti</a></li>
                       <li><a class="nav-link {{ request()->routeIs('jenis-izin.*') ? 'active' : '' }}" href="{{ route('jenis-izin.index') }}"><span class="nav-dot"></span>Jenis Izin</a></li>
-                      <li><a class="nav-link " href="error-maintenance.html"><span class="nav-dot"></span>Jenis
+                      <li><a class="nav-link {{ request()->routeIs('jenis-hari.*') ? 'active' : '' }}" href="{{ route('jenis-hari.index') }}"><span class="nav-dot"></span>Jenis
                               Hari</a></li>
                       <li><a class="nav-link " href="error-maintenance.html"><span class="nav-dot"></span>Hari
                               Libur</a></li>
