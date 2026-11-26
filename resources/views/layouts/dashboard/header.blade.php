@@ -22,32 +22,6 @@
     <div class="header-right">
       <div class="header-actions-desktop">
         <div class="header-action-cluster">
-          <div class="header-action-wrap dropdown lang-dropdown">
-            <button class="header-action lang-trigger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" title="Language">
-              <img src="https://flagcdn.com/w40/us.png" alt="EN" class="lang-flag">
-            </button>
-            <div class="dropdown-menu dropdown-menu-end lang-menu">
-              <div class="menu-title">Language</div>
-              <a class="lang-item active" href="#">
-                <img src="https://flagcdn.com/w40/us.png" alt="EN" class="lang-flag">
-                <span>English</span>
-                <i class="bi bi-check2"></i>
-              </a>
-              <a class="lang-item" href="#">
-                <img src="https://flagcdn.com/w40/fr.png" alt="FR" class="lang-flag">
-                <span>Français</span>
-              </a>
-              <a class="lang-item" href="#">
-                <img src="https://flagcdn.com/w40/de.png" alt="DE" class="lang-flag">
-                <span>Deutsch</span>
-              </a>
-              <a class="lang-item" href="#">
-                <img src="https://flagcdn.com/w40/es.png" alt="ES" class="lang-flag">
-                <span>Español</span>
-              </a>
-            </div>
-          </div>
-
           <div class="header-action-wrap dropdown quickaccess-dropdown">
             <button class="header-action dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" title="Daftar Modul">
               <i class="bi bi-grid-3x3-gap"></i>
