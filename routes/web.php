@@ -16,6 +16,7 @@ use App\Http\Controllers\KlasifikasiSdmController;
 use App\Http\Controllers\ModulController;
 use App\Http\Controllers\PangkatController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RumpunBidangIlmuController;
 use App\Http\Controllers\StatusAktifController;
 use App\Http\Controllers\UnitKerjaController;
 use App\Http\Controllers\UserController;
@@ -72,6 +73,7 @@ Route::middleware(['auth', 'checkrole'])->group(function(){
         Route::resource('klasifikasi-sdm', KlasifikasiSdmController::class)->except(['show']);
         Route::resource('jabatan-fungsional', JabatanFungsionalController::class)->except(['show']);
         Route::resource('eselon', EselonController::class)->except(['show']);
+        Route::resource('rumpun-bidang-ilmu', RumpunBidangIlmuController::class)->except(['show']);
     });
 
     Route::middleware('permission:hak_akses.view')->group(function () {
