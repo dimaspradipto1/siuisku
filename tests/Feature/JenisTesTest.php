@@ -50,27 +50,29 @@ class JenisTesTest extends TestCase
 
         // Create
         $this->post(route('jenis-tes.store'), [
-            'kode' => 'tpa',
-            'nama' => 'TPA BAPPENAS',
-            'nilai_minimal' => 450,
+            'kode' => 'tpda',
+            'nama' => 'TPDA PLTI',
+            'nilai_minimal' => 200,
             'nilai_maksimal' => 800,
         ])->assertRedirect(route('jenis-tes.index'));
 
-        $item = JenisTes::where('kode', 'TPA')->firstOrFail();
-        $this->assertSame('TPA BAPPENAS', $item->nama);
+        $item = JenisTes::where('kode', 'TPDA')->firstOrFail();
+        $this->assertSame('200.00', $item->nilai_minimal);
+        $this->assertSame('800.00', $item->nilai_maksimal);
 
         // Update
         $this->put(route('jenis-tes.update', $item), [
-            'kode' => 'TPA',
-            'nama' => 'TPA OTO BAPPENAS',
-            'nilai_minimal' => 500,
-            'nilai_maksimal' => 800,
+            'kode' => 'TPDA',
+            'nama' => 'TPDA PLTI Nasional',
+            'nilai_minimal' => 300,
+            'nilai_maksimal' => 850,
         ])->assertRedirect(route('jenis-tes.index'));
 
         $this->assertDatabaseHas('jenis_tes', [
             'id' => $item->id,
-            'nama' => 'TPA OTO BAPPENAS',
-            'nilai_minimal' => 500.00,
+            'nama' => 'TPDA PLTI Nasional',
+            'nilai_minimal' => '300.00',
+            'nilai_maksimal' => '850.00',
         ]);
 
         // Delete

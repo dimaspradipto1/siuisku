@@ -147,10 +147,10 @@
         tr.innerHTML = `
           <td class="text-center text-muted"><i class="bi bi-plus-circle"></i></td>
           <td>
-            <input type="text" name="kode" form="inlineCreateTesForm" class="form-control form-control-sm text-uppercase" placeholder="Contoh: TPA" maxlength="20" required>
+            <input type="text" name="kode" form="inlineCreateTesForm" class="form-control form-control-sm text-uppercase" placeholder="Contoh: TPDA" maxlength="20" required>
           </td>
           <td>
-            <input type="text" name="nama" form="inlineCreateTesForm" class="form-control form-control-sm" placeholder="Contoh: Tes Potensi Akademik" maxlength="150" required>
+            <input type="text" name="nama" form="inlineCreateTesForm" class="form-control form-control-sm" placeholder="Contoh: TPDA PLTI" maxlength="150" required>
           </td>
           <td>
             <input type="number" step="0.01" min="0" name="nilai_minimal" form="inlineCreateTesForm" class="form-control form-control-sm text-end" placeholder="0.00">
@@ -208,8 +208,8 @@
         const rowNo = tr.cells[0]?.textContent?.trim() || '';
         const kode = editBtn.dataset.kode || '';
         const nama = editBtn.dataset.nama || '';
-        const minVal = editBtn.dataset.nilaiMinimal || '';
-        const maxVal = editBtn.dataset.nilaiMaksimal || '';
+        const nilaiMin = editBtn.dataset.nilaiMinimal || '';
+        const nilaiMax = editBtn.dataset.nilaiMaksimal || '';
 
         tr.classList.add('inline-form-row');
         tr.innerHTML = `
@@ -221,10 +221,10 @@
             <input type="text" name="nama" form="inlineEditTesForm" class="form-control form-control-sm" maxlength="150" required>
           </td>
           <td>
-            <input type="number" step="0.01" min="0" name="nilai_minimal" form="inlineEditTesForm" class="form-control form-control-sm text-end">
+            <input type="number" step="0.01" min="0" name="nilai_minimal" form="inlineEditTesForm" class="form-control form-control-sm text-end" placeholder="0.00">
           </td>
           <td>
-            <input type="number" step="0.01" min="0" name="nilai_maksimal" form="inlineEditTesForm" class="form-control form-control-sm text-end">
+            <input type="number" step="0.01" min="0" name="nilai_maksimal" form="inlineEditTesForm" class="form-control form-control-sm text-end" placeholder="100.00">
           </td>
           <td class="text-center text-nowrap">
             <div class="d-inline-flex align-items-center justify-content-center gap-1">
@@ -244,8 +244,8 @@
         const maxInput = tr.querySelector('input[name="nilai_maksimal"]');
         if (kodeInput) kodeInput.value = kode;
         if (namaInput) namaInput.value = nama;
-        if (minInput) minInput.value = minVal;
-        if (maxInput) maxInput.value = maxVal;
+        if (minInput) minInput.value = nilaiMin;
+        if (maxInput) maxInput.value = nilaiMax;
         kodeInput?.focus();
 
         tr.querySelector('.btn-cancel-inline-edit')?.addEventListener('click', cancelActiveEdit);

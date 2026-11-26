@@ -15,7 +15,7 @@ class JenisTesRequest extends FormRequest
 
     public function rules(): array
     {
-        $item = $this->route('jenis_te') ?? $this->route('jenis_tes');
+        $item = $this->route('jenisTes') ?? $this->route('jenis_tes');
         $id = $item instanceof JenisTes ? $item->id : $item;
 
         return [
