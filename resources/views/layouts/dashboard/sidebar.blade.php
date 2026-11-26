@@ -401,14 +401,14 @@
               </li>
 
               <!-- Pelengkap -->
-              <li class="nav-item has-submenu ">
-                  <a class="nav-link" href="#" aria-expanded="false">
+              <li class="nav-item has-submenu {{ request()->routeIs('agama.*') ? 'open' : '' }}">
+                  <a class="nav-link" href="#" aria-expanded="{{ request()->routeIs('agama.*') ? 'true' : 'false' }}">
                       <span class="nav-icon"><i class="ph-light ph-folders"></i></span>
                       <span class="nav-text">Pelengkap</span>
                       <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
                   </a>
-                  <ul class="nav-submenu ">
-                      <li><a class="nav-link " href="error-404.html"><span class="nav-dot"></span>Agama</a></li>
+                  <ul class="nav-submenu {{ request()->routeIs('agama.*') ? 'show' : '' }}">
+                      <li><a class="nav-link {{ request()->routeIs('agama.*') ? 'active' : '' }}" href="{{ route('agama.index') }}"><span class="nav-dot"></span>Agama</a></li>
                       <li><a class="nav-link " href="error-403.html"><span class="nav-dot"></span>Bahasa</a></li>
                       <li><a class="nav-link " href="error-500.html"><span class="nav-dot"></span>Pekerjaan</a></li>
                       <li><a class="nav-link " href="error-maintenance.html"><span class="nav-dot"></span>Status

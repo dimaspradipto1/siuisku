@@ -45,6 +45,7 @@ class DatabaseSeeder extends Seeder
             JenisHariSeeder::class,
             HariLiburSeeder::class,
             JamKerjaSeeder::class,
+            AgamaSeeder::class,
         ]);
     }
 }
