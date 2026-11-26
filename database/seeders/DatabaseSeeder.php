@@ -35,6 +35,7 @@ class DatabaseSeeder extends Seeder
             JenisSertifikasiSeeder::class,
             JenisTesSeeder::class,
             JenisLuaranSeeder::class,
+            NegaraSeeder::class,
         ]);
     }
 }
