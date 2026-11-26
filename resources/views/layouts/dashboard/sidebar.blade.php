@@ -305,13 +305,13 @@
               <li class="nav-heading"><span>REFERENSI</span></li>
 
               <!-- Kepegawaian -->
-              <li class="nav-item has-submenu {{ request()->routeIs('jenis-jabatan-struktural.*', 'jabatan-struktural.*', 'unit-kerja.*', 'jenis-sk.*', 'status-aktif.*', 'hubungan-kerja.*', 'pangkat.*', 'jenis-kenaikan-pangkat.*', 'klasifikasi-sdm.*') ? 'open' : '' }}">
-                  <a class="nav-link" href="#" aria-expanded="{{ request()->routeIs('jenis-jabatan-struktural.*', 'jabatan-struktural.*', 'unit-kerja.*', 'jenis-sk.*', 'status-aktif.*', 'hubungan-kerja.*', 'pangkat.*', 'jenis-kenaikan-pangkat.*', 'klasifikasi-sdm.*') ? 'true' : 'false' }}">
+              <li class="nav-item has-submenu {{ request()->routeIs('jenis-jabatan-struktural.*', 'jabatan-struktural.*', 'unit-kerja.*', 'jenis-sk.*', 'status-aktif.*', 'hubungan-kerja.*', 'pangkat.*', 'jenis-kenaikan-pangkat.*', 'klasifikasi-sdm.*', 'jabatan-fungsional.*') ? 'open' : '' }}">
+                  <a class="nav-link" href="#" aria-expanded="{{ request()->routeIs('jenis-jabatan-struktural.*', 'jabatan-struktural.*', 'unit-kerja.*', 'jenis-sk.*', 'status-aktif.*', 'hubungan-kerja.*', 'pangkat.*', 'jenis-kenaikan-pangkat.*', 'klasifikasi-sdm.*', 'jabatan-fungsional.*') ? 'true' : 'false' }}">
                       <span class="nav-icon"><i class="ph-light ph-receipt"></i></span>
                       <span class="nav-text">Kepegawaian</span>
                       <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
                   </a>
-                  <ul class="nav-submenu {{ request()->routeIs('jenis-jabatan-struktural.*', 'jabatan-struktural.*', 'unit-kerja.*', 'jenis-sk.*', 'status-aktif.*', 'hubungan-kerja.*', 'pangkat.*', 'jenis-kenaikan-pangkat.*', 'klasifikasi-sdm.*') ? 'show' : '' }}">
+                  <ul class="nav-submenu {{ request()->routeIs('jenis-jabatan-struktural.*', 'jabatan-struktural.*', 'unit-kerja.*', 'jenis-sk.*', 'status-aktif.*', 'hubungan-kerja.*', 'pangkat.*', 'jenis-kenaikan-pangkat.*', 'klasifikasi-sdm.*', 'jabatan-fungsional.*') ? 'show' : '' }}">
                       <li><a class="nav-link {{ request()->routeIs('unit-kerja.*') ? 'active' : '' }}" href="{{ route('unit-kerja.index') }}"><span class="nav-dot"></span>Unit Kerja</a>
                       </li>
                       <li><a class="nav-link {{ request()->routeIs('status-aktif.*') ? 'active' : '' }}" href="{{ route('status-aktif.index') }}"><span class="nav-dot"></span>Status Aktif</a>
@@ -323,7 +323,7 @@
                               Pangkat</a></li>
                       <li><a class="nav-link {{ request()->routeIs('klasifikasi-sdm.*') ? 'active' : '' }}" href="{{ route('klasifikasi-sdm.index') }}"><span class="nav-dot"></span>Klasifikasi SDM</a>
                       </li>
-                      <li><a class="nav-link " href="invoice.html"><span class="nav-dot"></span>Jabatan
+                      <li><a class="nav-link {{ request()->routeIs('jabatan-fungsional.*') ? 'active' : '' }}" href="{{ route('jabatan-fungsional.index') }}"><span class="nav-dot"></span>Jabatan
                               Fungsional</a></li>
                       <li><a class="nav-link " href="invoice.html"><span class="nav-dot"></span>Esolon</a></li>
                       <li><a class="nav-link {{ request()->routeIs('jenis-jabatan-struktural.*') ? 'active' : '' }}" href="{{ route('jenis-jabatan-struktural.index') }}"><span class="nav-dot"></span>Jenis Jabatan

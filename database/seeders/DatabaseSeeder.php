@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
             HubunganKerjaSeeder::class,
             PangkatSeeder::class,
             KlasifikasiSdmSeeder::class,
+            JabatanFungsionalSeeder::class,
         ]);
     }
 }

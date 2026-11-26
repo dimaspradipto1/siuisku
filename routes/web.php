@@ -6,6 +6,7 @@ use App\Http\Controllers\BackupController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HakAksesController;
 use App\Http\Controllers\HubunganKerjaController;
+use App\Http\Controllers\JabatanFungsionalController;
 use App\Http\Controllers\JabatanStrukturalController;
 use App\Http\Controllers\JenisJabatanStrukturalController;
 use App\Http\Controllers\JenisKenaikanPangkatController;
@@ -68,6 +69,7 @@ Route::middleware(['auth', 'checkrole'])->group(function(){
         Route::resource('pangkat', PangkatController::class)->except(['show']);
         Route::resource('jenis-kenaikan-pangkat', JenisKenaikanPangkatController::class)->except(['show']);
         Route::resource('klasifikasi-sdm', KlasifikasiSdmController::class)->except(['show']);
+        Route::resource('jabatan-fungsional', JabatanFungsionalController::class)->except(['show']);
     });
 
     Route::middleware('permission:hak_akses.view')->group(function () {
