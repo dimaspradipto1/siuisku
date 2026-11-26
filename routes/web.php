@@ -4,6 +4,7 @@ use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\AgamaController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BackupController;
+use App\Http\Controllers\BahasaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EselonController;
 use App\Http\Controllers\GelarAkademikController;
@@ -114,6 +115,7 @@ Route::middleware(['auth', 'checkrole'])->group(function(){
         Route::resource('hari-libur', HariLiburController::class)->except(['show']);
         Route::resource('jam-kerja', JamKerjaController::class)->except(['show']);
         Route::resource('agama', AgamaController::class)->except(['show']);
+        Route::resource('bahasa', BahasaController::class)->except(['show']);
     });
 
     Route::middleware('permission:hak_akses.view')->group(function () {
