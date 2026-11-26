@@ -42,7 +42,7 @@
 
               <li class="nav-item has-submenu ">
                   <a class="nav-link" href="#" aria-expanded="false">
-                      <span class="nav-icon"><i class="ph-light ph-puzzle-piece"></i></span>
+                      <span class="nav-icon"><i class="ph-light ph-calendar-check"></i></span>
                       <span class="nav-text">Kehadiran</span>
                       <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
                   </a>
@@ -62,14 +62,14 @@
 
               <li class="nav-item">
                   <a class="nav-link " href="apps-calendar.html">
-                      <span class="nav-icon"><i class="ph-light ph-calendar-blank"></i></span>
-                      <span class="nav-text">Motoring Kegiatan</span>
+                      <span class="nav-icon"><i class="ph-light ph-chart-line-up"></i></span>
+                      <span class="nav-text">Monitoring Kegiatan</span>
                   </a>
               </li>
 
               <li class="nav-item has-submenu ">
                   <a class="nav-link" href="#" aria-expanded="false">
-                      <span class="nav-icon"><i class="ph-light ph-puzzle-piece"></i></span>
+                      <span class="nav-icon"><i class="ph-light ph-calendar-x"></i></span>
                       <span class="nav-text">Cuti</span>
                       <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
                   </a>
@@ -89,14 +89,14 @@
 
               <li class="nav-item">
                   <a class="nav-link " href="apps-chat.html">
-                      <span class="nav-icon"><i class="ph-light ph-chat-circle-dots"></i></span>
+                      <span class="nav-icon"><i class="ph-light ph-newspaper"></i></span>
                       <span class="nav-text">Berita</span>
                   </a>
               </li>
 
               <li class="nav-item has-submenu ">
                   <a class="nav-link" href="#" aria-expanded="false">
-                      <span class="nav-icon"><i class="ph-light ph-puzzle-piece"></i></span>
+                      <span class="nav-icon"><i class="ph-light ph-medal"></i></span>
                       <span class="nav-text">Kompensasi</span>
                       <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
                   </a>
@@ -110,7 +110,7 @@
 
               <li class="nav-item">
                   <a class="nav-link " href="apps-contacts.html">
-                      <span class="nav-icon"><i class="ph-light ph-address-book"></i></span>
+                      <span class="nav-icon"><i class="ph-light ph-files"></i></span>
                       <span class="nav-text">Dokumen Internal</span>
                   </a>
               </li>
@@ -119,28 +119,28 @@
               <li class="nav-heading"><span>Validasi Data</span></li>
               <li class="nav-item">
                   <a class="nav-link " href="contact.html">
-                      <span class="nav-icon"><i class="ph-light ph-paper-plane-tilt"></i></span>
+                      <span class="nav-icon"><i class="ph-light ph-sliders-horizontal"></i></span>
                       <span class="nav-text">Setting Validasi</span>
                   </a>
               </li>
 
               <li class="nav-item">
                   <a class="nav-link " href="contact.html">
-                      <span class="nav-icon"><i class="ph-light ph-paper-plane-tilt"></i></span>
+                      <span class="nav-icon"><i class="ph-light ph-monitor"></i></span>
                       <span class="nav-text">Monitoring</span>
                   </a>
               </li>
 
               <li class="nav-item">
                   <a class="nav-link " href="contact.html">
-                      <span class="nav-icon"><i class="ph-light ph-paper-plane-tilt"></i></span>
+                      <span class="nav-icon"><i class="ph-light ph-users"></i></span>
                       <span class="nav-text">Keluarga</span>
                   </a>
               </li>
 
               <li class="nav-item has-submenu ">
                   <a class="nav-link" href="#" aria-expanded="false">
-                      <span class="nav-icon"><i class="ph-light ph-puzzle-piece"></i></span>
+                      <span class="nav-icon"><i class="ph-light ph-identification-badge"></i></span>
                       <span class="nav-text">Kepegawaian</span>
                       <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
                   </a>
@@ -165,7 +165,7 @@
 
               <li class="nav-item has-submenu ">
                   <a class="nav-link" href="#" aria-expanded="false">
-                      <span class="nav-icon"><i class="ph-light ph-puzzle-piece"></i></span>
+                      <span class="nav-icon"><i class="ph-light ph-certificate"></i></span>
                       <span class="nav-text">Kompetensi</span>
                       <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
                   </a>
@@ -180,7 +180,7 @@
 
               <li class="nav-item has-submenu ">
                   <a class="nav-link" href="#" aria-expanded="false">
-                      <span class="nav-icon"><i class="ph-light ph-puzzle-piece"></i></span>
+                      <span class="nav-icon"><i class="ph-light ph-graduation-cap"></i></span>
                       <span class="nav-text">Pelaksanaan Pendidikan</span>
                       <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
                   </a>
@@ -208,7 +208,7 @@
 
               <li class="nav-item has-submenu ">
                   <a class="nav-link" href="#" aria-expanded="false">
-                      <span class="nav-icon"><i class="ph-light ph-puzzle-piece"></i></span>
+                      <span class="nav-icon"><i class="ph-light ph-flask"></i></span>
                       <span class="nav-text">Pelaksanaan Penelitian</span>
                       <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
                   </a>
@@ -227,7 +227,7 @@
 
               <li class="nav-item has-submenu ">
                   <a class="nav-link" href="#" aria-expanded="false">
-                      <span class="nav-icon"><i class="ph-light ph-puzzle-piece"></i></span>
+                      <span class="nav-icon"><i class="ph-light ph-handshake"></i></span>
                       <span class="nav-text">Pelaksanaan Pengabdian</span>
                       <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
                   </a>
@@ -249,7 +249,7 @@
 
               <li class="nav-item has-submenu ">
                   <a class="nav-link" href="#" aria-expanded="false">
-                      <span class="nav-icon"><i class="ph-light ph-puzzle-piece"></i></span>
+                      <span class="nav-icon"><i class="ph-light ph-trophy"></i></span>
                       <span class="nav-text">Penunjang</span>
                       <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
                   </a>
@@ -257,7 +257,7 @@
                       <li><a class="nav-link " href="components-alerts.html"><span
                                   class="nav-dot"></span>Pengabdian</a>
                       </li>
-                      <li><a class="nav-link " href="components-accordion.html"><span class="nav-dot"></span>anggota
+                      <li><a class="nav-link " href="components-accordion.html"><span class="nav-dot"></span>Anggota
                               Profesi</a>
                       </li>
                       <li><a class="nav-link " href="components-accordion.html"><span
@@ -271,8 +271,8 @@
 
               <li class="nav-item has-submenu ">
                   <a class="nav-link" href="#" aria-expanded="false">
-                      <span class="nav-icon"><i class="ph-light ph-puzzle-piece"></i></span>
-                      <span class="nav-text">Pengambangan</span>
+                      <span class="nav-icon"><i class="ph-light ph-trend-up"></i></span>
+                      <span class="nav-text">Pengembangan</span>
                       <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
                   </a>
                   <ul class="nav-submenu ">
@@ -307,7 +307,7 @@
               <!-- Kepegawaian -->
               <li class="nav-item has-submenu {{ request()->routeIs('jenis-jabatan-struktural.*', 'jabatan-struktural.*', 'unit-kerja.*', 'jenis-sk.*', 'status-aktif.*', 'hubungan-kerja.*', 'pangkat.*', 'jenis-kenaikan-pangkat.*', 'klasifikasi-sdm.*', 'jabatan-fungsional.*', 'eselon.*', 'rumpun-bidang-ilmu.*', 'gelar-akademik.*') ? 'open' : '' }}">
                   <a class="nav-link" href="#" aria-expanded="{{ request()->routeIs('jenis-jabatan-struktural.*', 'jabatan-struktural.*', 'unit-kerja.*', 'jenis-sk.*', 'status-aktif.*', 'hubungan-kerja.*', 'pangkat.*', 'jenis-kenaikan-pangkat.*', 'klasifikasi-sdm.*', 'jabatan-fungsional.*', 'eselon.*', 'rumpun-bidang-ilmu.*', 'gelar-akademik.*') ? 'true' : 'false' }}">
-                      <span class="nav-icon"><i class="ph-light ph-receipt"></i></span>
+                      <span class="nav-icon"><i class="ph-light ph-briefcase"></i></span>
                       <span class="nav-text">Kepegawaian</span>
                       <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
                   </a>
@@ -341,7 +341,7 @@
               <!-- Aktifitas -->
               <li class="nav-item has-submenu ">
                   <a class="nav-link" href="#" aria-expanded="false">
-                      <span class="nav-icon"><i class="ph-light ph-warning"></i></span>
+                      <span class="nav-icon"><i class="ph-light ph-list-checks"></i></span>
                       <span class="nav-text">Aktifitas</span>
                       <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
                   </a>
@@ -365,14 +365,14 @@
               <!-- Wilayah -->
               <li class="nav-item has-submenu ">
                   <a class="nav-link" href="#" aria-expanded="false">
-                      <span class="nav-icon"><i class="ph-light ph-warning"></i></span>
+                      <span class="nav-icon"><i class="ph-light ph-map-pin"></i></span>
                       <span class="nav-text">Wilayah</span>
                       <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
                   </a>
                   <ul class="nav-submenu ">
                       <li><a class="nav-link " href="error-404.html"><span class="nav-dot"></span>Negara</a></li>
                       <li><a class="nav-link " href="error-403.html"><span class="nav-dot"></span>Provinsi</a></li>
-                      <li><a class="nav-link " href="error-500.html"><span class="nav-dot"></span>Kabutpaten/Kota</a>
+                      <li><a class="nav-link " href="error-500.html"><span class="nav-dot"></span>Kabupaten/Kota</a>
                       </li>
                       <li><a class="nav-link " href="error-maintenance.html"><span
                                   class="nav-dot"></span>Kecamatan</a></li>
@@ -382,7 +382,7 @@
               <!-- Kehadiran -->
               <li class="nav-item has-submenu ">
                   <a class="nav-link" href="#" aria-expanded="false">
-                      <span class="nav-icon"><i class="ph-light ph-warning"></i></span>
+                      <span class="nav-icon"><i class="ph-light ph-clock"></i></span>
                       <span class="nav-text">Kehadiran</span>
                       <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
                   </a>
@@ -403,7 +403,7 @@
               <!-- Pelengkap -->
               <li class="nav-item has-submenu ">
                   <a class="nav-link" href="#" aria-expanded="false">
-                      <span class="nav-icon"><i class="ph-light ph-warning"></i></span>
+                      <span class="nav-icon"><i class="ph-light ph-folders"></i></span>
                       <span class="nav-text">Pelengkap</span>
                       <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
                   </a>
