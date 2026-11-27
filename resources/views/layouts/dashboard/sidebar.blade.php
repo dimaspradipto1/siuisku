@@ -163,15 +163,16 @@
                   </ul>
               </li>
 
-              <li class="nav-item has-submenu {{ request()->routeIs('validasi-pendidikan-formal.*', 'validasi-diklat.*') ? 'open' : '' }}">
-                  <a class="nav-link" href="#" aria-expanded="{{ request()->routeIs('validasi-pendidikan-formal.*', 'validasi-diklat.*') ? 'true' : 'false' }}">
+              <li class="nav-item has-submenu {{ request()->routeIs('validasi-pendidikan-formal.*', 'validasi-diklat.*', 'validasi-riwayat-pekerjaan.*') ? 'open' : '' }}">
+                  <a class="nav-link" href="#" aria-expanded="{{ request()->routeIs('validasi-pendidikan-formal.*', 'validasi-diklat.*', 'validasi-riwayat-pekerjaan.*') ? 'true' : 'false' }}">
                       <span class="nav-icon"><i class="ph-light ph-book-open-text"></i></span>
                       <span class="nav-text">Kualifikasi</span>
                       <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
                   </a>
-                  <ul class="nav-submenu {{ request()->routeIs('validasi-pendidikan-formal.*', 'validasi-diklat.*') ? 'show' : '' }}">
+                  <ul class="nav-submenu {{ request()->routeIs('validasi-pendidikan-formal.*', 'validasi-diklat.*', 'validasi-riwayat-pekerjaan.*') ? 'show' : '' }}">
                       <li><a class="nav-link {{ request()->routeIs('validasi-pendidikan-formal.*') ? 'active' : '' }}" href="{{ route('validasi-pendidikan-formal.index') }}"><span class="nav-dot"></span>Pendidikan Formal</a></li>
                       <li><a class="nav-link {{ request()->routeIs('validasi-diklat.*') ? 'active' : '' }}" href="{{ route('validasi-diklat.index') }}"><span class="nav-dot"></span>Diklat</a></li>
+                      <li><a class="nav-link {{ request()->routeIs('validasi-riwayat-pekerjaan.*') ? 'active' : '' }}" href="{{ route('validasi-riwayat-pekerjaan.index') }}"><span class="nav-dot"></span>Riwayat Pekerjaan</a></li>
                   </ul>
               </li>
 
