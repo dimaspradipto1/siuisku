@@ -5,6 +5,7 @@ use App\Http\Controllers\AgamaController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BackupController;
 use App\Http\Controllers\BahasaController;
+use App\Http\Controllers\BankController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EselonController;
 use App\Http\Controllers\GelarAkademikController;
@@ -126,6 +127,7 @@ Route::middleware(['auth', 'checkrole'])->group(function(){
         Route::resource('jenjang-pendidikan', JenjangPendidikanController::class)->except(['show']);
         Route::resource('perguruan-tinggi', PerguruanTinggiController::class)->except(['show']);
         Route::resource('prodi-perguruan-tinggi', ProdiPerguruanTinggiController::class)->except(['show']);
+        Route::resource('bank', BankController::class)->except(['show']);
     });
 
     Route::middleware('permission:hak_akses.view')->group(function () {
