@@ -21,4 +21,9 @@ class KlasifikasiSdm extends Model
     {
         return $this->hasMany(Pegawai::class);
     }
+
+    public function riwayatKlasifikasiSdms(): HasMany
+    {
+        return $this->hasMany(RiwayatKlasifikasiSdm::class);
+    }
 }
