@@ -50,6 +50,7 @@ class DatabaseSeeder extends Seeder
             StatusPernikahanSeeder::class,
             JenjangPendidikanSeeder::class,
             PerguruanTinggiSeeder::class,
+            ProdiPerguruanTinggiSeeder::class,
         ]);
     }
 }

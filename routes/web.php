@@ -37,6 +37,7 @@ use App\Http\Controllers\OutputPenelitianController;
 use App\Http\Controllers\PangkatController;
 use App\Http\Controllers\PekerjaanController;
 use App\Http\Controllers\PerguruanTinggiController;
+use App\Http\Controllers\ProdiPerguruanTinggiController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProvinsiController;
 use App\Http\Controllers\RumpunBidangIlmuController;
@@ -124,6 +125,7 @@ Route::middleware(['auth', 'checkrole'])->group(function(){
         Route::resource('status-pernikahan', StatusPernikahanController::class)->only(['index', 'update']);
         Route::resource('jenjang-pendidikan', JenjangPendidikanController::class)->except(['show']);
         Route::resource('perguruan-tinggi', PerguruanTinggiController::class)->except(['show']);
+        Route::resource('prodi-perguruan-tinggi', ProdiPerguruanTinggiController::class)->except(['show']);
     });
 
     Route::middleware('permission:hak_akses.view')->group(function () {
