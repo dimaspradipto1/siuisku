@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[Fillable([
     'klasifikasi_sdm_id',
@@ -49,5 +50,10 @@ class JabatanFungsional extends Model
     public function pangkat(): BelongsTo
     {
         return $this->belongsTo(Pangkat::class, 'pangkat_id');
+    }
+
+    public function riwayatJabatanFungsionals(): HasMany
+    {
+        return $this->hasMany(RiwayatJabatanFungsional::class);
     }
 }

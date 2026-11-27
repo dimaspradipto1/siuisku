@@ -51,6 +51,7 @@ use App\Http\Controllers\SukuController;
 use App\Http\Controllers\UnitKerjaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ValidasiHomebaseController;
+use App\Http\Controllers\ValidasiJabatanFungsionalController;
 use App\Http\Controllers\ValidasiKeluargaController;
 use App\Http\Controllers\ValidasiKlasifikasiSdmController;
 use App\Http\Controllers\ValidasiPangkatController;
@@ -181,6 +182,12 @@ Route::middleware(['auth', 'checkrole'])->group(function(){
         Route::get('/', 'index')->name('index');
         Route::post('bulk', 'bulkAction')->name('bulk');
         Route::get('{riwayatKlasifikasiSdm}', 'show')->name('show');
+    });
+
+    Route::middleware('permission:validasi.view')->prefix('validasi-jabatan-fungsional')->name('validasi-jabatan-fungsional.')->controller(ValidasiJabatanFungsionalController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('bulk', 'bulkAction')->name('bulk');
+        Route::get('{riwayatJabatanFungsional}', 'show')->name('show');
     });
 
     Route::middleware('permission:hak_akses.view')->group(function () {
