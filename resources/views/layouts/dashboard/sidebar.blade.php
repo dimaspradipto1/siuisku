@@ -401,13 +401,13 @@
               </li>
 
               <!-- Pelengkap -->
-              <li class="nav-item has-submenu {{ request()->routeIs('agama.*', 'bahasa.*', 'pekerjaan.*', 'status-pernikahan.*', 'jenjang-pendidikan.*', 'perguruan-tinggi.*', 'prodi-perguruan-tinggi.*', 'bank.*', 'suku.*') ? 'open' : '' }}">
-                  <a class="nav-link" href="#" aria-expanded="{{ request()->routeIs('agama.*', 'bahasa.*', 'pekerjaan.*', 'status-pernikahan.*', 'jenjang-pendidikan.*', 'perguruan-tinggi.*', 'prodi-perguruan-tinggi.*', 'bank.*', 'suku.*') ? 'true' : 'false' }}">
+              <li class="nav-item has-submenu {{ request()->routeIs('agama.*', 'bahasa.*', 'pekerjaan.*', 'status-pernikahan.*', 'jenjang-pendidikan.*', 'perguruan-tinggi.*', 'prodi-perguruan-tinggi.*', 'bank.*', 'suku.*', 'golongan-darah.*') ? 'open' : '' }}">
+                  <a class="nav-link" href="#" aria-expanded="{{ request()->routeIs('agama.*', 'bahasa.*', 'pekerjaan.*', 'status-pernikahan.*', 'jenjang-pendidikan.*', 'perguruan-tinggi.*', 'prodi-perguruan-tinggi.*', 'bank.*', 'suku.*', 'golongan-darah.*') ? 'true' : 'false' }}">
                       <span class="nav-icon"><i class="ph-light ph-folders"></i></span>
                       <span class="nav-text">Pelengkap</span>
                       <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
                   </a>
-                  <ul class="nav-submenu {{ request()->routeIs('agama.*', 'bahasa.*', 'pekerjaan.*', 'status-pernikahan.*', 'jenjang-pendidikan.*', 'perguruan-tinggi.*', 'prodi-perguruan-tinggi.*', 'bank.*', 'suku.*') ? 'show' : '' }}">
+                  <ul class="nav-submenu {{ request()->routeIs('agama.*', 'bahasa.*', 'pekerjaan.*', 'status-pernikahan.*', 'jenjang-pendidikan.*', 'perguruan-tinggi.*', 'prodi-perguruan-tinggi.*', 'bank.*', 'suku.*', 'golongan-darah.*') ? 'show' : '' }}">
                       <li><a class="nav-link {{ request()->routeIs('agama.*') ? 'active' : '' }}" href="{{ route('agama.index') }}"><span class="nav-dot"></span>Agama</a></li>
                       <li><a class="nav-link {{ request()->routeIs('bahasa.*') ? 'active' : '' }}" href="{{ route('bahasa.index') }}"><span class="nav-dot"></span>Bahasa</a></li>
                       <li><a class="nav-link {{ request()->routeIs('pekerjaan.*') ? 'active' : '' }}" href="{{ route('pekerjaan.index') }}"><span class="nav-dot"></span>Pekerjaan</a></li>
@@ -421,7 +421,7 @@
                               Perguruan Tinggi</a></li>
                       <li><a class="nav-link {{ request()->routeIs('bank.*') ? 'active' : '' }}" href="{{ route('bank.index') }}"><span class="nav-dot"></span>Bank</a></li>
                       <li><a class="nav-link {{ request()->routeIs('suku.*') ? 'active' : '' }}" href="{{ route('suku.index') }}"><span class="nav-dot"></span>Suku</a></li>
-                      <li><a class="nav-link " href="error-maintenance.html"><span class="nav-dot"></span>Golongan
+                      <li><a class="nav-link {{ request()->routeIs('golongan-darah.*') ? 'active' : '' }}" href="{{ route('golongan-darah.index') }}"><span class="nav-dot"></span>Golongan
                               Darah</a></li>
                       <li><a class="nav-link " href="error-maintenance.html"><span class="nav-dot"></span>Gelar
                               Akademik</a></li>

@@ -9,6 +9,7 @@ use App\Http\Controllers\BankController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EselonController;
 use App\Http\Controllers\GelarAkademikController;
+use App\Http\Controllers\GolonganDarahController;
 use App\Http\Controllers\HakAksesController;
 use App\Http\Controllers\HariLiburController;
 use App\Http\Controllers\HubunganKerjaController;
@@ -130,6 +131,7 @@ Route::middleware(['auth', 'checkrole'])->group(function(){
         Route::resource('prodi-perguruan-tinggi', ProdiPerguruanTinggiController::class)->except(['show']);
         Route::resource('bank', BankController::class)->except(['show']);
         Route::resource('suku', SukuController::class)->except(['show']);
+        Route::resource('golongan-darah', GolonganDarahController::class)->except(['show']);
     });
 
     Route::middleware('permission:hak_akses.view')->group(function () {
