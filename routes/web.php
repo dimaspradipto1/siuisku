@@ -137,7 +137,12 @@ Route::middleware(['auth', 'checkrole'])->group(function(){
 
     Route::middleware('permission:validasi.view')->prefix('setting-validasi')->name('setting-validasi.')->controller(SettingValidasiController::class)->group(function () {
         Route::get('/', 'index')->name('index');
+        Route::get('create', 'create')->name('create');
+        Route::post('/', 'store')->name('store');
         Route::get('{settingValidasi}', 'show')->name('show');
+        Route::get('{settingValidasi}/edit', 'edit')->name('edit');
+        Route::put('{settingValidasi}', 'update')->name('update');
+        Route::delete('{settingValidasi}', 'destroy')->name('destroy');
         Route::post('{settingValidasi}/steps', 'storeStep')->name('steps.store');
         Route::put('{settingValidasi}/steps/{step}', 'updateStep')->name('steps.update');
         Route::delete('{settingValidasi}/steps/{step}', 'destroyStep')->name('steps.destroy');

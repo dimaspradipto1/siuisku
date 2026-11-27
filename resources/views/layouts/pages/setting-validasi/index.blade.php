@@ -12,6 +12,11 @@
             <span class="breadcrumb-item active">Setting Validasi</span>
           </nav>
         </div>
+        <div class="page-header-actions d-flex gap-2">
+          <button type="button" id="btnTambahInlineJenisValidasi" class="btn btn-primary btn-sm">
+            <i class="bi bi-plus-lg me-1"></i> Tambah Jenis Validasi
+          </button>
+        </div>
       </div>
 
       @if (session('success'))
@@ -27,6 +32,27 @@
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
       @endif
+
+      @if ($errors->any())
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <strong>Terjadi kesalahan input:</strong>
+          <ul class="mb-0 mt-1">
+            @foreach ($errors->all() as $error)
+              <li>{{ $error }}</li>
+            @endforeach
+          </ul>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      @endif
+
+      <!-- Hidden forms for inline Create & Edit -->
+      <form id="inlineCreateJenisValidasiForm" action="{{ route('setting-validasi.store') }}" method="POST" class="d-none">
+        @csrf
+      </form>
+      <form id="inlineEditJenisValidasiForm" method="POST" class="d-none">
+        @csrf
+        @method('PUT')
+      </form>
 
       <div class="card">
         <div class="card-header d-flex align-items-center justify-content-between">
@@ -57,6 +83,15 @@
     #setting-validasi-table td {
       padding: 0.45rem 0.6rem;
     }
+
+    #setting-validasi-table tr.inline-form-row {
+      background-color: #f8fafc;
+    }
+
+    #setting-validasi-table tr.inline-form-row input.form-control {
+      font-size: 12px;
+      height: 34px;
+    }
   </style>
 @endpush
 
@@ -66,4 +101,140 @@
   @else
     {!! $dataTable->scripts() !!}
   @endif
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const btnTambah = document.getElementById('btnTambahInlineJenisValidasi');
+      const editForm = document.getElementById('inlineEditJenisValidasiForm');
+      const hasErrors = @json($errors->any());
+      const openCreateOnLoad = @json(request()->boolean('create') || $errors->any());
+      const oldKode = @json(old('kode', ''));
+      const oldNama = @json(old('nama', ''));
+
+      let activeEditRow = null;
+      let activeEditOriginalHtml = '';
+
+      function cancelActiveEdit() {
+        if (activeEditRow && activeEditOriginalHtml) {
+          activeEditRow.innerHTML = activeEditOriginalHtml;
+          activeEditRow.classList.remove('inline-form-row');
+          activeEditRow = null;
+          activeEditOriginalHtml = '';
+        }
+      }
+
+      function removeCreateRow() {
+        const existing = document.getElementById('inlineCreateJenisValidasiRow');
+        if (existing) existing.remove();
+      }
+
+      function openCreateRow(kodeVal = '', namaVal = '') {
+        cancelActiveEdit();
+        const existing = document.getElementById('inlineCreateJenisValidasiRow');
+        if (existing) {
+          existing.querySelector('input[name="kode"]')?.focus();
+          return;
+        }
+
+        const tbody = document.querySelector('#setting-validasi-table tbody');
+        if (!tbody) return;
+
+        const tr = document.createElement('tr');
+        tr.id = 'inlineCreateJenisValidasiRow';
+        tr.className = 'inline-form-row';
+        tr.innerHTML = `
+          <td class="text-center text-muted"><i class="bi bi-plus-circle"></i></td>
+          <td>
+            <input type="text" name="kode" form="inlineCreateJenisValidasiForm" class="form-control form-control-sm text-uppercase" placeholder="Contoh: RWT" maxlength="15" required>
+          </td>
+          <td>
+            <input type="text" name="nama" form="inlineCreateJenisValidasiForm" class="form-control form-control-sm" placeholder="Contoh: Riwayat Kepegawaian" maxlength="100" required>
+          </td>
+          <td class="text-center text-nowrap">
+            <div class="d-inline-flex align-items-center justify-content-center gap-1">
+              <button type="submit" form="inlineCreateJenisValidasiForm" class="btn btn-sm btn-success text-white d-inline-flex align-items-center justify-content-center p-0" style="width: 32px; height: 32px;" title="Simpan">
+                <i class="fa-solid fa-floppy-disk"></i>
+              </button>
+              <button type="button" id="btnCancelInlineCreateJenisValidasi" class="btn btn-sm btn-warning text-white d-inline-flex align-items-center justify-content-center p-0" style="width: 32px; height: 32px;" title="Batal">
+                <i class="fa-solid fa-rotate-left"></i>
+              </button>
+            </div>
+          </td>
+        `;
+
+        tbody.prepend(tr);
+
+        const kodeInput = tr.querySelector('input[name="kode"]');
+        const namaInput = tr.querySelector('input[name="nama"]');
+        if (kodeInput) kodeInput.value = kodeVal;
+        if (namaInput) namaInput.value = namaVal;
+        kodeInput?.focus();
+
+        tr.querySelector('#btnCancelInlineCreateJenisValidasi')?.addEventListener('click', removeCreateRow);
+      }
+
+      if (btnTambah) {
+        btnTambah.addEventListener('click', function () {
+          openCreateRow('', '');
+        });
+      }
+
+      document.addEventListener('click', function (event) {
+        const editBtn = event.target.closest('.btn-inline-edit-jenis-validasi');
+        if (!editBtn) return;
+
+        removeCreateRow();
+        cancelActiveEdit();
+
+        const tr = editBtn.closest('tr');
+        if (!tr || !editForm) return;
+
+        activeEditRow = tr;
+        activeEditOriginalHtml = tr.innerHTML;
+        editForm.setAttribute('action', editBtn.dataset.action || '');
+
+        const rowNo = tr.cells[0]?.textContent?.trim() || '';
+        const kode = editBtn.dataset.kode || '';
+        const nama = editBtn.dataset.nama || '';
+
+        tr.classList.add('inline-form-row');
+        tr.innerHTML = `
+          <td class="text-center">${rowNo}</td>
+          <td>
+            <input type="text" name="kode" form="inlineEditJenisValidasiForm" class="form-control form-control-sm text-uppercase" maxlength="15" required>
+          </td>
+          <td>
+            <input type="text" name="nama" form="inlineEditJenisValidasiForm" class="form-control form-control-sm" maxlength="100" required>
+          </td>
+          <td class="text-center text-nowrap">
+            <div class="d-inline-flex align-items-center justify-content-center gap-1">
+              <button type="submit" form="inlineEditJenisValidasiForm" class="btn btn-sm btn-success text-white d-inline-flex align-items-center justify-content-center p-0" style="width: 32px; height: 32px;" title="Simpan Perubahan">
+                <i class="fa-solid fa-floppy-disk"></i>
+              </button>
+              <button type="button" class="btn btn-sm btn-warning text-white d-inline-flex align-items-center justify-content-center p-0 btn-cancel-inline-edit" style="width: 32px; height: 32px;" title="Batal">
+                <i class="fa-solid fa-rotate-left"></i>
+              </button>
+            </div>
+          </td>
+        `;
+
+        const kodeInput = tr.querySelector('input[name="kode"]');
+        const namaInput = tr.querySelector('input[name="nama"]');
+        if (kodeInput) kodeInput.value = kode;
+        if (namaInput) namaInput.value = nama;
+        kodeInput?.focus();
+
+        tr.querySelector('.btn-cancel-inline-edit')?.addEventListener('click', cancelActiveEdit);
+      });
+
+      if (openCreateOnLoad && typeof $ !== 'undefined') {
+        $('#setting-validasi-table').one('draw.dt', function () {
+          openCreateRow(
+            hasErrors ? oldKode : '',
+            hasErrors ? oldNama : ''
+          );
+        });
+      }
+    });
+  </script>
 @endpush

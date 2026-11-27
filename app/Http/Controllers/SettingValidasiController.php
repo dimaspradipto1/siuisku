@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\SettingValidasiDataTable;
+use App\Http\Requests\JenisValidasiRequest;
 use App\Http\Requests\SettingValidasiStepRequest;
 use App\Models\ActivityLog;
 use App\Models\JenisValidasi;
@@ -19,6 +20,32 @@ class SettingValidasiController extends Controller
         return $dataTable->render('layouts.pages.setting-validasi.index', compact('total'));
     }
 
+    public function create()
+    {
+        return redirect()->route('setting-validasi.index', ['create' => 1]);
+    }
+
+    public function store(JenisValidasiRequest $request)
+    {
+        $validated = $request->validated();
+        $validated['kode'] = strtoupper(trim($validated['kode']));
+        $validated['nama'] = trim($validated['nama']);
+
+        $item = JenisValidasi::create($validated);
+
+        ActivityLog::record(
+            Auth::user(),
+            'system',
+            'Menambahkan Jenis Validasi',
+            "Menambahkan {$item->kode} - {$item->nama}.",
+            'success',
+        );
+
+        return redirect()
+            ->route('setting-validasi.index')
+            ->with('success', 'Jenis validasi berhasil ditambahkan.');
+    }
+
     public function show(JenisValidasi $settingValidasi)
     {
         $settingValidasi->load('steps.role');
@@ -26,6 +53,50 @@ class SettingValidasiController extends Controller
         $nextUrutan = ((int) $settingValidasi->steps->max('urutan')) + 1;
 
         return view('layouts.pages.setting-validasi.show', compact('settingValidasi', 'roles', 'nextUrutan'));
+    }
+
+    public function edit(JenisValidasi $settingValidasi)
+    {
+        return redirect()->route('setting-validasi.index');
+    }
+
+    public function update(JenisValidasiRequest $request, JenisValidasi $settingValidasi)
+    {
+        $validated = $request->validated();
+        $validated['kode'] = strtoupper(trim($validated['kode']));
+        $validated['nama'] = trim($validated['nama']);
+
+        $settingValidasi->update($validated);
+
+        ActivityLog::record(
+            Auth::user(),
+            'system',
+            'Memperbarui Jenis Validasi',
+            "Memperbarui {$settingValidasi->kode} - {$settingValidasi->nama}.",
+            'info',
+        );
+
+        return redirect()
+            ->route('setting-validasi.index')
+            ->with('success', 'Jenis validasi berhasil diperbarui.');
+    }
+
+    public function destroy(JenisValidasi $settingValidasi)
+    {
+        $label = "{$settingValidasi->kode} - {$settingValidasi->nama}";
+        $settingValidasi->delete();
+
+        ActivityLog::record(
+            Auth::user(),
+            'system',
+            'Menghapus Jenis Validasi',
+            "Menghapus {$label}.",
+            'warning',
+        );
+
+        return redirect()
+            ->route('setting-validasi.index')
+            ->with('success', "Jenis validasi ({$label}) berhasil dihapus.");
     }
 
     public function storeStep(SettingValidasiStepRequest $request, JenisValidasi $settingValidasi)

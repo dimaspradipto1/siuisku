@@ -47,6 +47,47 @@ class SettingValidasiTest extends TestCase
             ->assertJsonPath('recordsTotal', 3);
     }
 
+    public function test_can_create_store_edit_update_and_delete_jenis_validasi(): void
+    {
+        $this->seed(HakAksesSeeder::class);
+        $this->seed(JenisValidasiSeeder::class);
+        $this->actingAsAdmin();
+
+        // Create redirect
+        $this->get(route('setting-validasi.create'))
+            ->assertRedirect(route('setting-validasi.index', ['create' => 1]));
+
+        // Store
+        $this->post(route('setting-validasi.store'), [
+            'kode' => 'rwt',
+            'nama' => 'Riwayat Kepegawaian',
+        ])->assertRedirect(route('setting-validasi.index'));
+
+        $item = JenisValidasi::where('kode', 'RWT')->firstOrFail();
+        $this->assertSame('Riwayat Kepegawaian', $item->nama);
+
+        // Edit redirect
+        $this->get(route('setting-validasi.edit', $item))
+            ->assertRedirect(route('setting-validasi.index'));
+
+        // Update
+        $this->put(route('setting-validasi.update', $item), [
+            'kode' => 'RWT',
+            'nama' => 'Riwayat Jabatan',
+        ])->assertRedirect(route('setting-validasi.index'));
+
+        $this->assertDatabaseHas('jenis_validasis', [
+            'id' => $item->id,
+            'nama' => 'Riwayat Jabatan',
+        ]);
+
+        // Delete
+        $this->delete(route('setting-validasi.destroy', $item))
+            ->assertRedirect(route('setting-validasi.index'));
+
+        $this->assertDatabaseMissing('jenis_validasis', ['id' => $item->id]);
+    }
+
     public function test_can_manage_setting_validasi_steps(): void
     {
         $this->seed(HakAksesSeeder::class);

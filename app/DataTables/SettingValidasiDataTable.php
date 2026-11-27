@@ -20,6 +20,10 @@ class SettingValidasiDataTable extends DataTable
             })
             ->addColumn('action', function (JenisValidasi $item) {
                 $showUrl = route('setting-validasi.show', $item);
+                $updateUrl = route('setting-validasi.update', $item);
+                $deleteUrl = route('setting-validasi.destroy', $item);
+                $csrf = csrf_field();
+                $method = method_field('DELETE');
 
                 return '
                     <div class="d-inline-flex align-items-center justify-content-center gap-1">
@@ -29,6 +33,25 @@ class SettingValidasiDataTable extends DataTable
                             title="Detail Setting Validasi">
                             <i class="fa-solid fa-eye"></i>
                         </a>
+                        <button type="button"
+                            class="btn btn-sm btn-warning text-white d-inline-flex align-items-center justify-content-center p-0 btn-inline-edit-jenis-validasi"
+                            style="width: 32px; height: 32px;"
+                            title="Edit"
+                            data-id="' . $item->id . '"
+                            data-kode="' . e($item->kode) . '"
+                            data-nama="' . e($item->nama) . '"
+                            data-action="' . e($updateUrl) . '">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button>
+                        <form action="' . e($deleteUrl) . '" method="POST" class="d-inline m-0" onsubmit="return confirm(\'Yakin ingin menghapus jenis validasi ini beserta seluruh tahap validasinya?\')">
+                            ' . $csrf . $method . '
+                            <button type="submit"
+                                class="btn btn-sm btn-danger d-inline-flex align-items-center justify-content-center p-0"
+                                style="width: 32px; height: 32px;"
+                                title="Hapus">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </form>
                     </div>
                 ';
             })
@@ -89,7 +112,7 @@ class SettingValidasiDataTable extends DataTable
                 ->title('Aksi')
                 ->exportable(false)
                 ->printable(false)
-                ->width(90)
+                ->width(140)
                 ->addClass('text-center text-nowrap'),
         ];
     }
