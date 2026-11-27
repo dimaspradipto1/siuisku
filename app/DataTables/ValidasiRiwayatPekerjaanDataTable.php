@@ -36,16 +36,12 @@ class ValidasiRiwayatPekerjaanDataTable extends DataTable
             })
             ->addColumn('nip', fn (RiwayatPekerjaan $item) => e($item->pegawai?->nip ?? '-'))
             ->addColumn('nama_pegawai', fn (RiwayatPekerjaan $item) => e($item->pegawai?->nama ?? '-'))
-            ->editColumn('nama_instansi', function (RiwayatPekerjaan $item) {
-                $jabatan = $item->jabatan ? '<br><small class="text-muted">' . e($item->jabatan) . '</small>' : '';
-
-                return '<span class="fw-semibold">' . e($item->nama_instansi) . '</span>' . $jabatan;
-            })
+            ->editColumn('nama_instansi', fn (RiwayatPekerjaan $item) => '<span class="fw-semibold">' . e($item->nama_instansi) . '</span>')
             ->editColumn('jenis_pekerjaan', fn (RiwayatPekerjaan $item) => e($item->pekerjaan?->nama ?? $item->jenis_pekerjaan))
             ->editColumn('area_pekerjaan', function (RiwayatPekerjaan $item) {
                 $cls = $item->area_pekerjaan === 'Luar Negeri'
-                    ? 'bg-info-subtle text-info'
-                    : 'bg-light text-dark border';
+                    ? 'bg-primary-subtle text-primary'
+                    : 'bg-secondary-subtle text-secondary';
 
                 return '<span class="badge ' . $cls . '">' . e($item->area_pekerjaan) . '</span>';
             })
@@ -184,8 +180,7 @@ class ValidasiRiwayatPekerjaanDataTable extends DataTable
             Column::make('nama_instansi')
                 ->title('Nama Instansi'),
             Column::make('jenis_pekerjaan')
-                ->title('Jenis Pekerjaan')
-                ->width(140),
+                ->title('Jenis Pekerjaan'),
             Column::make('area_pekerjaan')
                 ->title('Area Pekerjaan')
                 ->width(115)

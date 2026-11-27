@@ -61,12 +61,12 @@
                   <td class="fw-semibold">{{ $riwayatPekerjaan->nama_instansi }}</td>
                 </tr>
                 <tr>
-                  <th class="text-muted">Jabatan / Posisi</th>
-                  <td>{{ $riwayatPekerjaan->jabatan ?? '-' }}</td>
-                </tr>
-                <tr>
                   <th class="text-muted">Jenis Pekerjaan</th>
                   <td>{{ $riwayatPekerjaan->pekerjaan?->nama ?? $riwayatPekerjaan->jenis_pekerjaan }}</td>
+                </tr>
+                <tr>
+                  <th class="text-muted">Jabatan</th>
+                  <td>{{ $riwayatPekerjaan->jabatan ?? '-' }}</td>
                 </tr>
                 <tr>
                   <th class="text-muted">Area Pekerjaan</th>

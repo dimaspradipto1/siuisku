@@ -18,8 +18,8 @@ return new class extends Migration
                 ->constrained('pekerjaans')
                 ->nullOnDelete();
             $table->string('nama_instansi', 180);
-            $table->string('jabatan', 150)->nullable();
-            $table->string('jenis_pekerjaan', 100);
+            $table->string('jenis_pekerjaan', 120);
+            $table->string('jabatan', 120)->nullable();
             $table->string('area_pekerjaan', 40)->default('Dalam Negeri'); // Dalam Negeri / Luar Negeri
             $table->date('tanggal_mulai')->nullable();
             $table->date('tanggal_selesai')->nullable();

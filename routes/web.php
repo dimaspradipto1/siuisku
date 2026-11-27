@@ -60,6 +60,7 @@ use App\Http\Controllers\ValidasiKlasifikasiSdmController;
 use App\Http\Controllers\ValidasiPangkatController;
 use App\Http\Controllers\ValidasiPendidikanFormalController;
 use App\Http\Controllers\ValidasiRiwayatPekerjaanController;
+use App\Http\Controllers\ValidasiRiwayatPekerjaanController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -217,6 +218,12 @@ Route::middleware(['auth', 'checkrole'])->group(function(){
         Route::get('/', 'index')->name('index');
         Route::post('bulk', 'bulkAction')->name('bulk');
         Route::get('{riwayatDiklat}', 'show')->name('show');
+    });
+
+    Route::middleware('permission:validasi.view')->prefix('validasi-riwayat-pekerjaan')->name('validasi-riwayat-pekerjaan.')->controller(ValidasiRiwayatPekerjaanController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('bulk', 'bulkAction')->name('bulk');
+        Route::get('{riwayatPekerjaan}', 'show')->name('show');
     });
 
     Route::middleware('permission:validasi.view')->prefix('validasi-riwayat-pekerjaan')->name('validasi-riwayat-pekerjaan.')->controller(ValidasiRiwayatPekerjaanController::class)->group(function () {

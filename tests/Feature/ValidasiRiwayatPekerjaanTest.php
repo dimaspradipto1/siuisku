@@ -91,7 +91,7 @@ class ValidasiRiwayatPekerjaanTest extends TestCase
         $this->post(route('validasi-riwayat-pekerjaan.bulk'), [
             'action' => RiwayatPekerjaan::STATUS_DISETUJUI,
             'ids' => [$item->id],
-            'catatan_validasi' => 'Paklaring valid',
+            'catatan_validasi' => 'Surat pengalaman kerja valid',
         ])->assertRedirect();
 
         $item->refresh();
@@ -103,11 +103,11 @@ class ValidasiRiwayatPekerjaanTest extends TestCase
         $this->post(route('validasi-riwayat-pekerjaan.bulk'), [
             'action' => RiwayatPekerjaan::STATUS_DITANGGUHKAN,
             'ids' => [$item->id],
-            'catatan_validasi' => 'Lengkapi surat keterangan',
+            'catatan_validasi' => 'Lengkapi stempel instansi',
         ])->assertRedirect();
 
         $item->refresh();
         $this->assertSame(RiwayatPekerjaan::STATUS_DITANGGUHKAN, $item->status);
-        $this->assertSame('Lengkapi surat keterangan', $item->catatan_validasi);
+        $this->assertSame('Lengkapi stempel instansi', $item->catatan_validasi);
     }
 }
