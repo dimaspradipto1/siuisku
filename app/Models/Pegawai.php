@@ -17,6 +17,7 @@ class Pegawai extends Model
         'status_aktif_id',
         'hubungan_kerja_id',
         'jabatan_fungsional_id',
+        'klasifikasi_sdm_id',
     ];
 
     public function user(): BelongsTo
@@ -44,9 +45,19 @@ class Pegawai extends Model
         return $this->belongsTo(JabatanFungsional::class);
     }
 
+    public function klasifikasiSdm(): BelongsTo
+    {
+        return $this->belongsTo(KlasifikasiSdm::class);
+    }
+
     public function riwayats(): HasMany
     {
         return $this->hasMany(RiwayatPegawai::class);
+    }
+
+    public function keluargas(): HasMany
+    {
+        return $this->hasMany(KeluargaPegawai::class);
     }
 
     public function getLabelAttribute(): string

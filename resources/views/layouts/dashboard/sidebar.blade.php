@@ -132,7 +132,7 @@
               </li>
 
               <li class="nav-item">
-                  <a class="nav-link " href="contact.html">
+                  <a class="nav-link {{ request()->routeIs('validasi-keluarga.*') ? 'active' : '' }}" href="{{ route('validasi-keluarga.index') }}">
                       <span class="nav-icon"><i class="ph-light ph-users"></i></span>
                       <span class="nav-text">Keluarga</span>
                   </a>
