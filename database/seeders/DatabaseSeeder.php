@@ -57,6 +57,7 @@ class DatabaseSeeder extends Seeder
             JenisValidasiSeeder::class,
             MonitoringValidasiSeeder::class,
             KeluargaPegawaiSeeder::class,
+            RiwayatHomebaseSeeder::class,
         ]);
     }
 }

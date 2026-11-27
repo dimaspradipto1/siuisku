@@ -50,6 +50,7 @@ use App\Http\Controllers\StatusPernikahanController;
 use App\Http\Controllers\SukuController;
 use App\Http\Controllers\UnitKerjaController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ValidasiHomebaseController;
 use App\Http\Controllers\ValidasiKeluargaController;
 use Illuminate\Support\Facades\Route;
 
@@ -160,6 +161,12 @@ Route::middleware(['auth', 'checkrole'])->group(function(){
         Route::get('/', 'index')->name('index');
         Route::post('bulk', 'bulkAction')->name('bulk');
         Route::get('{keluargaPegawai}', 'show')->name('show');
+    });
+
+    Route::middleware('permission:validasi.view')->prefix('validasi-homebase')->name('validasi-homebase.')->controller(ValidasiHomebaseController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('bulk', 'bulkAction')->name('bulk');
+        Route::get('{riwayatHomebase}', 'show')->name('show');
     });
 
     Route::middleware('permission:hak_akses.view')->group(function () {

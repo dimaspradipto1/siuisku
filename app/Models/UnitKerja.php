@@ -32,6 +32,11 @@ class UnitKerja extends Model
         return $this->hasMany(Pegawai::class);
     }
 
+    public function riwayatHomebases(): HasMany
+    {
+        return $this->hasMany(RiwayatHomebase::class, 'homebase_unit_id');
+    }
+
     /**
      * Get this unit's ID along with all descendant unit IDs in the OTK hierarchy.
      *
