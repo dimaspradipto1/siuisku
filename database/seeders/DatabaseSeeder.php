@@ -49,6 +49,7 @@ class DatabaseSeeder extends Seeder
             BahasaSeeder::class,
             StatusPernikahanSeeder::class,
             JenjangPendidikanSeeder::class,
+            PerguruanTinggiSeeder::class,
         ]);
     }
 }
