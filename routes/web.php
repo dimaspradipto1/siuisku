@@ -34,6 +34,7 @@ use App\Http\Controllers\KabupatenKotaController;
 use App\Http\Controllers\KecamatanController;
 use App\Http\Controllers\KlasifikasiSdmController;
 use App\Http\Controllers\ModulController;
+use App\Http\Controllers\MonitoringValidasiController;
 use App\Http\Controllers\NegaraController;
 use App\Http\Controllers\OutputPenelitianController;
 use App\Http\Controllers\PangkatController;
@@ -146,6 +147,12 @@ Route::middleware(['auth', 'checkrole'])->group(function(){
         Route::post('{settingValidasi}/steps', 'storeStep')->name('steps.store');
         Route::put('{settingValidasi}/steps/{step}', 'updateStep')->name('steps.update');
         Route::delete('{settingValidasi}/steps/{step}', 'destroyStep')->name('steps.destroy');
+    });
+
+    Route::middleware('permission:validasi.view')->prefix('monitoring-validasi')->name('monitoring-validasi.')->controller(MonitoringValidasiController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('bulk', 'bulkAction')->name('bulk');
+        Route::get('{jenisRiwayat}', 'show')->name('show');
     });
 
     Route::middleware('permission:hak_akses.view')->group(function () {

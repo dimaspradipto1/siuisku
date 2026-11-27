@@ -27,6 +27,11 @@ class UnitKerja extends Model
         return $this->hasMany(self::class, 'parent_id');
     }
 
+    public function pegawais(): HasMany
+    {
+        return $this->hasMany(Pegawai::class);
+    }
+
     /**
      * Get this unit's ID along with all descendant unit IDs in the OTK hierarchy.
      *

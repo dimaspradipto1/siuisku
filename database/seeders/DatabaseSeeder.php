@@ -55,6 +55,7 @@ class DatabaseSeeder extends Seeder
             SukuSeeder::class,
             GolonganDarahSeeder::class,
             JenisValidasiSeeder::class,
+            MonitoringValidasiSeeder::class,
         ]);
     }
 }

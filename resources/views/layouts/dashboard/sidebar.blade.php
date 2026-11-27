@@ -125,7 +125,7 @@
               </li>
 
               <li class="nav-item">
-                  <a class="nav-link " href="contact.html">
+                  <a class="nav-link {{ request()->routeIs('monitoring-validasi.*') ? 'active' : '' }}" href="{{ route('monitoring-validasi.index') }}">
                       <span class="nav-icon"><i class="ph-light ph-monitor"></i></span>
                       <span class="nav-text">Monitoring</span>
                   </a>
