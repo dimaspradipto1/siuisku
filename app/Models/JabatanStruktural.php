@@ -57,4 +57,9 @@ class JabatanStruktural extends Model
     {
         return $this->belongsTo(UnitKerja::class);
     }
+
+    public function riwayatJabatanStrukturals(): HasMany
+    {
+        return $this->hasMany(RiwayatJabatanStruktural::class);
+    }
 }
