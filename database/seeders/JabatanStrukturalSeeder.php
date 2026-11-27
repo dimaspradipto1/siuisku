@@ -14,7 +14,7 @@ class JabatanStrukturalSeeder extends Seeder
      */
     public function run(): void
     {
-        $unitUis = UnitKerja::where('kode', 'UIS')->first();
+        $unitUis = UnitKerja::whereIn('kode', ['171033', 'UIS'])->first();
         $unitLpti = UnitKerja::where('kode', 'LPTI')->first();
         $unitLppm = UnitKerja::where('kode', 'LPPM')->first();
         $unitLpmi = UnitKerja::where('kode', 'LPMI')->first();

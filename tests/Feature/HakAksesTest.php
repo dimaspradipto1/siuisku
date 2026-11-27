@@ -54,9 +54,9 @@ class HakAksesTest extends TestCase
         $this->withHeaders(['X-Requested-With' => 'XMLHttpRequest'])
             ->getJson(route('unit-kerja.index', ['draw' => 1]))
             ->assertOk()
-            ->assertJsonPath('recordsTotal', 18);
+            ->assertJsonPath('recordsTotal', 19);
 
-        $uis = UnitKerja::where('kode', 'UIS')->firstOrFail();
+        $uis = UnitKerja::where('kode', '171033')->firstOrFail();
 
         $this->post(route('unit-kerja.store'), [
             'kode' => 'bauk',
@@ -103,7 +103,7 @@ class HakAksesTest extends TestCase
         $this->assertCount(3, $role->permissions);
 
         $modul = Modul::where('kode', 'simpeg')->firstOrFail();
-        $unitFt = UnitKerja::where('kode', 'FT')->firstOrFail();
+        $unitFt = UnitKerja::where('kode', 'FST')->firstOrFail();
         $jabatan = JenisJabatanStruktural::where('kode', 'TUFT')->firstOrFail();
 
         $this->post(route('hak-akses.plotting.store'), [
@@ -142,7 +142,7 @@ class HakAksesTest extends TestCase
 
         $staffRole = Role::where('kode', 'staff')->firstOrFail();
         $modul = Modul::where('kode', 'simpeg')->firstOrFail();
-        $unitFt = UnitKerja::where('kode', 'FT')->firstOrFail();
+        $unitFt = UnitKerja::where('kode', 'FST')->firstOrFail();
         $jabatan = JenisJabatanStruktural::where('kode', 'TUFT')->firstOrFail();
 
         // Create user with OTK role assignment

@@ -117,14 +117,14 @@ class MonitoringValidasiSeeder extends Seeder
         $hubunganKerjaId = HubunganKerja::where('kode', 'PT')->value('id') ?? HubunganKerja::value('id');
 
         $pegawaiData = [
-            ['nip' => '1018116701', 'nidn' => '1018116701', 'nama' => 'ABD. RAZAK MUHIDIN, S.Pd., M.Pd.I', 'unit' => 'S1-TI'],
-            ['nip' => '8842540017', 'nidn' => '8842540017', 'nama' => 'ADRIANTO, S.Pd., M.Pd.', 'unit' => 'S1-TI'],
-            ['nip' => '1000111010', 'nidn' => '1000111010', 'nama' => 'Adri Wislawawan, S.T., M.T.', 'unit' => 'S1-TI'],
-            ['nip' => '5851777678230192', 'nidn' => '1015088801', 'nama' => 'AMELIA RACHMI NASUTION, S.T., M.T.', 'unit' => 'S1-TIF'],
-            ['nip' => '1020087901', 'nidn' => '1020087901', 'nama' => 'ANDI HEPY SUSANTI, S.E., M.M.', 'unit' => 'S1-MNJ'],
-            ['nip' => '3332509122', 'nidn' => null, 'nama' => 'Anita Cahyati, S.Kom.', 'unit' => 'S1-SI'],
+            ['nip' => '1018116701', 'nidn' => '1018116701', 'nama' => 'ABD. RAZAK MUHIDIN, S.Pd., M.Pd.I', 'unit' => '26201'],
+            ['nip' => '8842540017', 'nidn' => '8842540017', 'nama' => 'ADRIANTO, S.Pd., M.Pd.', 'unit' => '26201'],
+            ['nip' => '1000111010', 'nidn' => '1000111010', 'nama' => 'Adri Wislawawan, S.T., M.T.', 'unit' => '26201'],
+            ['nip' => '5851777678230192', 'nidn' => '1015088801', 'nama' => 'AMELIA RACHMI NASUTION, S.T., M.T.', 'unit' => '55201'],
+            ['nip' => '1020087901', 'nidn' => '1020087901', 'nama' => 'ANDI HEPY SUSANTI, S.E., M.M.', 'unit' => '61201'],
+            ['nip' => '3332509122', 'nidn' => null, 'nama' => 'Anita Cahyati, S.Kom.', 'unit' => '57201'],
             ['nip' => '1014059002', 'nidn' => '1014059002', 'nama' => 'Ropianto, M.Kom.', 'unit' => 'LPTI'],
-            ['nip' => '1019038701', 'nidn' => '1019038701', 'nama' => 'dr. Nurul Hidayah, M.K.M.', 'unit' => 'S1-K3'],
+            ['nip' => '1019038701', 'nidn' => '1019038701', 'nama' => 'dr. Nurul Hidayah, M.K.M.', 'unit' => '13261'],
         ];
 
         $pegawaiMap = [];
@@ -134,7 +134,7 @@ class MonitoringValidasiSeeder extends Seeder
                 [
                     'nidn' => $row['nidn'],
                     'nama' => $row['nama'],
-                    'unit_kerja_id' => $units[$row['unit']] ?? $units['UIS'] ?? null,
+                    'unit_kerja_id' => $units[$row['unit']] ?? $units['171033'] ?? $units['UIS'] ?? null,
                     'status_aktif_id' => $statusAktifId,
                     'hubungan_kerja_id' => $hubunganKerjaId,
                 ],

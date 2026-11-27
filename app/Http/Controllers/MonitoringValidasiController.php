@@ -191,7 +191,7 @@ class MonitoringValidasiController extends Controller
         $options = [];
         $walk = function ($parentId, int $depth) use (&$walk, $all, &$options): void {
             foreach ($all->get($parentId, collect()) as $unit) {
-                $prefix = str_repeat('— ', $depth);
+                $prefix = str_repeat("\u{00A0}", $depth * 4);
                 $options[] = [
                     'id' => $unit->id,
                     'label' => "{$prefix}{$unit->kode} - {$unit->nama}",

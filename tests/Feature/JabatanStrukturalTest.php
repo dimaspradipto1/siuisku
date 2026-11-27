@@ -67,7 +67,7 @@ class JabatanStrukturalTest extends TestCase
         $this->actingAsAdmin();
 
         $rektor = JabatanStruktural::where('kode', 'R')->firstOrFail();
-        $unitFt = UnitKerja::where('kode', 'FT')->firstOrFail();
+        $unitFt = UnitKerja::where('kode', 'FST')->firstOrFail();
         $jenis = JenisJabatanStruktural::where('kode', 'KPTI')->firstOrFail();
 
         $this->post(route('jabatan-struktural.store'), [

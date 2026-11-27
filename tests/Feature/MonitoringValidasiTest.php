@@ -41,7 +41,7 @@ class MonitoringValidasiTest extends TestCase
         $this->seed(MonitoringValidasiSeeder::class);
         $this->actingAsAdmin();
 
-        $unitFt = UnitKerja::where('kode', 'FT')->firstOrFail();
+        $unitFt = UnitKerja::where('kode', 'FST')->firstOrFail();
         $pegawai = Pegawai::where('nip', '1018116701')->firstOrFail();
 
         $this->get(route('monitoring-validasi.index'))

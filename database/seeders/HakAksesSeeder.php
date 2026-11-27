@@ -153,9 +153,9 @@ class HakAksesSeeder extends Seeder
             return;
         }
 
-        $unitUis = UnitKerja::where('kode', 'UIS')->first();
+        $unitUis = UnitKerja::whereIn('kode', ['171033', 'UIS'])->first();
         $unitLpti = UnitKerja::where('kode', 'LPTI')->first();
-        $unitFt = UnitKerja::where('kode', 'FT')->first();
+        $unitFt = UnitKerja::whereIn('kode', ['FST', 'FT'])->first();
 
         $jabatanKlpti = JenisJabatanStruktural::where('kode', 'KLPTI')->first();
         $jabatanTuft = JenisJabatanStruktural::where('kode', 'TUFT')->first();
