@@ -51,6 +51,7 @@ use App\Http\Controllers\SukuController;
 use App\Http\Controllers\UnitKerjaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ValidasiHomebaseController;
+use App\Http\Controllers\ValidasiHubunganKerjaController;
 use App\Http\Controllers\ValidasiJabatanFungsionalController;
 use App\Http\Controllers\ValidasiJabatanStrukturalController;
 use App\Http\Controllers\ValidasiKeluargaController;
@@ -195,6 +196,12 @@ Route::middleware(['auth', 'checkrole'])->group(function(){
         Route::get('/', 'index')->name('index');
         Route::post('bulk', 'bulkAction')->name('bulk');
         Route::get('{riwayatJabatanStruktural}', 'show')->name('show');
+    });
+
+    Route::middleware('permission:validasi.view')->prefix('validasi-hubungan-kerja')->name('validasi-hubungan-kerja.')->controller(ValidasiHubunganKerjaController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('bulk', 'bulkAction')->name('bulk');
+        Route::get('{riwayatHubunganKerja}', 'show')->name('show');
     });
 
     Route::middleware('permission:hak_akses.view')->group(function () {

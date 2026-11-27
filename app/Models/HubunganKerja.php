@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[Fillable(['kode', 'nama', 'status_aktif', 'pegawai_tetap', 'jenis_asn'])]
 class HubunganKerja extends Model
@@ -16,5 +17,10 @@ class HubunganKerja extends Model
             'status_aktif' => 'boolean',
             'pegawai_tetap' => 'boolean',
         ];
+    }
+
+    public function riwayatHubunganKerjas(): HasMany
+    {
+        return $this->hasMany(RiwayatHubunganKerja::class);
     }
 }

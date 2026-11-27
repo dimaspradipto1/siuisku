@@ -138,13 +138,13 @@
                   </a>
               </li>
 
-              <li class="nav-item has-submenu {{ request()->routeIs('validasi-homebase.*', 'validasi-pangkat.*', 'validasi-klasifikasi-sdm.*', 'validasi-jabatan-fungsional.*', 'validasi-jabatan-struktural.*') ? 'open' : '' }}">
-                  <a class="nav-link" href="#" aria-expanded="{{ request()->routeIs('validasi-homebase.*', 'validasi-pangkat.*', 'validasi-klasifikasi-sdm.*', 'validasi-jabatan-fungsional.*', 'validasi-jabatan-struktural.*') ? 'true' : 'false' }}">
+              <li class="nav-item has-submenu {{ request()->routeIs('validasi-homebase.*', 'validasi-pangkat.*', 'validasi-klasifikasi-sdm.*', 'validasi-jabatan-fungsional.*', 'validasi-jabatan-struktural.*', 'validasi-hubungan-kerja.*') ? 'open' : '' }}">
+                  <a class="nav-link" href="#" aria-expanded="{{ request()->routeIs('validasi-homebase.*', 'validasi-pangkat.*', 'validasi-klasifikasi-sdm.*', 'validasi-jabatan-fungsional.*', 'validasi-jabatan-struktural.*', 'validasi-hubungan-kerja.*') ? 'true' : 'false' }}">
                       <span class="nav-icon"><i class="ph-light ph-identification-badge"></i></span>
                       <span class="nav-text">Kepegawaian</span>
                       <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
                   </a>
-                  <ul class="nav-submenu {{ request()->routeIs('validasi-homebase.*', 'validasi-pangkat.*', 'validasi-klasifikasi-sdm.*', 'validasi-jabatan-fungsional.*', 'validasi-jabatan-struktural.*') ? 'show' : '' }}">
+                  <ul class="nav-submenu {{ request()->routeIs('validasi-homebase.*', 'validasi-pangkat.*', 'validasi-klasifikasi-sdm.*', 'validasi-jabatan-fungsional.*', 'validasi-jabatan-struktural.*', 'validasi-hubungan-kerja.*') ? 'show' : '' }}">
                       <li><a class="nav-link {{ request()->routeIs('validasi-homebase.*') ? 'active' : '' }}" href="{{ route('validasi-homebase.index') }}"><span
                                   class="nav-dot"></span>Homebase</a>
                       </li>
@@ -157,7 +157,7 @@
                                   class="nav-dot"></span>Jabatan Fungsional</a></li>
                       <li><a class="nav-link {{ request()->routeIs('validasi-jabatan-struktural.*') ? 'active' : '' }}" href="{{ route('validasi-jabatan-struktural.index') }}"><span class="nav-dot"></span>Jabatan
                               Struktural</a></li>
-                      <li><a class="nav-link " href="components-cards.html"><span class="nav-dot"></span>Hubungan
+                      <li><a class="nav-link {{ request()->routeIs('validasi-hubungan-kerja.*') ? 'active' : '' }}" href="{{ route('validasi-hubungan-kerja.index') }}"><span class="nav-dot"></span>Hubungan
                               Kerja</a>
                       </li>
                   </ul>
