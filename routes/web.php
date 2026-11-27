@@ -50,6 +50,7 @@ use App\Http\Controllers\StatusPernikahanController;
 use App\Http\Controllers\SukuController;
 use App\Http\Controllers\UnitKerjaController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ValidasiDiklatController;
 use App\Http\Controllers\ValidasiHomebaseController;
 use App\Http\Controllers\ValidasiHubunganKerjaController;
 use App\Http\Controllers\ValidasiJabatanFungsionalController;
@@ -209,6 +210,12 @@ Route::middleware(['auth', 'checkrole'])->group(function(){
         Route::get('/', 'index')->name('index');
         Route::post('bulk', 'bulkAction')->name('bulk');
         Route::get('{riwayatPendidikanFormal}', 'show')->name('show');
+    });
+
+    Route::middleware('permission:validasi.view')->prefix('validasi-diklat')->name('validasi-diklat.')->controller(ValidasiDiklatController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('bulk', 'bulkAction')->name('bulk');
+        Route::get('{riwayatDiklat}', 'show')->name('show');
     });
 
     Route::middleware('permission:hak_akses.view')->group(function () {
