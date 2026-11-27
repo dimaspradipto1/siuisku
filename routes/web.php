@@ -43,6 +43,7 @@ use App\Http\Controllers\ProdiPerguruanTinggiController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProvinsiController;
 use App\Http\Controllers\RumpunBidangIlmuController;
+use App\Http\Controllers\SettingValidasiController;
 use App\Http\Controllers\StatusAktifController;
 use App\Http\Controllers\StatusPernikahanController;
 use App\Http\Controllers\SukuController;
@@ -132,6 +133,14 @@ Route::middleware(['auth', 'checkrole'])->group(function(){
         Route::resource('bank', BankController::class)->except(['show']);
         Route::resource('suku', SukuController::class)->except(['show']);
         Route::resource('golongan-darah', GolonganDarahController::class)->except(['show']);
+    });
+
+    Route::middleware('permission:validasi.view')->prefix('setting-validasi')->name('setting-validasi.')->controller(SettingValidasiController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('{settingValidasi}', 'show')->name('show');
+        Route::post('{settingValidasi}/steps', 'storeStep')->name('steps.store');
+        Route::put('{settingValidasi}/steps/{step}', 'updateStep')->name('steps.update');
+        Route::delete('{settingValidasi}/steps/{step}', 'destroyStep')->name('steps.destroy');
     });
 
     Route::middleware('permission:hak_akses.view')->group(function () {

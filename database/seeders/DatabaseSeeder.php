@@ -54,6 +54,7 @@ class DatabaseSeeder extends Seeder
             BankSeeder::class,
             SukuSeeder::class,
             GolonganDarahSeeder::class,
+            JenisValidasiSeeder::class,
         ]);
     }
 }

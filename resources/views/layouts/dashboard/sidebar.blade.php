@@ -118,7 +118,7 @@
               <!-- Validasi -->
               <li class="nav-heading"><span>Validasi Data</span></li>
               <li class="nav-item">
-                  <a class="nav-link " href="contact.html">
+                  <a class="nav-link {{ request()->routeIs('setting-validasi.*') ? 'active' : '' }}" href="{{ route('setting-validasi.index') }}">
                       <span class="nav-icon"><i class="ph-light ph-sliders-horizontal"></i></span>
                       <span class="nav-text">Setting Validasi</span>
                   </a>
