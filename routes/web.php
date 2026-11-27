@@ -57,6 +57,7 @@ use App\Http\Controllers\ValidasiJabatanStrukturalController;
 use App\Http\Controllers\ValidasiKeluargaController;
 use App\Http\Controllers\ValidasiKlasifikasiSdmController;
 use App\Http\Controllers\ValidasiPangkatController;
+use App\Http\Controllers\ValidasiPendidikanFormalController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -202,6 +203,12 @@ Route::middleware(['auth', 'checkrole'])->group(function(){
         Route::get('/', 'index')->name('index');
         Route::post('bulk', 'bulkAction')->name('bulk');
         Route::get('{riwayatHubunganKerja}', 'show')->name('show');
+    });
+
+    Route::middleware('permission:validasi.view')->prefix('validasi-pendidikan-formal')->name('validasi-pendidikan-formal.')->controller(ValidasiPendidikanFormalController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('bulk', 'bulkAction')->name('bulk');
+        Route::get('{riwayatPendidikanFormal}', 'show')->name('show');
     });
 
     Route::middleware('permission:hak_akses.view')->group(function () {

@@ -163,6 +163,17 @@
                   </ul>
               </li>
 
+              <li class="nav-item has-submenu {{ request()->routeIs('validasi-pendidikan-formal.*') ? 'open' : '' }}">
+                  <a class="nav-link" href="#" aria-expanded="{{ request()->routeIs('validasi-pendidikan-formal.*') ? 'true' : 'false' }}">
+                      <span class="nav-icon"><i class="ph-light ph-book-open-text"></i></span>
+                      <span class="nav-text">Kualifikasi</span>
+                      <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
+                  </a>
+                  <ul class="nav-submenu {{ request()->routeIs('validasi-pendidikan-formal.*') ? 'show' : '' }}">
+                      <li><a class="nav-link {{ request()->routeIs('validasi-pendidikan-formal.*') ? 'active' : '' }}" href="{{ route('validasi-pendidikan-formal.index') }}"><span class="nav-dot"></span>Pendidikan Formal</a></li>
+                  </ul>
+              </li>
+
               <li class="nav-item has-submenu ">
                   <a class="nav-link" href="#" aria-expanded="false">
                       <span class="nav-icon"><i class="ph-light ph-certificate"></i></span>

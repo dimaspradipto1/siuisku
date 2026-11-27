@@ -63,6 +63,7 @@ class DatabaseSeeder extends Seeder
             RiwayatJabatanFungsionalSeeder::class,
             RiwayatJabatanStrukturalSeeder::class,
             RiwayatHubunganKerjaSeeder::class,
+            RiwayatPendidikanFormalSeeder::class,
         ]);
     }
 }
