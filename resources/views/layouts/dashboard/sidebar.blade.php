@@ -423,8 +423,6 @@
                       <li><a class="nav-link {{ request()->routeIs('suku.*') ? 'active' : '' }}" href="{{ route('suku.index') }}"><span class="nav-dot"></span>Suku</a></li>
                       <li><a class="nav-link {{ request()->routeIs('golongan-darah.*') ? 'active' : '' }}" href="{{ route('golongan-darah.index') }}"><span class="nav-dot"></span>Golongan
                               Darah</a></li>
-                      <li><a class="nav-link " href="error-maintenance.html"><span class="nav-dot"></span>Gelar
-                              Akademik</a></li>
                   </ul>
               </li>
               @endif
