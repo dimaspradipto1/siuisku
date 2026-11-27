@@ -44,6 +44,7 @@ use App\Http\Controllers\ProvinsiController;
 use App\Http\Controllers\RumpunBidangIlmuController;
 use App\Http\Controllers\StatusAktifController;
 use App\Http\Controllers\StatusPernikahanController;
+use App\Http\Controllers\SukuController;
 use App\Http\Controllers\UnitKerjaController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -128,6 +129,7 @@ Route::middleware(['auth', 'checkrole'])->group(function(){
         Route::resource('perguruan-tinggi', PerguruanTinggiController::class)->except(['show']);
         Route::resource('prodi-perguruan-tinggi', ProdiPerguruanTinggiController::class)->except(['show']);
         Route::resource('bank', BankController::class)->except(['show']);
+        Route::resource('suku', SukuController::class)->except(['show']);
     });
 
     Route::middleware('permission:hak_akses.view')->group(function () {

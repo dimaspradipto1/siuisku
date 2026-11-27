@@ -1,0 +1,102 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\Suku;
+use Illuminate\Database\Seeder;
+
+class SukuSeeder extends Seeder
+{
+    public function run(): void
+    {
+        $items = [
+            'Aceh',
+            'Alas',
+            'Alor',
+            'Ambon',
+            'Anak Dalam',
+            'Aneuk Jamee',
+            'Arab',
+            'Asmat',
+            'Baduy',
+            'Bali',
+            'Bangka',
+            'Banjar',
+            'Banten',
+            'Batak',
+            'Batak Angkola',
+            'Batak Karo',
+            'Batak Mandailing',
+            'Batak Pakpak',
+            'Batak Simalungun',
+            'Batak Toba',
+            'Bawean',
+            'Belitung',
+            'Betawi',
+            'Biak',
+            'Bima',
+            'Bugis',
+            'Buton',
+            'Cirebon',
+            'Dani',
+            'Dayak',
+            'Flores',
+            'Gayo',
+            'Gorontalo',
+            'India',
+            'Jambi',
+            'Jawa',
+            'Kaili',
+            'Kerinci',
+            'Komering',
+            'Kutai',
+            'Lampung',
+            'Madura',
+            'Makassar',
+            'Maluku',
+            'Mandar',
+            'Manggarai',
+            'Melayu',
+            'Mentawai',
+            'Minahasa',
+            'Minangkabau',
+            'Nias',
+            'Ogan',
+            'Orang Laut',
+            'Osing',
+            'Palembang',
+            'Papua',
+            'Pasemah',
+            'Paser',
+            'Ranau',
+            'Rejang',
+            'Rote',
+            'Sabu',
+            'Sakai',
+            'Samin',
+            'Sangihe',
+            'Sasak',
+            'Sentani',
+            'Simeulue',
+            'Singkil',
+            'Sumba',
+            'Sumbawa',
+            'Sunda',
+            'Talaud',
+            'Tamiang',
+            'Tengger',
+            'Ternate',
+            'Tidore',
+            'Tidung',
+            'Timor',
+            'Tionghoa',
+            'Tobati',
+            'Tolaki',
+            'Toraja',
+        ];
+
+        foreach ($items as $nama) {
+            Suku::firstOrCreate(['nama' => $nama]);
+        }
+    }
+}

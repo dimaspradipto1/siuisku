@@ -52,6 +52,7 @@ class DatabaseSeeder extends Seeder
             PerguruanTinggiSeeder::class,
             ProdiPerguruanTinggiSeeder::class,
             BankSeeder::class,
+            SukuSeeder::class,
         ]);
     }
 }
