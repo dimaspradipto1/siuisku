@@ -255,7 +255,7 @@
                                   class="nav-dot"></span>Pembicara</a>
                       </li>
                       <li><a class="nav-link " href="components-accordion.html"><span class="nav-dot"></span>Jabatan
-                              Struktural</a>
+                              Tugas</a>
                       </li>
                   </ul>
               </li>
@@ -267,9 +267,6 @@
                       <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
                   </a>
                   <ul class="nav-submenu ">
-                      <li><a class="nav-link " href="components-alerts.html"><span
-                                  class="nav-dot"></span>Pengabdian</a>
-                      </li>
                       <li><a class="nav-link " href="components-accordion.html"><span class="nav-dot"></span>Anggota
                               Profesi</a>
                       </li>
@@ -289,25 +286,11 @@
                       <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
                   </a>
                   <ul class="nav-submenu ">
-                      <li><a class="nav-link " href="components-alerts.html"><span
-                                  class="nav-dot"></span>Pendidikan</a>
-                      </li>
-                      <li><a class="nav-link " href="components-accordion.html"><span class="nav-dot"></span>Sertifikasi</a>
-                      </li>
                       <li><a class="nav-link " href="components-accordion.html"><span
-                                  class="nav-dot"></span>Oraganisasi</a>
-                      </li>
-                      <li><a class="nav-link " href="components-accordion.html"><span
-                                  class="nav-dot"></span>Penelitian</a>
-                      </li>
-                      <li><a class="nav-link " href="components-accordion.html"><span
-                                  class="nav-dot"></span>Pengabdian Masyarakat</a>
+                                  class="nav-dot"></span>Organisasi</a>
                       </li>
                       <li><a class="nav-link " href="components-accordion.html"><span
                                   class="nav-dot"></span>Kemampuan Bahasa</a>
-                      </li>
-                      <li><a class="nav-link " href="components-accordion.html"><span
-                                  class="nav-dot"></span>Tes</a>
                       </li>
                   </ul>
               </li>
@@ -318,13 +301,13 @@
               <li class="nav-heading"><span>REFERENSI</span></li>
 
               <!-- Kepegawaian -->
-              <li class="nav-item has-submenu {{ request()->routeIs('jenis-jabatan-struktural.*', 'jabatan-struktural.*', 'unit-kerja.*', 'jenis-sk.*', 'status-aktif.*', 'hubungan-kerja.*', 'pangkat.*', 'jenis-kenaikan-pangkat.*', 'klasifikasi-sdm.*', 'jabatan-fungsional.*', 'eselon.*', 'rumpun-bidang-ilmu.*', 'gelar-akademik.*') ? 'open' : '' }}">
-                  <a class="nav-link" href="#" aria-expanded="{{ request()->routeIs('jenis-jabatan-struktural.*', 'jabatan-struktural.*', 'unit-kerja.*', 'jenis-sk.*', 'status-aktif.*', 'hubungan-kerja.*', 'pangkat.*', 'jenis-kenaikan-pangkat.*', 'klasifikasi-sdm.*', 'jabatan-fungsional.*', 'eselon.*', 'rumpun-bidang-ilmu.*', 'gelar-akademik.*') ? 'true' : 'false' }}">
+              <li class="nav-item has-submenu {{ request()->routeIs('jenis-jabatan-struktural.*', 'jabatan-struktural.*', 'unit-kerja.*', 'jenis-sk.*', 'status-aktif.*', 'hubungan-kerja.*', 'pangkat.*', 'jenis-kenaikan-pangkat.*', 'klasifikasi-sdm.*', 'jabatan-fungsional.*', 'rumpun-bidang-ilmu.*', 'gelar-akademik.*') ? 'open' : '' }}">
+                  <a class="nav-link" href="#" aria-expanded="{{ request()->routeIs('jenis-jabatan-struktural.*', 'jabatan-struktural.*', 'unit-kerja.*', 'jenis-sk.*', 'status-aktif.*', 'hubungan-kerja.*', 'pangkat.*', 'jenis-kenaikan-pangkat.*', 'klasifikasi-sdm.*', 'jabatan-fungsional.*', 'rumpun-bidang-ilmu.*', 'gelar-akademik.*') ? 'true' : 'false' }}">
                       <span class="nav-icon"><i class="ph-light ph-briefcase"></i></span>
                       <span class="nav-text">Kepegawaian</span>
                       <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
                   </a>
-                  <ul class="nav-submenu {{ request()->routeIs('jenis-jabatan-struktural.*', 'jabatan-struktural.*', 'unit-kerja.*', 'jenis-sk.*', 'status-aktif.*', 'hubungan-kerja.*', 'pangkat.*', 'jenis-kenaikan-pangkat.*', 'klasifikasi-sdm.*', 'jabatan-fungsional.*', 'eselon.*', 'rumpun-bidang-ilmu.*', 'gelar-akademik.*') ? 'show' : '' }}">
+                  <ul class="nav-submenu {{ request()->routeIs('jenis-jabatan-struktural.*', 'jabatan-struktural.*', 'unit-kerja.*', 'jenis-sk.*', 'status-aktif.*', 'hubungan-kerja.*', 'pangkat.*', 'jenis-kenaikan-pangkat.*', 'klasifikasi-sdm.*', 'jabatan-fungsional.*', 'rumpun-bidang-ilmu.*', 'gelar-akademik.*') ? 'show' : '' }}">
                       <li><a class="nav-link {{ request()->routeIs('unit-kerja.*') ? 'active' : '' }}" href="{{ route('unit-kerja.index') }}"><span class="nav-dot"></span>Unit Kerja</a>
                       </li>
                       <li><a class="nav-link {{ request()->routeIs('status-aktif.*') ? 'active' : '' }}" href="{{ route('status-aktif.index') }}"><span class="nav-dot"></span>Status Aktif</a>
@@ -338,7 +321,6 @@
                       </li>
                       <li><a class="nav-link {{ request()->routeIs('jabatan-fungsional.*') ? 'active' : '' }}" href="{{ route('jabatan-fungsional.index') }}"><span class="nav-dot"></span>Jabatan
                               Fungsional</a></li>
-                      <li><a class="nav-link {{ request()->routeIs('eselon.*') ? 'active' : '' }}" href="{{ route('eselon.index') }}"><span class="nav-dot"></span>Eselon</a></li>
                       <li><a class="nav-link {{ request()->routeIs('jenis-jabatan-struktural.*') ? 'active' : '' }}" href="{{ route('jenis-jabatan-struktural.index') }}"><span class="nav-dot"></span>Jenis Jabatan
                               Struktural</a></li>
                       <li><a class="nav-link {{ request()->routeIs('jabatan-struktural.*') ? 'active' : '' }}" href="{{ route('jabatan-struktural.index') }}"><span class="nav-dot"></span>Jabatan Struktural</a>
