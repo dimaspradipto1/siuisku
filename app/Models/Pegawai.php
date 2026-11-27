@@ -65,6 +65,11 @@ class Pegawai extends Model
         return $this->hasMany(RiwayatHomebase::class);
     }
 
+    public function riwayatPangkats(): HasMany
+    {
+        return $this->hasMany(RiwayatPangkat::class);
+    }
+
     public function getLabelAttribute(): string
     {
         return "{$this->nip} - {$this->nama}";

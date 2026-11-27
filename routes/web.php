@@ -52,6 +52,7 @@ use App\Http\Controllers\UnitKerjaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ValidasiHomebaseController;
 use App\Http\Controllers\ValidasiKeluargaController;
+use App\Http\Controllers\ValidasiPangkatController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -167,6 +168,12 @@ Route::middleware(['auth', 'checkrole'])->group(function(){
         Route::get('/', 'index')->name('index');
         Route::post('bulk', 'bulkAction')->name('bulk');
         Route::get('{riwayatHomebase}', 'show')->name('show');
+    });
+
+    Route::middleware('permission:validasi.view')->prefix('validasi-pangkat')->name('validasi-pangkat.')->controller(ValidasiPangkatController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('bulk', 'bulkAction')->name('bulk');
+        Route::get('{riwayatPangkat}', 'show')->name('show');
     });
 
     Route::middleware('permission:hak_akses.view')->group(function () {

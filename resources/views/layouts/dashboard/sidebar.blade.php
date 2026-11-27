@@ -138,17 +138,17 @@
                   </a>
               </li>
 
-              <li class="nav-item has-submenu {{ request()->routeIs('validasi-homebase.*') ? 'open' : '' }}">
-                  <a class="nav-link" href="#" aria-expanded="{{ request()->routeIs('validasi-homebase.*') ? 'true' : 'false' }}">
+              <li class="nav-item has-submenu {{ request()->routeIs('validasi-homebase.*', 'validasi-pangkat.*') ? 'open' : '' }}">
+                  <a class="nav-link" href="#" aria-expanded="{{ request()->routeIs('validasi-homebase.*', 'validasi-pangkat.*') ? 'true' : 'false' }}">
                       <span class="nav-icon"><i class="ph-light ph-identification-badge"></i></span>
                       <span class="nav-text">Kepegawaian</span>
                       <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
                   </a>
-                  <ul class="nav-submenu {{ request()->routeIs('validasi-homebase.*') ? 'show' : '' }}">
+                  <ul class="nav-submenu {{ request()->routeIs('validasi-homebase.*', 'validasi-pangkat.*') ? 'show' : '' }}">
                       <li><a class="nav-link {{ request()->routeIs('validasi-homebase.*') ? 'active' : '' }}" href="{{ route('validasi-homebase.index') }}"><span
                                   class="nav-dot"></span>Homebase</a>
                       </li>
-                      <li><a class="nav-link " href="components-accordion.html"><span
+                      <li><a class="nav-link {{ request()->routeIs('validasi-pangkat.*') ? 'active' : '' }}" href="{{ route('validasi-pangkat.index') }}"><span
                                   class="nav-dot"></span>Pangkat</a></li>
                       <li><a class="nav-link " href="components-badges.html"><span class="nav-dot"></span>Klasifikasi
                               SDM</a>
