@@ -60,7 +60,6 @@ use App\Http\Controllers\ValidasiKlasifikasiSdmController;
 use App\Http\Controllers\ValidasiPangkatController;
 use App\Http\Controllers\ValidasiPendidikanFormalController;
 use App\Http\Controllers\ValidasiRiwayatPekerjaanController;
-use App\Http\Controllers\ValidasiRiwayatPekerjaanController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
